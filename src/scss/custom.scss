@@ -1,0 +1,25 @@
+$primary  : #6A8C5A;
+$secondary: #AABFA4;
+$bg-layout: #F2F2F2;
+$info     : #B6E0B0;
+$success  :#AABFA4;
+$warning  :#FFD787;
+$danger   :#F59185;
+
+
+$theme-colors: ("primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "bg-layout": $bg-layout
+    );
+
+:root {
+    --bs-btn-color: white;
+
+}
+
+@import '~bootstrap/scss/bootstrap';
+
