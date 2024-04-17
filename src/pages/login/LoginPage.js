@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import login from './service.js'
 
-const LoginPage = ({ onLogin} ) => {
+const LoginPage = ({ onLogin , onToken} ) => {
+
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -16,7 +17,8 @@ const LoginPage = ({ onLogin} ) => {
 
     const token = await login(credentials)
     console.log(token)
-    token && onLogin()
+    onLogin()
+    onToken(token)
   }
   return (
     <Container className='login-wrapper min-vh-100 d-flex justify-content-center'>

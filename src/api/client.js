@@ -6,5 +6,15 @@ export const client = axios.create({
 
 client.interceptors.response.use(response => response.data)
 
-export const setAuthorizationHeader = token =>
-  (client.defaults.headers.common['Authorization'] = `Bearer ${token}`)
+/* export const setAuthorizationHeader = token => {
+  client.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  return client.defaults.headers.common['Authorization']
+} */
+
+export const setAuthorizationHeader = token => {
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`, // Aquí se utiliza el esquema Bearer, común para tokens JWT
+    },
+  }
+}

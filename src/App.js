@@ -6,11 +6,22 @@ import LoginPage from './pages/login/LoginPage.js'
 
 function App() {
   const [isLogged, setIsLogged] = useState(false)
+  const [session, setSession] = useState('')
   const handlerLogin = () => setIsLogged(true)
+
+  const handlerToken = (token) => {
+    localStorage.setItem('auth-token', token)
+    return setSession(token)
+  }
+
   return (
     <>
       <Header />
-      {isLogged ? <LoginPage onLogin={handlerLogin} /> : <AdvertsPage />}
+      {isLogged ? (
+        <AdvertsPage session={session} />
+      ) : (
+        <LoginPage onLogin={handlerLogin} onToken={handlerToken} />
+      )}
     </>
   )
 }
