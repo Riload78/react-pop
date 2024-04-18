@@ -1,4 +1,5 @@
 import getAdverts from './service.js'
+import NewAdvertPage from './NewAdvertPage.js'
 import formatPrice from '../../helper/formatPrice.js'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -84,6 +85,7 @@ const AdvertsPage = session => {
           </Col>
         ))}
       </Row>
+      <NewAdvertPage></NewAdvertPage>
     </Container>
   )
 }
