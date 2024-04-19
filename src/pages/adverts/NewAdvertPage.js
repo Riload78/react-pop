@@ -63,14 +63,14 @@ const NewAdvertPage = () => {
           />
           <Input id='price' type='text' label='Pice' name='price' required />
           <Form.Group className='mb-3' controlId='price'>
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Tags</Form.Label>
             <Form.Select
               aria-label='Default select example'
               id='multiple-select-tags'
               multiple
+              defaultValue='lifestyle'
               onChange={handleOptions}
             >
-              <option>Open this select menu</option>
               <option value='lifestyle'>Lifestyle Fake</option>
               <option value='mobile'>Mobile Fake</option>
               <option value='motor'>Motor fake</option>
@@ -84,7 +84,7 @@ const NewAdvertPage = () => {
           <Form.Check // prettier-ignore
             type='switch'
             id='custom-switch'
-            label={isSwitchChecked ?  'Venta' : 'Compra'}
+            label={isSwitchChecked ? 'Venta' : 'Compra'}
             checked={isSwitchChecked}
             onChange={handlerSwitch}
           />

@@ -1,15 +1,14 @@
 import { client, setAuthorizationHeader } from '../../api/client.js'
+import storage from '../../helper/storage.js'
 
-const login = async credentials => {
+const loginUrl = '/api/auth/login'
+
+const login = credentials => {
   console.log(credentials)
-  try {
-    const response = await client.post('/api/auth/login', credentials)
-    const token = response.accessToken
-    setAuthorizationHeader(token)
-    return token
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  return client.post(loginUrl, credentials).then(({ accessToken }) => {
+    setAuthorizationHeader(accessToken)
+    storage.set('auth', accessToken)
+  })
 }
 
 export default login
