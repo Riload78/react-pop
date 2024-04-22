@@ -1,14 +1,18 @@
-import { client, setAuthorizationHeader } from '../../api/client.js'
+import { client, removeAuthorizationHeader, setAuthorizationHeader } from '../../api/client.js'
 import storage from '../../helper/storage.js'
 
 const loginUrl = '/api/auth/login'
 
-const login = credentials => {
-  console.log(credentials)
+const login = (credentials, isSave) => {
   return client.post(loginUrl, credentials).then(({ accessToken }) => {
     setAuthorizationHeader(accessToken)
-    storage.set('auth', accessToken)
+    isSave && storage.set('auth', accessToken)
   })
 }
 
-export default login
+const logout = () => {
+  removeAuthorizationHeader()
+  storage.remove('auth')
+}
+const auth = { login, logout }
+export default auth

@@ -68,7 +68,6 @@ const NewAdvertPage = () => {
               aria-label='Default select example'
               id='multiple-select-tags'
               multiple
-              defaultValue='lifestyle'
               onChange={handleOptions}
             >
               <option value='lifestyle'>Lifestyle Fake</option>

@@ -2,15 +2,17 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import login from './service.js'
+import auth from './service.js'
 import { useState } from 'react'
+import { useAuth } from './context.js'
 
-const LoginPage = ({ onLogin }) => {
-
+const LoginPage = ({ isSessionSave }) => {
+  const { onLogin } = useAuth()
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   })
+  const [isSave, setIsSave] = useState(true)
 
   const handlerChange = (event) => {
      setFormValues(currentFormValues => ({
@@ -18,20 +20,25 @@ const LoginPage = ({ onLogin }) => {
        [event.target.name]: event.target.value,
      }))
   }
+
+  const handlerSwitch = (event) => {
+    const isSaved =  event.target.checked;
+    console.log(isSaved);
+    setIsSave(isSaved);
+  }
+
   const handleSubmit = async event => {
     event.preventDefault()
-    console.log(event)
-
-    const token = await login(formValues)
-    console.log(token)
-    onLogin()
+    await auth.login(formValues, isSave)
+    onLogin(isSave)
+    isSessionSave(isSave)
   }
 
   const { email, password } = formValues
   return (
     <Container className='login-wrapper min-vh-100 d-flex justify-content-center'>
-      <Row>
-        <Form className='login-form align-self-center' onSubmit={handleSubmit}>
+      <Row className='justify-content-center align-self-center g-4'>
+        <Form className='login-form ' onSubmit={handleSubmit}>
           <h1>Login</h1>
           <Form.Group className='mb-3' controlId='formBasicEmail'>
             <Form.Label>Email address</Form.Label>
@@ -57,12 +64,18 @@ const LoginPage = ({ onLogin }) => {
               onChange={handlerChange}
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='formBasicCheckbox'>
-            <Form.Check type='checkbox' label='Check me out' />
-          </Form.Group>
           <Button variant='primary' size='sm' type='submit'>
             Submit
           </Button>
+        </Form>
+        <Form className='login-form'>
+          <Form.Check
+            type='switch'
+            id='custom-switch'
+            label={!isSave ? "I wan't save the session" : 'Save the session'}
+            checked={isSave}
+            onChange={handlerSwitch}
+          />
         </Form>
       </Row>
     </Container>

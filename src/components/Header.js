@@ -1,16 +1,24 @@
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
-import { Button } from 'react-bootstrap'
-import storage from '../helper/storage'
-import { removeAuthorizationHeader } from '../api/client'
+import Button from 'react-bootstrap/Button'
+import auth from '../pages/login/service'
+import { useAuth } from '../pages/login/context'
+import { useEffect, useState } from 'react'
 
-const Header = ({ onLogout, isLogged }) => {
+const Header = ({ isSessionSave }) => {
+  const { onLogout, isLogged } = useAuth()
+
+  const [sessionSave, setSessionSave] = useState()
   const handlerLogout = event => {
+    event.preventDefault()
     onLogout()
-    storage.remove('auth')
-    removeAuthorizationHeader()
+    auth.logout()
   }
+
+  useEffect(() => {
+    setSessionSave(isSessionSave())
+  }, [isSessionSave])
 
   return (
     <Navbar bg='primary' expand='md'>
@@ -27,7 +35,7 @@ const Header = ({ onLogout, isLogged }) => {
             <Nav.Link eventKey={2} href='#memes'>
               Dank memes
             </Nav.Link>
-            {isLogged ? (
+            {isLogged && sessionSave ? (
               <Button variant='secondary' size='sm' onClick={handlerLogout}>
                 Log Out
               </Button>

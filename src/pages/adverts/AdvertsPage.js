@@ -10,59 +10,12 @@ import Stack from 'react-bootstrap/Stack'
 import { useEffect, useState } from 'react'
 
 const AdvertsPage = () => {
-  console.log('Adverts Page Loaded')
-
-  /*  const adverts = [
-    {
-      id: '26c747f1-4d6d-4805-a0f6-126d1e0da6524',
-      createdAt: '2024-04-17T07:33:17.000Z',
-      name: 'Bicicleta de Carretera Talla M',
-      sale: true,
-      price: 1500,
-      tags: ['lifestyle'],
-      photo: 'http://localhost:3001/public/1713339197834-434660129.jpg',
-    },
-    {
-      id: '26c747f1-4d6d-4805-a0f6-126d1e0da6523',
-      createdAt: '2024-04-17T07:33:17.000Z',
-      name: 'Bicicleta de Carretera Talla M',
-      sale: true,
-      price: 1500,
-      tags: ['lifestyle'],
-      photo: 'http://localhost:3001/public/1713339197834-434660129.jpg',
-    },
-    {
-      id: '26c747f1-4d6d-4805-a0f6-126d1e0da6522',
-      createdAt: '2024-04-17T07:33:17.000Z',
-      name: 'Bicicleta de Carretera Talla M',
-      sale: true,
-      price: 1500,
-      tags: ['lifestyle'],
-      photo: 'http://localhost:3001/public/1713339197834-434660129.jpg',
-    },
-    {
-      id: '26c747f1-4d6d-4805-a0f6-126d1e0da6521',
-      createdAt: '2024-04-17T07:33:17.000Z',
-      name: 'Bicicleta de Carretera Talla M',
-      sale: true,
-      price: 1500,
-      tags: ['lifestyle', 'motor'],
-      photo: 'http://localhost:3001/public/1713339197834-434660129.jpg',
-    },
-  ]  */
 
   const [adverts, setAdverts] = useState([])
 
   useEffect(() => {
     getAdverts().then(adverts => setAdverts(adverts))
   }, [])
-
-  /*   const adverts = async session => {
-   
-    return data
-  }
-
-  adverts(session) */
 
   return (
     <Container>
@@ -81,7 +34,7 @@ const AdvertsPage = () => {
               <Card.Footer>
                 <Stack direction='horizontal' gap={2}>
                   {advert.tags.map(tag => (
-                    <Badge pill bg='primary'>
+                    <Badge key={advert.id} pill bg='primary'>
                       {tag}
                     </Badge>
                   ))}
