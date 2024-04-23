@@ -9,11 +9,10 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from './context.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
 
-
 const LoginPage = () => {
-  const { onLogin, isSessionSaved, changeSessionStatus } = useAuth() // Obtener funciones y estado del contexto
-  const {showNotificationSuccess, showNotificationError} = useNotification()
-  
+  const { onLogin, changeSessionStatus } = useAuth()
+  const { showNotificationSuccess, showNotificationError } = useNotification()
+
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
@@ -21,7 +20,6 @@ const LoginPage = () => {
   const [isSave, setIsSave] = useState(true)
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  
 
   const handlerChange = event => {
     setFormValues(currentFormValues => ({
@@ -29,13 +27,13 @@ const LoginPage = () => {
       [event.target.name]: event.target.value,
     }))
   }
-  
+
   const handlerSwitch = event => {
     const isSaved = event.target.checked
     setIsSave(isSaved)
     changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
   }
-  
+
   const handleSubmit = async event => {
     event.preventDefault()
     setIsLoading(true)
@@ -45,13 +43,12 @@ const LoginPage = () => {
       onLogin(isSave)
       showNotificationSuccess('LOGIN SUCCESSFUL')
       navigate('/')
-      
     } catch (error) {
       setIsLoading(false)
       showNotificationError(error.message)
     }
   }
-  
+
   const { email, password } = formValues
   const buttonDisabled = !email || !password || isLoading
   return (
