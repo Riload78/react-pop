@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import auth from './service.js'
 import { useState } from 'react'
 import { useAuth } from './context.js'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
   const { onLogin, isSessionSaved, changeSessionStatus } = useAuth() // Obtener funciones y estado del contexto
@@ -14,7 +15,7 @@ const LoginPage = () => {
     password: '',
   })
   const [isSave, setIsSave] = useState(true)
-
+  const navigate = useNavigate()
   const handlerChange = event => {
     setFormValues(currentFormValues => ({
       ...currentFormValues,
@@ -31,7 +32,8 @@ const LoginPage = () => {
   const handleSubmit = async event => {
     event.preventDefault()
     await auth.login(formValues, isSave)
-    onLogin() // No es necesario pasar isSave ya que el contexto lo gestiona
+    onLogin(isSave)
+    navigate('/')
   }
 
   const { email, password } = formValues

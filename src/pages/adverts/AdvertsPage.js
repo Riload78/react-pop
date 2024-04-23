@@ -45,7 +45,6 @@ const AdvertsPage = () => {
           </Col>
         ))}
       </Row>
-      <NewAdvertPage></NewAdvertPage>
     </Container>
   )
 }
