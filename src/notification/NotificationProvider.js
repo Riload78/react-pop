@@ -1,3 +1,4 @@
+import P from 'prop-types'
 import { createContext, useContext, useState } from 'react'
 
 const NotificationContext = createContext({
@@ -34,6 +35,10 @@ export const NotificationProvider = ({ children }) => {
       {children}
     </NotificationContext.Provider>
   )
+}
+
+NotificationProvider.propTypes = {
+  children: P.node.isRequired,
 }
 
 export const useNotification = () => useContext(NotificationContext)

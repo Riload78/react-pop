@@ -1,3 +1,4 @@
+import P from 'prop-types'
 import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext()
@@ -26,6 +27,11 @@ export const AuthContextProvider = ({ isSession, children }) => {
   return (
     <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
   )
+}
+
+AuthContextProvider.propTypes = {
+  isSession: P.bool,
+  children: P.node.isRequired,
 }
 
 export const useAuth = () => {

@@ -1,3 +1,4 @@
+import P from 'prop-types'
 import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
@@ -32,6 +33,13 @@ const Input = ({ id, type, label, name }) => {
       )}
     </Form.Group>
   )
+}
+
+Input.propTypes = {
+  id: P.string.isRequired,
+  type: P.oneOf(['text', 'password']).isRequired,
+  label: P.string.isRequired,
+  name: P.string.isRequired
 }
 
 export default Input
