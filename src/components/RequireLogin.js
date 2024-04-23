@@ -2,9 +2,9 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../pages/login/context'
 
 const RequiredLogin = ({ children }) => {
-  const { onLogin } = useAuth()
+  const { isLogged } = useAuth()
 
-  return onLogin() ? children : <Navigate to='/login' />
+  return isLogged ? children : <Navigate to='/login' />
 }
 
 export default RequiredLogin
