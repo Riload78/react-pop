@@ -9,6 +9,7 @@ import Badge from 'react-bootstrap/Badge'
 import Stack from 'react-bootstrap/Stack'
 import { useEffect, useState } from 'react'
 
+
 const AdvertsPage = () => {
 
   const [adverts, setAdverts] = useState([])

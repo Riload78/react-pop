@@ -6,32 +6,32 @@ import auth from './service.js'
 import { useState } from 'react'
 import { useAuth } from './context.js'
 
-const LoginPage = ({ isSessionSave }) => {
-  const { onLogin } = useAuth()
+const LoginPage = () => {
+  const { onLogin, isSessionSaved, changeSessionStatus } = useAuth() // Obtener funciones y estado del contexto
+
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   })
   const [isSave, setIsSave] = useState(true)
 
-  const handlerChange = (event) => {
-     setFormValues(currentFormValues => ({
-       ...currentFormValues,
-       [event.target.name]: event.target.value,
-     }))
+  const handlerChange = event => {
+    setFormValues(currentFormValues => ({
+      ...currentFormValues,
+      [event.target.name]: event.target.value,
+    }))
   }
 
-  const handlerSwitch = (event) => {
-    const isSaved =  event.target.checked;
-    console.log(isSaved);
-    setIsSave(isSaved);
+  const handlerSwitch = event => {
+    const isSaved = event.target.checked
+    setIsSave(isSaved)
+    changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
   }
 
   const handleSubmit = async event => {
     event.preventDefault()
     await auth.login(formValues, isSave)
-    onLogin(isSave)
-    isSessionSave(isSave)
+    onLogin() // No es necesario pasar isSave ya que el contexto lo gestiona
   }
 
   const { email, password } = formValues

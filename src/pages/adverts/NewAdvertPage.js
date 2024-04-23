@@ -80,7 +80,7 @@ const NewAdvertPage = () => {
             <Form.Label>Default file input example</Form.Label>
             <Form.Control type='file' onChange={handlerFileConvert} />
           </Form.Group>
-          <Form.Check // prettier-ignore
+          <Form.Check
             type='switch'
             id='custom-switch'
             label={isSwitchChecked ? 'Venta' : 'Compra'}
