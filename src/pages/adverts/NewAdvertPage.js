@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Input from '../../components/form/Input.js'
 import { useState } from 'react'
+import dataAdvert from './service'
 const NewAdvertPage = () => {
   const [multiOptions, setMultiOptions] = useState([])
 	const [fileConvert, setFileConvert] = useState('')
@@ -22,6 +23,18 @@ const NewAdvertPage = () => {
       photo: fileConvert,
     }
 		console.log(newAdvert);
+    postData(newAdvert)
+  }
+  
+  const postData = async (data) => {
+    try {
+      const response = await dataAdvert.postAdvert(data)
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   const handleOptions = event => {
@@ -32,21 +45,15 @@ const NewAdvertPage = () => {
   }
 
 	const handlerFileConvert = (event) => {
+    console.log(event.target.files[0])
 		const file = event.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = e => {
-        setFileConvert(e.target.result)
-      }
-      reader.readAsBinaryString(file)
-    }
+    setFileConvert(file)
 	}
 
 	const handlerSwitch = (event) => {
 		console.log(event);
 		const isChecked = event.target.checked
 		setIsSwhichChecked(isChecked)
-		//setSwichLabel('Compra')
 	}
 
   return (

@@ -9,6 +9,11 @@ client.interceptors.response.use(response => response.data)
 export const setAuthorizationHeader = token =>
   (client.defaults.headers.common['Authorization'] = `Bearer ${token}`)
 
+
+export const setContentTypeMultipart =  () => 
+  (client.defaults.headers.common['Content-Type']='multipart/form-data')
+
+  
 export const removeAuthorizationHeader = () => {
   delete client.defaults.headers.common['Authorization']
 }
