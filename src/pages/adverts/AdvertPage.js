@@ -17,8 +17,8 @@ const AdvertPage = () => {
       console.log('El useEffect se está ejecutando en ad()')
       try {
         setIsLoading(true)
-        const advert = await dataAdvert.getAdvert(params.advertId)
-        setAdvert(advert)
+        const fetchAdvert = await dataAdvert.getAdvert(params.advertId)
+        setAdvert(fetchAdvert)
       } catch (error) {
         console.log(error)
         setIsLoading(false)
@@ -43,7 +43,7 @@ const AdvertPage = () => {
       ) : (
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
-            <Advert link={false} advert={advert} />
+            <Advert idKey={'viewAd'} link={false} advert={advert} />
           )}
         </Row>
       )}

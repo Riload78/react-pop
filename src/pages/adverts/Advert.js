@@ -5,16 +5,15 @@ import Badge from 'react-bootstrap/Badge'
 import Stack from 'react-bootstrap/Stack'
 import { Link } from 'react-router-dom'
 import formatPrice from '../../helper/formatPrice.js'
-import { propTypes } from 'react-bootstrap/esm/Image.js'
 
-const Advert = ({ link, advert }) => {
+const Advert = ({idKey, link, advert }) => {
   //console.log(advert);
   console.log(link)
   const { id, photo, name, price, sale, tags } = advert
   console.log(id)
   console.log(photo)
   return (
-    <Col key={id}>
+    <Col key={`${idKey}-${id}`}>
       <Card>
         {link ? (
           <Link to={`${id}`}>
@@ -50,8 +49,9 @@ const Advert = ({ link, advert }) => {
 }
 
 Advert.propTypes = {
-  link: P.bool,
-  advert: P.node,
+  idKey: P.string.isRequired,
+  link: P.bool.isRequired,
+  advert: P.node.isRequired,
 }
 
 export default Advert

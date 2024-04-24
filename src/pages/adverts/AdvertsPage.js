@@ -35,11 +35,12 @@ const AdvertsPage = () => {
       ) : (
         <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
           {Object.keys(adverts).length !== 0 ? (
-            adverts.map(advert => <Advert link={true} advert={advert} />)
+            adverts.map((advert, index) => (
+              <Advert key={index} idKey={'listAd'} link={true} advert={advert} />
+            ))
           ) : (
             <AdvertsEmptyPage />
           )}
-
         </Row>
       )}
     </Container>
