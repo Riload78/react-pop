@@ -1,4 +1,4 @@
-import getAdverts from './service.js'
+import{ getAdverts } from './service.js'
 import formatPrice from '../../helper/formatPrice.js'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'

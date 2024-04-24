@@ -9,7 +9,7 @@ const NotificationArea = () => {
 
   return (
     <Alert
-      variant={notification.type === 'error' ? 'danger' : 'success'}
+      variant={notification.type === 'error' ? 'danger' : 'primary'}
       onClose={closeNotification}
       dismissible
     >
