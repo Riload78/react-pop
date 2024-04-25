@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Input from '../../components/form/Input.js'
 import MultiSelect from '../../components/form/MuliSelect.js'
+import FileInput from '../../components/form/FileInput.js'
 import { useEffect, useState } from 'react'
 import dataAdvert from './service'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -16,18 +17,6 @@ const NewAdvertPage = () => {
   //const [swichLabel, setSwichLabel] = useState('Venta')
   const { showNotificationSuccess, showNotificationError } = useNotification()
 
-  /* useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const dataFetch = await dataAdvert.getTags()
-        console.log(dataFetch)
-        setTags(dataFetch)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchTags()
-  }, []) */
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -38,7 +27,7 @@ const NewAdvertPage = () => {
       price: Number(event.target.price.value),
       sale: isSwitchChecked,
       tags: multiOptions,
-      photo: fileConvert,
+      photo: fileConvert || null,
     }
     console.log(newAdvert)
     postData(newAdvert)
@@ -89,29 +78,13 @@ const NewAdvertPage = () => {
             lenght='30'
           />
           <Input id='price' type='text' label='Price' name='price' lenght='8' />
-          {/*  <Form.Group className='mb-3' controlId='price'>
-            <Form.Label>Tags</Form.Label>
-            <Form.Select
-              aria-label='Default select example'
-              id='multiple-select-tags'
-              multiple
-              onChange={handleOptions}
-            >
-              {tags &&
-                tags.map((tag, index) => (
-                  <option key={index} value={tag}>
-                    {tag}
-                  </option>
-                ))}
-            </Form.Select>
-          </Form.Group> */}
-
           <MultiSelect handleOptions={handleOptions}></MultiSelect>
-
-          <Form.Group controlId='photo' className='mb-3'>
-            <Form.Label>Default file input example</Form.Label>
-            <Form.Control type='file' onChange={handlerFileConvert} />
-          </Form.Group>
+          <FileInput
+            label='Upload Image'
+            id="photo"
+            name='photo'
+            handlerFileConvert={handlerFileConvert}
+          />
           <Form.Check
             type='switch'
             id='custom-switch'
@@ -119,7 +92,7 @@ const NewAdvertPage = () => {
             checked={isSwitchChecked}
             onChange={handlerSwitch}
           />
-          <Button variant='primary' size='sm' type='submit'>
+          <Button variant='primary' size='xl' type='submit'>
             Submit
           </Button>
         </Form>
