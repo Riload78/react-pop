@@ -85,9 +85,15 @@ const NewAdvertPage = () => {
             type='text'
             label='Product Name'
             name='name'
-            required
+            lenght='30'
           />
-          <Input id='price' type='text' label='Pice' name='price' required />
+          <Input
+            id='price'
+            type='text'
+            label='Price'
+            name='price'
+            lenght='8'
+          />
           <Form.Group className='mb-3' controlId='price'>
             <Form.Label>Tags</Form.Label>
             <Form.Select
