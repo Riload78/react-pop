@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Input from '../../components/form/Input.js'
+import MultiSelect from '../../components/form/MuliSelect.js'
 import { useEffect, useState } from 'react'
 import dataAdvert from './service'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -11,11 +12,11 @@ const NewAdvertPage = () => {
   const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
-  const [tags, setTags] = useState([])
+  // const [tags, setTags] = useState([])
   //const [swichLabel, setSwichLabel] = useState('Venta')
   const { showNotificationSuccess, showNotificationError } = useNotification()
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchTags = async () => {
       try {
         const dataFetch = await dataAdvert.getTags()
@@ -26,7 +27,7 @@ const NewAdvertPage = () => {
       }
     }
     fetchTags()
-  }, [])
+  }, []) */
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -54,7 +55,7 @@ const NewAdvertPage = () => {
     }
   }
 
-  const handleOptions = event => {
+   const handleOptions = event => {
     console.log(event)
     console.log(event.target.selectedOptions)
     const options = Array.from(event.target.selectedOptions).map(
@@ -87,14 +88,8 @@ const NewAdvertPage = () => {
             name='name'
             lenght='30'
           />
-          <Input
-            id='price'
-            type='text'
-            label='Price'
-            name='price'
-            lenght='8'
-          />
-          <Form.Group className='mb-3' controlId='price'>
+          <Input id='price' type='text' label='Price' name='price' lenght='8' />
+          {/*  <Form.Group className='mb-3' controlId='price'>
             <Form.Label>Tags</Form.Label>
             <Form.Select
               aria-label='Default select example'
@@ -109,7 +104,10 @@ const NewAdvertPage = () => {
                   </option>
                 ))}
             </Form.Select>
-          </Form.Group>
+          </Form.Group> */}
+
+          <MultiSelect handleOptions={handleOptions}></MultiSelect>
+
           <Form.Group controlId='photo' className='mb-3'>
             <Form.Label>Default file input example</Form.Label>
             <Form.Control type='file' onChange={handlerFileConvert} />
