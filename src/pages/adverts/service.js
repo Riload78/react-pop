@@ -42,6 +42,15 @@ const postAdvert = async(data) => {
   }
 }
 
+const deleteAdvert = async(id) => {
+  try {
+    const response  = await client.delete(`${advertsUrl}/${id}`)
+    return response
+  } catch (error) {
+    throw new Error (error.message)
+  }
+}
 
-const dataAdvert = { getAdverts, getAdvert, getTags, postAdvert }
+
+const dataAdvert = { getAdverts, getAdvert, getTags, postAdvert, deleteAdvert }
 export default dataAdvert

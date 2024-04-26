@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import dataAdvert from './service.js'
 import Advert from './Advert.js'
 import { Button } from 'react-bootstrap'
+import ModalConfirm from '../../components/ModalConfirm.js'
 
 const AdvertPage = () => {
   const [advert, setAdvert] = useState({})
@@ -35,6 +36,20 @@ const AdvertPage = () => {
     console.log('El useEffect se está ejecutando en raiz')
   }, [params.advertId, navigate])
 
+  const handleDelete = () => {
+    console.log('mira que borro....')
+    const id = advert.id
+    console.log(id)
+    try {
+      setIsLoading(true)
+      dataAdvert.deleteAdvert(id)
+      setIsLoading(false)
+      navigate('/adverts')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Container>
       {isLoading ? (
@@ -45,7 +60,12 @@ const AdvertPage = () => {
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
             <>
-            <Button>Eliminar</Button>
+              <ModalConfirm
+                lanchTitle='Delete Advert'
+                modalText='The ad will be removed. Accept to confirm'
+                actionText='Accept'
+                action={handleDelete}
+              ></ModalConfirm>
               <Advert
                 key={`viewAd-${advert.id}`}
                 idKey={'viewAd'}

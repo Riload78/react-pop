@@ -7,11 +7,9 @@ import { Link } from 'react-router-dom'
 import formatPrice from '../../helper/formatPrice.js'
 
 const Advert = ({idKey, link, ad }) => {
-  console.log(ad);
-  console.log(link)
+
   const { id, photo, name, price, sale, tags } = ad
-  console.log(id)
-  console.log(photo)
+
   return (
     <>
       <Col key={`${idKey}-${id}`}>
