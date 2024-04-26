@@ -6,18 +6,16 @@ import Input from '../../components/form/Input.js'
 import MultiSelect from '../../components/form/MuliSelect.js'
 import FileInput from '../../components/form/FileInput.js'
 import Switch from '../../components/form/Switch.js'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dataAdvert from './service'
 import { useNotification } from '../../notification/NotificationProvider.js'
-
+import { useNavigate } from 'react-router-dom'
 const NewAdvertPage = () => {
   const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
-  // const [tags, setTags] = useState([])
-  //const [swichLabel, setSwichLabel] = useState('Venta')
   const { showNotificationSuccess, showNotificationError } = useNotification()
-
+  const navigate = useNavigate()
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -37,7 +35,7 @@ const NewAdvertPage = () => {
   const postData = async data => {
     try {
       const response = await dataAdvert.postAdvert(data)
-      console.log(response)
+      navigate(`/adverts/${response.id}`)
       showNotificationSuccess('The ad has been created successfully')
     } catch (error) {
       console.log(error)
@@ -45,7 +43,7 @@ const NewAdvertPage = () => {
     }
   }
 
-   const handleOptions = event => {
+  const handleOptions = event => {
     console.log(event)
     console.log(event.target.selectedOptions)
     const options = Array.from(event.target.selectedOptions).map(
@@ -54,12 +52,17 @@ const NewAdvertPage = () => {
     setMultiOptions(options)
   }
 
-  const handlerFileConvert = event => {
+  const handleFileConvert = event => {
     console.log(event.target.files[0])
     const file = event.target.files[0]
     setFileConvert(file)
   }
 
+  const handleSwitch = event => {
+    console.log(event)
+    const isChecked = event.target.checked
+    setIsSwhichChecked(isChecked)
+  }
 
   return (
     <Container>
@@ -74,18 +77,20 @@ const NewAdvertPage = () => {
             lenght='30'
           />
           <Input id='price' type='text' label='Price' name='price' lenght='8' />
-          
+
           <MultiSelect handleOptions={handleOptions}></MultiSelect>
-          
+
           <FileInput
             label='Upload Image'
-            id="photo"
+            id='photo'
             name='photo'
-            handlerFileConvert={handlerFileConvert}
+            handlerFileConvert={handleFileConvert}
           />
 
           <Switch
             id='custom-swich'
+            isSwitchChecked={isSwitchChecked}
+            handleSwitch={handleSwitch}
           />
 
           <Button variant='primary' size='xl' type='submit'>
