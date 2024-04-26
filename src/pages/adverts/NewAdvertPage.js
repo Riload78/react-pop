@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Input from '../../components/form/Input.js'
 import MultiSelect from '../../components/form/MuliSelect.js'
 import FileInput from '../../components/form/FileInput.js'
+import Switch from '../../components/form/Switch.js'
 import { useEffect, useState } from 'react'
 import dataAdvert from './service'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -59,11 +60,6 @@ const NewAdvertPage = () => {
     setFileConvert(file)
   }
 
-  const handlerSwitch = event => {
-    console.log(event)
-    const isChecked = event.target.checked
-    setIsSwhichChecked(isChecked)
-  }
 
   return (
     <Container>
@@ -78,20 +74,20 @@ const NewAdvertPage = () => {
             lenght='30'
           />
           <Input id='price' type='text' label='Price' name='price' lenght='8' />
+          
           <MultiSelect handleOptions={handleOptions}></MultiSelect>
+          
           <FileInput
             label='Upload Image'
             id="photo"
             name='photo'
             handlerFileConvert={handlerFileConvert}
           />
-          <Form.Check
-            type='switch'
-            id='custom-switch'
-            label={isSwitchChecked ? 'Venta' : 'Compra'}
-            checked={isSwitchChecked}
-            onChange={handlerSwitch}
+
+          <Switch
+            id='custom-swich'
           />
+
           <Button variant='primary' size='xl' type='submit'>
             Submit
           </Button>
