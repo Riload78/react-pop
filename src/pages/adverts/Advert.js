@@ -6,52 +6,54 @@ import Stack from 'react-bootstrap/Stack'
 import { Link } from 'react-router-dom'
 import formatPrice from '../../helper/formatPrice.js'
 
-const Advert = ({idKey, link, advert }) => {
-  //console.log(advert);
+const Advert = ({idKey, link, ad }) => {
+  console.log(ad);
   console.log(link)
-  const { id, photo, name, price, sale, tags } = advert
+  const { id, photo, name, price, sale, tags } = ad
   console.log(id)
   console.log(photo)
   return (
-    <Col key={`${idKey}-${id}`}>
-      <Card>
-        {link ? (
-          <Link to={`${id}`}>
-            <Card.Img variant='top' src={photo} />
-          </Link>
-        ) : (
-          <Card.Img variant='top' src={photo} />
-        )}
-        <Card.Body>
+    <>
+      <Col key={`${idKey}-${id}`}>
+        <Card>
           {link ? (
             <Link to={`${id}`}>
-              <Card.Title>{name}</Card.Title>
+              <Card.Img variant='top' src={photo} />
             </Link>
           ) : (
-            <Card.Title>{name}</Card.Title>
+            <Card.Img variant='top' src={photo} />
           )}
-          <Card.Text className='d-flex justify-content-between align-items-center'>
-            {formatPrice(price)} <span>{sale ? 'Venta' : 'Compra'}</span>
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <Stack direction='horizontal' gap={2}>
-            {tags.map(tag => (
-              <Badge key={id} pill bg='primary'>
-                {tag}
-              </Badge>
-            ))}
-          </Stack>
-        </Card.Footer>
-      </Card>
-    </Col>
+          <Card.Body>
+            {link ? (
+              <Link to={`${id}`}>
+                <Card.Title>{name}</Card.Title>
+              </Link>
+            ) : (
+              <Card.Title>{name}</Card.Title>
+            )}
+            <Card.Text className='d-flex justify-content-between align-items-center'>
+              {formatPrice(price)} <span>{sale ? 'Venta' : 'Compra'}</span>
+            </Card.Text>
+          </Card.Body>
+          <Card.Footer>
+            <Stack direction='horizontal' gap={2}>
+              {tags.map((tag, index) => (
+                <Badge key={`${id}-${index}`} pill bg='primary'>
+                  {tag}
+                </Badge>
+              ))}
+            </Stack>
+          </Card.Footer>
+        </Card>
+      </Col>
+    </>
   )
 }
 
 Advert.propTypes = {
   idKey: P.string.isRequired,
   link: P.bool.isRequired,
-  advert: P.node.isRequired,
+  ad: P.object.isRequired,
 }
 
 export default Advert

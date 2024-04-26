@@ -21,38 +21,40 @@ const Header = () => {
   }
 
   return (
-    <Navbar bg='primary' expand='md'>
-      <Container>
-        <Link to='/'>
-          <Icon width='50' fill='#F2F2F2' />
-        </Link>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-        {isLogged && isSessionSaved ? (
-          <Nav className='d-flex justify-content-end align-items-center'>
-            <NavLink
-              to='/adverts/new'
-              className={({ isActive }) => ({ isActive }) ? 'active' : ''}
-            >
-              Create Advert
-            </NavLink>
-            <Nav.Link
-              eventKey={2}
-              href='#memes'
-              className='d-flex  align-items-center gap-2'
-            >
-              <UserIcon width='30' height='30' fill='#F2F2F2' />
-              Dank memes
-            </Nav.Link>
+    <header>
+      <Navbar bg='primary' expand='md'>
+        <Container>
+          <Link to='/'>
+            <Icon width='50' fill='#F2F2F2' />
+          </Link>
+          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          {isLogged && isSessionSaved ? (
+            <Nav className='d-flex justify-content-end align-items-center'>
+              <NavLink
+                to='/adverts/new'
+                className={({ isActive }) => ({ isActive }) ? 'active' : ''}
+              >
+                Create Advert
+              </NavLink>
+              <Nav.Link
+                eventKey={2}
+                href='#memes'
+                className='d-flex  align-items-center gap-2'
+              >
+                <UserIcon width='30' height='30' fill='#F2F2F2' />
+                Dank memes
+              </Nav.Link>
 
-            <Button variant='secondary' size='sm' onClick={handlerLogout}>
-              Log Out
-            </Button>
-          </Nav>
-        ) : (
-          ''
-        )}
-      </Container>
-    </Navbar>
+              <Button variant='secondary' size='sm' onClick={handlerLogout}>
+                Log Out
+              </Button>
+            </Nav>
+          ) : (
+            ''
+          )}
+        </Container>
+      </Navbar>
+    </header>
   )
 }
 

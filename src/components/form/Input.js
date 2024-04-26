@@ -1,18 +1,20 @@
 import P from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 
-const Input = ({ id, type, label, name, lenght }) => {
+const Input = ({ id, type, label, name, lenght}) => {
   const [value, setValue] = useState('')
   const [isValid, setIsvalid] = useState(true)
   const [message, setMessage] = useState('')
   const [maxLenght, setMaxLenght] = useState(null)
+ 
+  useEffect(() => {
+    setMaxLenght(lenght || 20) // Asegurar que se actualice si los props cambian
+  }, [lenght])
 
   const handleInputChange = event => {
     const inputValue = event.target.value
-    setMaxLenght(lenght || 20)
-    console.log(inputValue)
     if (inputValue.length <= maxLenght || inputValue === '') {
       setIsvalid(true)
       setValue(inputValue)
@@ -30,7 +32,6 @@ const Input = ({ id, type, label, name, lenght }) => {
       ) {
         setIsvalid(true)
         setValue(inputValue)
-        setMessage('')
       } else {
         setIsvalid(false)
         setMessage(
@@ -39,6 +40,7 @@ const Input = ({ id, type, label, name, lenght }) => {
       }
     }
   }
+
   return (
     <Form.Group className='mb-3'>
       <Form.Label>{label}</Form.Label>

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import dataAdvert from './service.js'
 import Advert from './Advert.js'
+import { Button } from 'react-bootstrap'
 
 const AdvertPage = () => {
   const [advert, setAdvert] = useState({})
@@ -18,6 +19,7 @@ const AdvertPage = () => {
       try {
         setIsLoading(true)
         const fetchAdvert = await dataAdvert.getAdvert(params.advertId)
+        console.log('fetchAdvert', fetchAdvert)
         setAdvert(fetchAdvert)
       } catch (error) {
         console.log(error)
@@ -29,7 +31,6 @@ const AdvertPage = () => {
         setIsLoading(false)
       }
     }
-
     fetchData()
     console.log('El useEffect se está ejecutando en raiz')
   }, [params.advertId, navigate])
@@ -43,7 +44,15 @@ const AdvertPage = () => {
       ) : (
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
-            <Advert idKey={'viewAd'} link={false} advert={advert} />
+            <>
+            <Button>Eliminar</Button>
+              <Advert
+                key={`viewAd-${advert.id}`}
+                idKey={'viewAd'}
+                link={false}
+                ad={advert}
+              />
+            </>
           )}
         </Row>
       )}

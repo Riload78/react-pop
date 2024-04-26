@@ -19,6 +19,7 @@ const RootRouter = () => {
         <Route
           path='/adverts'
           element={
+            
             <RequiredLogin>
               <Outlet />
             </RequiredLogin>

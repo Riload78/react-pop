@@ -8,7 +8,6 @@ const MultiSelect = ({handleOptions}) => {
     const fetchTags = async () => {
       try {
         const dataFetch = await dataAdvert.getTags()
-        console.log(dataFetch)
         setTags(dataFetch)
       } catch (error) {
         console.log(error)

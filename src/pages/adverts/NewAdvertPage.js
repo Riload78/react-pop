@@ -15,11 +15,11 @@ const NewAdvertPage = () => {
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
   const { showNotificationSuccess, showNotificationError } = useNotification()
+
   const navigate = useNavigate()
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log(event)
     console.log('multioptions:', multiOptions)
     const newAdvert = {
       name: event.target.name.value,
@@ -28,8 +28,24 @@ const NewAdvertPage = () => {
       tags: multiOptions,
       photo: fileConvert || null,
     }
-    console.log(newAdvert)
     postData(newAdvert)
+  }
+
+  const handleOptions = event => {
+    const options = Array.from(event.target.selectedOptions).map(
+      item => item.value
+    )
+    setMultiOptions(options)
+  }
+
+  const handleFileConvert = event => {
+    const file = event.target.files[0]
+    setFileConvert(file)
+  }
+
+  const handleSwitch = event => {
+    const isChecked = event.target.checked
+    setIsSwhichChecked(isChecked)
   }
 
   const postData = async data => {
@@ -41,27 +57,6 @@ const NewAdvertPage = () => {
       console.log(error)
       showNotificationError(error.message)
     }
-  }
-
-  const handleOptions = event => {
-    console.log(event)
-    console.log(event.target.selectedOptions)
-    const options = Array.from(event.target.selectedOptions).map(
-      item => item.value
-    )
-    setMultiOptions(options)
-  }
-
-  const handleFileConvert = event => {
-    console.log(event.target.files[0])
-    const file = event.target.files[0]
-    setFileConvert(file)
-  }
-
-  const handleSwitch = event => {
-    console.log(event)
-    const isChecked = event.target.checked
-    setIsSwhichChecked(isChecked)
   }
 
   return (
@@ -77,23 +72,23 @@ const NewAdvertPage = () => {
             lenght='30'
           />
           <Input id='price' type='text' label='Price' name='price' lenght='8' />
-
           <MultiSelect handleOptions={handleOptions}></MultiSelect>
-
           <FileInput
             label='Upload Image'
             id='photo'
             name='photo'
             handlerFileConvert={handleFileConvert}
           />
-
           <Switch
             id='custom-swich'
             isSwitchChecked={isSwitchChecked}
             handleSwitch={handleSwitch}
           />
-
-          <Button variant='primary' size='xl' type='submit'>
+          <Button
+            variant='primary'
+            size='xl'
+            type='submit'
+          >
             Submit
           </Button>
         </Form>

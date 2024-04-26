@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import auth from './service.js'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './context.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -27,6 +27,10 @@ const LoginPage = () => {
       [event.target.name]: event.target.value,
     }))
   }
+
+  useEffect(() => {
+    console.log('UseEffect LoginPage');
+  }, [])
 
   const handlerSwitch = event => {
     const isSaved = event.target.checked
