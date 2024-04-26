@@ -5,6 +5,7 @@ import Badge from 'react-bootstrap/Badge'
 import Stack from 'react-bootstrap/Stack'
 import { Link } from 'react-router-dom'
 import formatPrice from '../../helper/formatPrice.js'
+import ImagePlaceholder from '../../components/ImagePlaceholder.js'
 
 const Advert = ({idKey, link, ad }) => {
 
@@ -16,10 +17,10 @@ const Advert = ({idKey, link, ad }) => {
         <Card>
           {link ? (
             <Link to={`${id}`}>
-              <Card.Img variant='top' src={photo} />
+              <ImagePlaceholder photo={photo} />
             </Link>
           ) : (
-            <Card.Img variant='top' src={photo} />
+            <ImagePlaceholder photo={photo} />
           )}
           <Card.Body>
             {link ? (
