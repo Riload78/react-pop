@@ -14,6 +14,9 @@ const AdvertsPage = () => {
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [sliderValue, setSliderValue] = useState([0, 1000])
+  	const [minValue, set_minValue] = useState(0)
+    const [maxValue, set_maxValue] = useState(0)
+    const [max, setMax] =  useState()
 
   useEffect(() => {
     const ads = async () => {
@@ -21,6 +24,7 @@ const AdvertsPage = () => {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
         setAdverts(adverts)
+       
         // setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
@@ -46,6 +50,17 @@ const AdvertsPage = () => {
     let saleValue = value === '1' ? true : value === '0' ? false : null
     setFilterSale(saleValue)
   }
+
+  const handlePrice = event => {
+    console.log(event);
+      const maxPrice = adverts.reduce((max, advert) => {
+        return advert.price > max ? advert.price : max
+      }, 0)
+      setMax(maxPrice)
+     set_minValue(event.minValue)
+     set_maxValue(event.maxValue)
+    
+  }
   filteredAdverts = adverts.filter(item => {
     
     const nameMatch = item.name.toLowerCase().includes(filterName.toLowerCase())
@@ -54,9 +69,9 @@ const AdvertsPage = () => {
     if (filterSale !== null) {
       saleMatch = item.sale === filterSale
     }
-    const priceMatch = item.price >= sliderValue[0] && item.price <= sliderValue[1]
+    const priceMatch = item.price >= minValue && item.price <= maxValue
 
-    return nameMatch && saleMatch
+    return nameMatch && saleMatch && priceMatch
   })
 
   return (
@@ -67,7 +82,14 @@ const AdvertsPage = () => {
         </Row>
       ) : (
         <>
-          <Search onSearch={handleSearch} onSale={handleSale}></Search>
+          <Search
+            onSearch={handleSearch}
+            onSale={handleSale}
+            onPrice={handlePrice}
+            maxPrice={maxValue}
+            minPrice={minValue}
+            max={max}
+          ></Search>
           <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
             {Object.keys(filteredAdverts).length !== 0 ? (
               filteredAdverts.map(filterAdvert => (
