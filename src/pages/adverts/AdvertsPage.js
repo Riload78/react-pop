@@ -10,8 +10,10 @@ import Search from '../../search/Search.js'
 const AdvertsPage = () => {
   const [adverts, setAdverts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  //const [filteredAdverts, setFilteredAdverts] = useState([])
+  let [filteredAdverts, setFilteredAdverts] = useState([])
   const [filterName, setFilterName] = useState('')
+  const [filterSale, setFilterSale] = useState(null)
+  const [sliderValue, setSliderValue] = useState([0, 1000])
 
   useEffect(() => {
     const ads = async () => {
@@ -19,7 +21,7 @@ const AdvertsPage = () => {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
         setAdverts(adverts)
-       // setFilteredAdverts(adverts)
+        // setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
@@ -31,16 +33,31 @@ const AdvertsPage = () => {
     console.log('useEffect AdvertsPage')
   }, [])
 
-  const hadleSearch = event => {
+  const handleSearch = event => {
+    console.log(event)
     console.log(event.target.value)
     const search = event.target.value
-    setFilterName(search)
 
+    setFilterName(search)
   }
 
-  const filteredAdverts = adverts.filter(item =>
-    item.name.toLowerCase().includes(filterName.toLowerCase())
-  )
+  const handleSale = event => {
+    const value = event.target.value
+    let saleValue = value === '1' ? true : value === '0' ? false : null
+    setFilterSale(saleValue)
+  }
+  filteredAdverts = adverts.filter(item => {
+    
+    const nameMatch = item.name.toLowerCase().includes(filterName.toLowerCase())
+    console.log(filterSale)
+    let saleMatch = true
+    if (filterSale !== null) {
+      saleMatch = item.sale === filterSale
+    }
+    const priceMatch = item.price >= sliderValue[0] && item.price <= sliderValue[1]
+
+    return nameMatch && saleMatch
+  })
 
   return (
     <Container>
@@ -50,16 +67,16 @@ const AdvertsPage = () => {
         </Row>
       ) : (
         <>
-          <Search value={filterName} onSearch={hadleSearch}></Search>
+          <Search onSearch={handleSearch} onSale={handleSale}></Search>
           <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
             {Object.keys(filteredAdverts).length !== 0 ? (
-              filteredAdverts.map(filteradvert => (
+              filteredAdverts.map(filterAdvert => (
                 <>
                   <Advert
-                    key={`listAd-${filteradvert.id}`}
+                    key={`listAd-${filterAdvert.id}`}
                     idKey={'listAd'}
                     link={true}
-                    ad={filteradvert}
+                    ad={filterAdvert}
                   />
                 </>
               ))
