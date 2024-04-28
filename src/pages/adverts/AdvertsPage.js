@@ -1,14 +1,17 @@
-import dataAdvert  from './service.js'
+import dataAdvert from './service.js'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { useEffect, useState } from 'react'
 import Advert from './Advert.js'
-import AdvertsEmptyPage from './AdvertsEmptyPage.js' 
+import AdvertsEmptyPage from './AdvertsEmptyPage.js'
+import Search from '../../search/Search.js'
 
 const AdvertsPage = () => {
   const [adverts, setAdverts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  //const [filteredAdverts, setFilteredAdverts] = useState([])
+  const [filterName, setFilterName] = useState('')
 
   useEffect(() => {
     const ads = async () => {
@@ -16,16 +19,28 @@ const AdvertsPage = () => {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
         setAdverts(adverts)
+       // setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
         throw new Error(error.message)
       }
     }
-    
+
     ads()
-    console.log('useEffect AdvertsPage');
+    console.log('useEffect AdvertsPage')
   }, [])
+
+  const hadleSearch = event => {
+    console.log(event.target.value)
+    const search = event.target.value
+    setFilterName(search)
+
+  }
+
+  const filteredAdverts = adverts.filter(item =>
+    item.name.toLowerCase().includes(filterName.toLowerCase())
+  )
 
   return (
     <Container>
@@ -34,20 +49,25 @@ const AdvertsPage = () => {
           <Spinner animation='border' variant='primary' size='3rem' />
         </Row>
       ) : (
-        <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
-          {Object.keys(adverts).length !== 0 ? (
-            adverts.map((advert, index) => (
-              <Advert
-                key={`listAd-${advert.id}`}
-                idKey={'listAd'}
-                link={true}
-                ad={advert}
-              />
-            ))
-          ) : (
-            <AdvertsEmptyPage />
-          )}
-        </Row>
+        <>
+          <Search value={filterName} onSearch={hadleSearch}></Search>
+          <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
+            {Object.keys(filteredAdverts).length !== 0 ? (
+              filteredAdverts.map(filteradvert => (
+                <>
+                  <Advert
+                    key={`listAd-${filteradvert.id}`}
+                    idKey={'listAd'}
+                    link={true}
+                    ad={filteradvert}
+                  />
+                </>
+              ))
+            ) : (
+              <AdvertsEmptyPage />
+            )}
+          </Row>
+        </>
       )}
     </Container>
   )

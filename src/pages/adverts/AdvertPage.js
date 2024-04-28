@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import dataAdvert from './service.js'
 import Advert from './Advert.js'
-import { Button } from 'react-bootstrap'
 import ModalConfirm from '../../components/ModalConfirm.js'
 
 const AdvertPage = () => {
@@ -60,18 +59,18 @@ const AdvertPage = () => {
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
             <>
-              <ModalConfirm
-                lanchTitle='Delete Advert'
-                modalText='The ad will be removed. Accept to confirm'
-                actionText='Accept'
-                action={handleDelete}
-              ></ModalConfirm>
               <Advert
                 key={`viewAd-${advert.id}`}
                 idKey={'viewAd'}
                 link={false}
                 ad={advert}
               />
+              <ModalConfirm
+                lanchTitle='Delete Advert'
+                modalText='The ad will be removed. Accept to confirm'
+                actionText='Accept'
+                action={handleDelete}
+              ></ModalConfirm>
             </>
           )}
         </Row>
