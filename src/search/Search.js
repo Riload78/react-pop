@@ -9,9 +9,15 @@ import { useState } from 'react'
 import MultiRangeSlider from 'multi-range-slider-react'
 
 
-const Search = ({ onSearch, onSale, onPrice, maxPrice, minPrice, max }) => {
-
-
+const Search = ({
+  onSearch,
+  onSale,
+  onPrice,
+  maxPrice,
+  minPrice,
+  max,
+  OnOptionsChange,
+}) => {
   return (
     <>
       <Form>
@@ -38,16 +44,16 @@ const Search = ({ onSearch, onSale, onPrice, maxPrice, minPrice, max }) => {
               <MultiRangeSlider
                 min={0}
                 max={max}
-                step={5}
+                step={50}
                 minValue={minPrice}
                 maxValue={maxPrice}
                 onInput={onPrice}
               />
             </Col>
           </Col>
-          {/*   <Col>
-            <MultiSelect></MultiSelect>
-          </Col> */}
+          <Col>
+            <MultiSelect handleOptions={OnOptionsChange}></MultiSelect>
+          </Col>
         </Row>
       </Form>
     </>
@@ -55,11 +61,12 @@ const Search = ({ onSearch, onSale, onPrice, maxPrice, minPrice, max }) => {
 }
 Search.propTypes = {
   onSearch: P.func.isRequired,
-	onSale: P.func.isRequired,
-	onPrice: P.func.isRequired,
-	maxPrice: P.number.isRequired,
-	minPrice: P.number.isRequired,
-	max: P.number.isRequired,
+  onSale: P.func.isRequired,
+  onPrice: P.func.isRequired,
+  maxPrice: P.number.isRequired,
+  minPrice: P.number.isRequired,
+  max: P.number.isRequired,
   valueName: P.string,
+  OnOptionsChange: P.func.isRequired
 }
 export default Search

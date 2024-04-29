@@ -14,9 +14,10 @@ const AdvertsPage = () => {
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [sliderValue, setSliderValue] = useState([0, 1000])
-  	const [minValue, set_minValue] = useState(0)
-    const [maxValue, set_maxValue] = useState(0)
-    const [max, setMax] =  useState()
+  const [minValue, set_minValue] = useState(0)
+  const [maxValue, set_maxValue] = useState(1000)
+  const [max, setMax] = useState(1000)
+  const [tags, setTags] = useState([])
 
   useEffect(() => {
     const ads = async () => {
@@ -24,7 +25,10 @@ const AdvertsPage = () => {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
         setAdverts(adverts)
-       
+        const maxPrice = adverts.reduce((max, advert) => {
+          return advert.price > max ? advert.price : max
+        }, 0)
+        setMax(maxPrice)
         // setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
@@ -52,17 +56,26 @@ const AdvertsPage = () => {
   }
 
   const handlePrice = event => {
+    console.log(event)
+    /* const maxPrice = adverts.reduce((max, advert) => {
+      return advert.price > max ? advert.price : max
+    }, 0)
+    setMax(maxPrice) */
+    set_minValue(event.minValue)
+    set_maxValue(event.maxValue)
+  }
+
+  const handleOptions = (event) => {
     console.log(event);
-      const maxPrice = adverts.reduce((max, advert) => {
-        return advert.price > max ? advert.price : max
-      }, 0)
-      setMax(maxPrice)
-     set_minValue(event.minValue)
-     set_maxValue(event.maxValue)
-    
+    let tagsArr = []
+    if (event.target.value.length !== 0) {
+      tagsArr = [...tagsArr, event.target.value]
+    } else{
+      tagsArr = []
+    }
+    setTags(tagsArr);
   }
   filteredAdverts = adverts.filter(item => {
-    
     const nameMatch = item.name.toLowerCase().includes(filterName.toLowerCase())
     console.log(filterSale)
     let saleMatch = true
@@ -71,7 +84,9 @@ const AdvertsPage = () => {
     }
     const priceMatch = item.price >= minValue && item.price <= maxValue
 
-    return nameMatch && saleMatch && priceMatch
+    const tagsMatch =  tags.every(tag => item.tags.indexOf(tag) !== -1 )
+
+    return nameMatch && saleMatch && priceMatch && tagsMatch
   })
 
   return (
@@ -89,6 +104,7 @@ const AdvertsPage = () => {
             maxPrice={maxValue}
             minPrice={minValue}
             max={max}
+            OnOptionsChange={handleOptions}
           ></Search>
           <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
             {Object.keys(filteredAdverts).length !== 0 ? (
