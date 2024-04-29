@@ -6,21 +6,26 @@ import Input from '../../components/form/Input.js'
 import MultiSelect from '../../components/form/MuliSelect.js'
 import FileInput from '../../components/form/FileInput.js'
 import Switch from '../../components/form/Switch.js'
-import { useState } from 'react'
 import dataAdvert from './service'
+import validation from '../../helper/validation.js'
+import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
 import { useNavigate } from 'react-router-dom'
+
 const NewAdvertPage = () => {
   const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
   const { showNotificationSuccess, showNotificationError } = useNotification()
+  const [isValid, setIsValid] = useState({
+    name: true,
+    price: true,
+  })
 
   const navigate = useNavigate()
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log('multioptions:', multiOptions)
     const newAdvert = {
       name: event.target.name.value,
       price: Number(event.target.price.value),
@@ -28,7 +33,18 @@ const NewAdvertPage = () => {
       tags: multiOptions,
       photo: fileConvert || null,
     }
-    postData(newAdvert)
+
+    const validateResult = validation(newAdvert)
+    if (validateResult.length === 0) {
+      postData(newAdvert)
+    } else {
+      const errorMessage = validateResult.join(' || ')
+      showNotificationError(errorMessage)
+    }
+  }
+
+  const handleValidityChange = field => isValid => {
+    setIsValid(current => ({ ...current, [field]: isValid }))
   }
 
   const handleOptions = event => {
@@ -54,24 +70,33 @@ const NewAdvertPage = () => {
       navigate(`/adverts/${response.id}`)
       showNotificationSuccess('The ad has been created successfully')
     } catch (error) {
-      console.log(error)
       showNotificationError(error.message)
     }
   }
+
+  const allValid = Object.values(isValid).every(Boolean) // Verifica que todos los campos sean válidos
 
   return (
     <Container>
       <Row>
         <Form onSubmit={handleSubmit}>
-          <h1>New Advert</h1>
+          <h1 className='d-flex justify-content-center'>New Advert</h1>
           <Input
             id='name'
             type='text'
             label='Product Name'
             name='name'
             lenght='30'
+            onValidityChange={handleValidityChange('name')}
           />
-          <Input id='price' type='text' label='Price' name='price' lenght='8' />
+          <Input
+            id='price'
+            type='text'
+            label='Price'
+            name='price'
+            lenght='8'
+            onValidityChange={handleValidityChange('price')}
+          />
           <MultiSelect handleOptions={handleOptions}></MultiSelect>
           <FileInput
             label='Upload Image'
@@ -88,6 +113,7 @@ const NewAdvertPage = () => {
             variant='primary'
             size='xl'
             type='submit'
+            disabled={!allValid}
           >
             Submit
           </Button>

@@ -1,17 +1,25 @@
 import P from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 
-const Input = ({ id, type, label, name, lenght}) => {
+const Input = ({ id, type, label, name, lenght, onValidityChange }) => {
   const [value, setValue] = useState('')
   const [isValid, setIsvalid] = useState(true)
   const [message, setMessage] = useState('')
   const [maxLenght, setMaxLenght] = useState(null)
- 
+  const prevIsValid = useRef(isValid)
+
   useEffect(() => {
-    setMaxLenght(lenght || 20) // Asegurar que se actualice si los props cambian
+    setMaxLenght(lenght || 20)
   }, [lenght])
+
+  useEffect(() => {
+    if (isValid !== prevIsValid.current) {
+      onValidityChange(isValid)
+      prevIsValid.current = isValid
+    }
+  }, [isValid, onValidityChange])
 
   const handleInputChange = event => {
     const inputValue = event.target.value
@@ -50,6 +58,7 @@ const Input = ({ id, type, label, name, lenght}) => {
         name={name}
         value={value}
         onChange={handleInputChange}
+        isInvalid={!isValid}
       />
       {!isValid && (
         <Alert key='danger' variant='danger'>
@@ -66,6 +75,7 @@ Input.propTypes = {
   label: P.string.isRequired,
   name: P.string.isRequired,
   lenght: P.string,
+  onValidityChange: P.func.isRequired,
 }
 
 export default Input

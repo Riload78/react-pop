@@ -23,20 +23,14 @@ const Header = () => {
   return (
     <header>
       <Navbar bg='primary' expand='md'>
-        <Container>
+        <Container className='d-flex flex-nowrap justify-content-between align-items-center gap-4'>
           <Link to='/'>
             <Icon width='50' fill='#F2F2F2' />
           </Link>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
           {isLogged && isSessionSaved ? (
-            <Nav className='d-flex justify-content-end align-items-center'>
-              <NavLink
-                to='/adverts/new'
-                className={({ isActive }) => ({ isActive }) ? 'active' : ''}
-              >
-                Create Advert
-              </NavLink>
+            <Nav className='d-flex flex-row  flex-nowrap justify-content-end align-items-center gap-4'>
               <Nav.Link
+                as={Button}
                 eventKey={2}
                 href='#memes'
                 className='d-flex  align-items-center gap-2'
@@ -47,6 +41,15 @@ const Header = () => {
 
               <Button variant='secondary' size='sm' onClick={handlerLogout}>
                 Log Out
+              </Button>
+              <Button
+                variant='secondary'
+                size='sm'
+                as={Link}
+                to='/adverts/new'
+                className={({ isActive }) => ({ isActive }) ? 'active' : ''}
+              >
+                New Advert
               </Button>
             </Nav>
           ) : (
