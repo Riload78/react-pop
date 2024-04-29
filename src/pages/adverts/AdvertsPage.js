@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Advert from './Advert.js'
 import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
+import NotResult from '../../search/NotResult.js'
 
 const AdvertsPage = () => {
   const [adverts, setAdverts] = useState([])
@@ -67,7 +68,7 @@ const AdvertsPage = () => {
 
   const handleOptions = (event) => {
     console.log(event);
-    let tagsArr = []
+    let tagsArr = tags
     if (event.target.value.length !== 0) {
       tagsArr = [...tagsArr, event.target.value]
     } else{
@@ -91,40 +92,42 @@ const AdvertsPage = () => {
 
   return (
     <Container>
-      {isLoading ? (
-        <Row className=' min-vh-100 d-flex justify-content-center align-items-center'>
-          <Spinner animation='border' variant='primary' size='3rem' />
+  {isLoading ? (
+    <Row className=' min-vh-100 d-flex justify-content-center align-items-center'>
+      <Spinner animation='border' variant='primary' size='3rem' />
+    </Row>
+  ) : (
+    <>
+      <Search
+        onSearch={handleSearch}
+        onSale={handleSale}
+        onPrice={handlePrice}
+        maxPrice={maxValue}
+        minPrice={minValue}
+        max={max}
+        OnOptionsChange={handleOptions}
+      />
+      {adverts.length !== 0 ? ( // Verifica si hay elementos en adverts
+        <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
+          {filteredAdverts.length !== 0 ? (
+            filteredAdverts.map(filterAdvert => (
+              <Advert
+                key={`listAd-${filterAdvert.id}`}
+                idKey={'listAd'}
+                link={true}
+                ad={filterAdvert}
+              />
+            ))
+          ) : (
+            <NotResult />
+          )}
         </Row>
       ) : (
-        <>
-          <Search
-            onSearch={handleSearch}
-            onSale={handleSale}
-            onPrice={handlePrice}
-            maxPrice={maxValue}
-            minPrice={minValue}
-            max={max}
-            OnOptionsChange={handleOptions}
-          ></Search>
-          <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
-            {Object.keys(filteredAdverts).length !== 0 ? (
-              filteredAdverts.map(filterAdvert => (
-                <>
-                  <Advert
-                    key={`listAd-${filterAdvert.id}`}
-                    idKey={'listAd'}
-                    link={true}
-                    ad={filterAdvert}
-                  />
-                </>
-              ))
-            ) : (
-              <AdvertsEmptyPage />
-            )}
-          </Row>
-        </>
+         <AdvertsEmptyPage />
       )}
-    </Container>
+    </>
+  )}
+</Container>
   )
 }
 
