@@ -17,7 +17,7 @@ const AdvertsPage = () => {
   const [sliderValue, setSliderValue] = useState([0, 1000])
   const [minValue, set_minValue] = useState(0)
   const [maxValue, set_maxValue] = useState(1000)
-  const [max, setMax] = useState(1000)
+  const [max, setMax] = useState()
   const [tags, setTags] = useState([])
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const AdvertsPage = () => {
           return advert.price > max ? advert.price : max
         }, 0)
         setMax(maxPrice)
+        set_maxValue(maxPrice)
         // setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
@@ -58,17 +59,17 @@ const AdvertsPage = () => {
 
   const handlePrice = event => {
     console.log(event)
-    /* const maxPrice = adverts.reduce((max, advert) => {
+    const maxPrice = adverts.reduce((max, advert) => {
       return advert.price > max ? advert.price : max
     }, 0)
-    setMax(maxPrice) */
+    setMax(maxPrice)
     set_minValue(event.minValue)
     set_maxValue(event.maxValue)
   }
 
   const handleOptions = (event) => {
     console.log(event);
-    let tagsArr = tags
+    let tagsArr = []
     if (event.target.value.length !== 0) {
       tagsArr = [...tagsArr, event.target.value]
     } else{
