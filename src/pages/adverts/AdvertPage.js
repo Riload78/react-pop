@@ -6,12 +6,14 @@ import { useParams, useNavigate } from 'react-router-dom'
 import dataAdvert from './service.js'
 import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
+import { useDeletedAdvert } from './context'
 
 const AdvertPage = () => {
   const [advert, setAdvert] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const params = useParams()
   const navigate = useNavigate()
+  const { markAdvertAsDeleted } = useDeletedAdvert()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,7 @@ const AdvertPage = () => {
       setIsLoading(true)
       dataAdvert.deleteAdvert(id)
       setIsLoading(false)
+      markAdvertAsDeleted(id)
       navigate('/adverts')
     } catch (error) {
       console.log(error);

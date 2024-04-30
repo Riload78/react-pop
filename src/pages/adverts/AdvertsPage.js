@@ -7,6 +7,7 @@ import Advert from './Advert.js'
 import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
+import { useDeletedAdvert } from './context'
 
 const AdvertsPage = () => {
   const [adverts, setAdverts] = useState([])
@@ -14,12 +15,12 @@ const AdvertsPage = () => {
   let [filteredAdverts, setFilteredAdverts] = useState([])
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
-  const [sliderValue, setSliderValue] = useState([0, 1000])
   const [minValue, set_minValue] = useState(0)
   const [maxValue, set_maxValue] = useState(1000)
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
-
+  const {deletedAdvertId} = useDeletedAdvert() 
+ console.log('deletedAdvertId', deletedAdvertId);
   useEffect(() => {
     const ads = async () => {
       try {
@@ -31,7 +32,7 @@ const AdvertsPage = () => {
         }, 0)
         setMax(maxPrice)
         set_maxValue(maxPrice)
-        // setFilteredAdverts(adverts)
+        //setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
@@ -41,7 +42,7 @@ const AdvertsPage = () => {
 
     ads()
     console.log('useEffect AdvertsPage')
-  }, [])
+  }, [deletedAdvertId])
 
   const handleSearch = event => {
     console.log(event)

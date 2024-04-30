@@ -11,7 +11,9 @@ const BreadCrumb = () => {
     <Container className='breadcrumb-wrapper'>
       <Row>
         <Breadcrumb>
-          <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to='/'>Home</Link>
+          </Breadcrumb.Item>
           {pathnames.map((path, index) => (
             <Breadcrumb.Item key={path} active={index === pathnames.length - 1}>
               {index !== pathnames.length - 1 ? (

@@ -5,19 +5,18 @@ import Button from 'react-bootstrap/Button'
 import auth from '../pages/login/service'
 import { useAuth } from '../pages/login/context'
 import { ReactComponent as Icon } from '../assets/images/logo.svg'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ReactComponent as UserIcon } from '../assets/images/user.svg'
-
+import ModalConfirm from './ModalConfirm'
 
 const Header = () => {
   const { onLogout, isLogged, isSessionSaved } = useAuth()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const handlerLogout = event => {
     event.preventDefault()
     onLogout()
     auth.logout()
     navigate('/login')
-
   }
 
   return (
@@ -32,16 +31,17 @@ const Header = () => {
               <Nav.Link
                 as={Button}
                 eventKey={2}
-                href='#memes'
                 className='d-flex  align-items-center gap-2'
               >
                 <UserIcon width='30' height='30' fill='#F2F2F2' />
                 Dank memes
               </Nav.Link>
-
-              <Button variant='secondary' size='sm' onClick={handlerLogout}>
-                Log Out
-              </Button>
+              <ModalConfirm
+                lanchTitle='Log Out'
+                modalText='You are going to log out. Are you sure?'
+                actionText='Confirm'
+                action={handlerLogout}
+              />
               <Button
                 variant='secondary'
                 size='sm'

@@ -6,6 +6,7 @@ import NewAdvertPage from '../pages/adverts/NewAdvertPage'
 import NotFound from '../pages/NotFound'
 import RequiredLogin from '../components/RequireLogin'
 import { useAuth } from '../pages/login/context'
+import { DeletedAdvertProvider } from '../pages/adverts/context'
 
 const RootRouter = () => {
   const { isLogged } = useAuth()
@@ -21,7 +22,9 @@ const RootRouter = () => {
           element={
             
             <RequiredLogin>
-              <Outlet />
+              <DeletedAdvertProvider>
+                <Outlet />
+              </DeletedAdvertProvider>
             </RequiredLogin>
           }
         >
