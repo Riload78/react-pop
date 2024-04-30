@@ -1,5 +1,16 @@
+import { Col, Container, Row } from "react-bootstrap"
+
 const NotFound = () => {
-    return(<h1>Not Found</h1>)
+    return (
+        <Container>
+            <Row className="justify-content-center">
+                <Col md={8} sm={12}>
+                    <img src={`${process.env.PUBLIC_URL}/not-found.svg`} alt='Not Found' />
+                </Col>
+            </Row>
+        </Container>
+    )
 }
+
 
 export default NotFound
