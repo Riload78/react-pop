@@ -13,7 +13,7 @@ const Advert = ({idKey, link, ad }) => {
 
   return (
     <>
-      <Col key={`${idKey}-${id}`}>
+      <Col key={`${idKey}-${id}`} className='advert-wrapper'>
         <Card>
           {link ? (
             <Link to={`${id}`}>
@@ -31,7 +31,8 @@ const Advert = ({idKey, link, ad }) => {
               <Card.Title>{name}</Card.Title>
             )}
             <Card.Text className='d-flex justify-content-between align-items-center'>
-              {formatPrice(price)} <span>{sale ? 'Venta' : 'Compra'}</span>
+              <span className='price'>{formatPrice(price)}</span>
+              <span>{sale ? 'Venta' : 'Compra'}</span>
             </Card.Text>
           </Card.Body>
           <Card.Footer>

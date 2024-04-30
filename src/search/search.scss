@@ -1,0 +1,32 @@
+.search-wrapper{
+    padding-bottom: 2rem;
+    .multi-range-slider{
+        box-shadow: none;
+        border:none;
+        .ruler{
+            display: none;
+        }
+        .bar-inner{
+            background-color: $secondary;
+            box-shadow: none;
+            border:none;
+        }
+        .thumb {
+
+            &:before {
+                background-color: $primary;
+                border: 1px solid $primary;
+                box-shadow: none;
+            }
+            .caption *{
+                background-color: $primary;
+                box-shadow: none;
+            }
+        }
+        .labels{
+            font-size: 1.2rem;
+            color: $primary;
+        }
+    }
+}
+

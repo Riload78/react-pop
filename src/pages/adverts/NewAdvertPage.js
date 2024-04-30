@@ -77,7 +77,7 @@ const NewAdvertPage = () => {
   const allValid = Object.values(isValid).every(Boolean) // Verifica que todos los campos sean válidos
 
   return (
-    <Container>
+    <Container className='new-advert-wrapper'>
       <Row>
         <Form onSubmit={handleSubmit}>
           <h1 className='d-flex justify-content-center'>New Advert</h1>

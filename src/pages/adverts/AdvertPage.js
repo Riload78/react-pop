@@ -59,18 +59,20 @@ const AdvertPage = () => {
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
             <>
-              <Advert
-                key={`viewAd-${advert.id}`}
-                idKey={'viewAd'}
-                link={false}
-                ad={advert}
-              />
-              <ModalConfirm
-                lanchTitle='Delete Advert'
-                modalText='The ad will be removed. Accept to confirm'
-                actionText='Accept'
-                action={handleDelete}
-              ></ModalConfirm>
+              <Container className='advert-wrapper'>
+                <Advert
+                  key={`viewAd-${advert.id}`}
+                  idKey={'viewAd'}
+                  link={false}
+                  ad={advert}
+                />
+                <ModalConfirm
+                  lanchTitle='Delete Advert'
+                  modalText='The ad will be removed. Accept to confirm'
+                  actionText='Accept'
+                  action={handleDelete}
+                ></ModalConfirm>
+              </Container>
             </>
           )}
         </Row>

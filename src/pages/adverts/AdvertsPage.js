@@ -109,7 +109,7 @@ const AdvertsPage = () => {
         OnOptionsChange={handleOptions}
       />
       {adverts.length !== 0 ? ( // Verifica si hay elementos en adverts
-        <Row xs={1} sm={2} md={3} lg={3} className='g-4'>
+        <Row xs={1} sm={2} md={3} lg={3} className='list-wrapper g-4'>
           {filteredAdverts.length !== 0 ? (
             filteredAdverts.map(filterAdvert => (
               <Advert

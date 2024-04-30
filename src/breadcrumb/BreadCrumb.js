@@ -1,4 +1,5 @@
 import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { Link, useLocation } from 'react-router-dom'
 const BreadCrumb = () => {
@@ -7,19 +8,21 @@ const BreadCrumb = () => {
   console.log(location)
   console.log(pathnames)
   return (
-    <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
-        {pathnames.map((path, index) => (
-          <Breadcrumb.Item active>
-            {index !== pathnames.length - 1 ? (
-              <Link to={`/${path}`}>{path}</Link>
-            ) : (
-              path
-            )}
-          </Breadcrumb.Item>
-        ))}
-      </Breadcrumb>
+    <Container className='breadcrumb-wrapper'>
+      <Row>
+        <Breadcrumb>
+          <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
+          {pathnames.map((path, index) => (
+            <Breadcrumb.Item key={path} active={index === pathnames.length - 1}>
+              {index !== pathnames.length - 1 ? (
+                <Link to={`/${path}`}>{path}</Link>
+              ) : (
+                path
+              )}
+            </Breadcrumb.Item>
+          ))}
+        </Breadcrumb>
+      </Row>
     </Container>
   )
 }

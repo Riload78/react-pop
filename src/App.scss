@@ -1,6 +1,33 @@
 @import './scss/custom.scss';
 @import './pages/login/Login.scss';
+@import './search/search.scss';
+@import './breadcrumb/breadcrumb.scss';
+@import './pages/adverts/adverts.scss';
 
-body{
+body {
     background-color: $bg-layout;
 }
+
+a {
+    text-decoration: none;
+    color:#2a2a2a;
+}
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $primary;
+}
+.badge{
+    font-weight: 400;
+}
+footer{
+    background-color: $primary;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    margin-top: 2rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
