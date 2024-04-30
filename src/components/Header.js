@@ -6,8 +6,9 @@ import auth from '../pages/login/service'
 import { useAuth } from '../pages/login/context'
 import { ReactComponent as Icon } from '../assets/images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import { ReactComponent as UserIcon } from '../assets/images/user.svg'
 import ModalConfirm from './ModalConfirm'
+import Customer from '../pages/login/Customer'
+
 
 const Header = () => {
   const { onLogout, isLogged, isSessionSaved } = useAuth()
@@ -28,14 +29,7 @@ const Header = () => {
           </Link>
           {isLogged && isSessionSaved ? (
             <Nav className='d-flex flex-row  flex-nowrap justify-content-end align-items-center gap-4'>
-              <Nav.Link
-                as={Button}
-                eventKey={2}
-                className='d-flex  align-items-center gap-2'
-              >
-                <UserIcon width='30' height='30' fill='#F2F2F2' />
-                Dank memes
-              </Nav.Link>
+              <Customer />
               <ModalConfirm
                 lanchTitle='Log Out'
                 modalText='You are going to log out. Are you sure?'
