@@ -59,7 +59,7 @@ const AdvertPage = () => {
         <Row xs={12} className='g-4'>
           {Object.keys(advert).length !== 0 && (
             <>
-              <Container className='advert-wrapper'>
+              <Container className='advert-wrapper p-2'>
                 <Advert
                   key={`viewAd-${advert.id}`}
                   idKey={'viewAd'}

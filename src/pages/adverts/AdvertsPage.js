@@ -77,6 +77,15 @@ const AdvertsPage = () => {
     }
     setTags(tagsArr);
   }
+
+  const handleReset = () => {
+    setFilterName('')
+    setFilterSale(null)
+    set_minValue(0)
+    set_maxValue(1000)
+    setTags([])
+  }
+
   filteredAdverts = adverts.filter(item => {
     const nameMatch = item.name.toLowerCase().includes(filterName.toLowerCase())
     console.log(filterSale)
@@ -99,6 +108,8 @@ const AdvertsPage = () => {
     </Row>
   ) : (
     <>
+      {adverts.length !== 0 ? ( // Verifica si hay elementos en adverts
+      <>
       <Search
         onSearch={handleSearch}
         onSale={handleSale}
@@ -108,7 +119,6 @@ const AdvertsPage = () => {
         max={max}
         OnOptionsChange={handleOptions}
       />
-      {adverts.length !== 0 ? ( // Verifica si hay elementos en adverts
         <Row xs={1} sm={2} md={3} lg={3} className='list-wrapper g-4'>
           {filteredAdverts.length !== 0 ? (
             filteredAdverts.map(filterAdvert => (
@@ -120,9 +130,10 @@ const AdvertsPage = () => {
               />
             ))
           ) : (
-            <NotResult />
+            <NotResult onReset={handleReset} />
           )}
         </Row>
+        </>
       ) : (
          <AdvertsEmptyPage />
       )}

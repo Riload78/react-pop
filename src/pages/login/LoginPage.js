@@ -56,7 +56,7 @@ const LoginPage = () => {
   const { email, password } = formValues
   const buttonDisabled = !email || !password || isLoading
   return (
-    <Container className='login-wrapper min-vh-100 d-flex justify-content-center'>
+    <Container className='login-wrapper d-flex justify-content-center'>
       <Row className='justify-content-center align-self-center g-4'>
         <Form className='login-form ' onSubmit={handleSubmit}>
           <h1>Login</h1>
