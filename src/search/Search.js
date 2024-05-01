@@ -19,7 +19,7 @@ const Search = ({
     <>
       <Container className='search-wrapper'>
         <Form>
-          <Row className='d-flex flex-wrap  justify-content-between align-items-center'>
+          <Row className='d-flex flex-wrap justify-content-between align-items-center'>
             <Col xs={12} md={6}>
               <Form.Label>Product Name</Form.Label>
               <Form.Control type='text' onChange={onSearch} />
@@ -45,6 +45,7 @@ const Search = ({
             </Col>
             <Col>
               <MultiSelect handleOptions={OnOptionsChange}></MultiSelect>
+              <small className='fs-6'>Ctrl + click to multiselect</small>
             </Col>
           </Row>
         </Form>
@@ -58,7 +59,7 @@ Search.propTypes = {
   onPrice: P.func.isRequired,
   maxPrice: P.number.isRequired,
   minPrice: P.number.isRequired,
-  max: P.number.isRequired,
+  max: P.number,
   valueName: P.string,
   OnOptionsChange: P.func.isRequired,
 }
