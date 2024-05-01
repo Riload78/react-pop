@@ -8,6 +8,8 @@ import { AuthContextProvider } from './pages/login/context.js'
 import { setAuthorizationHeader } from './api/client.js'
 import storage from './helper/storage.js'
 import BreadCrumb from './breadcrumb/BreadCrumb.js'
+import ErrorBoundary from './components/ErrorBoundary.js'
+
 const token = storage.get('auth')
 if (token) {
   setAuthorizationHeader(token)
@@ -16,15 +18,17 @@ if (token) {
 function App() {
   return (
     <>
-      <NotificationProvider>
-        <AuthContextProvider isSession={!!token}>
-          <Header />
-          <NotificationArea />
-          <BreadCrumb />
-          <RootRouter />
-          <Footer />
-        </AuthContextProvider>
-      </NotificationProvider>
+      <ErrorBoundary>
+        <NotificationProvider>
+          <AuthContextProvider isSession={!!token}>
+            <Header />
+            <NotificationArea />
+            <BreadCrumb />
+            <RootRouter />
+            <Footer />
+          </AuthContextProvider>
+        </NotificationProvider>
+      </ErrorBoundary>
     </>
   )
 }

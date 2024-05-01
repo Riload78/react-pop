@@ -28,10 +28,6 @@ const LoginPage = () => {
     }))
   }
 
-  useEffect(() => {
-    console.log('UseEffect LoginPage');
-  }, [])
-
   const handlerSwitch = event => {
     const isSaved = event.target.checked
     setIsSave(isSaved)
