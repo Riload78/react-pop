@@ -30,11 +30,9 @@ const AdvertsPage = () => {
           return advert.price > max ? advert.price : max
         }, 0)
         if (deletedAdvertId) {
-          addAdverts(prevAdverts =>
-            prevAdverts.filter(advert => advert.id !== deletedAdvertId)
-          )
+          const updatedAdvert = adverts.filter(advert => advert.id !== deletedAdvertId)
+          addAdverts(updatedAdvert)
         }
-
         setMax(maxPrice)
         set_maxValue(maxPrice)
         //setFilteredAdverts(adverts)
