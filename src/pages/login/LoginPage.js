@@ -66,7 +66,6 @@ const LoginPage = () => {
               type='email'
               name='email'
               value={email}
-              placeholder='Enter email'
               onChange={handlerChange}
             />
             <Form.Text className='text-muted'>
@@ -80,7 +79,6 @@ const LoginPage = () => {
               type='password'
               name='password'
               value={password}
-              placeholder='Password'
               onChange={handlerChange}
             />
           </Form.Group>
