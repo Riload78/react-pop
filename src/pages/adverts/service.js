@@ -15,8 +15,6 @@ const getAdverts = async () => {
 const getAdvert = async id => {
   try {
     const response = await client.get(`${advertsUrl}/${id}`)
-    
-    console.log(response)
     return response
   } catch (error) {
     throw new Error(error.message)

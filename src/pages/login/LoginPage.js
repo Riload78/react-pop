@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import auth from './service.js'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './context.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -63,6 +63,7 @@ const LoginPage = () => {
               name='email'
               value={email}
               onChange={handlerChange}
+              
             />
             <Form.Text className='text-muted'>
               We'll never share your email with anyone else.
@@ -76,6 +77,7 @@ const LoginPage = () => {
               name='password'
               value={password}
               onChange={handlerChange}
+              autoComplete='password'
             />
           </Form.Group>
           <Button

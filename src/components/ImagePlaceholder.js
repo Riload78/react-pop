@@ -9,7 +9,7 @@ const ImagePlaceholder = ({ photo }) => {
 }
 
 ImagePlaceholder.propTypes = {
-  photo: P.node.isRequired,
+  photo: P.node,
 }
 
 export default ImagePlaceholder

@@ -7,6 +7,7 @@ import dataAdvert from './service.js'
 import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
 import { useAdverts } from './AdvertContext.js'
+import { useNotification } from '../../notification/NotificationProvider.js'
 
 const AdvertPage = () => {
   const [advert, setAdvert] = useState({})
@@ -14,17 +15,15 @@ const AdvertPage = () => {
   const params = useParams()
   const navigate = useNavigate()
   const { markAdvertAsDeleted } = useAdverts()
+  const { showNotificationError } = useNotification()
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('El useEffect se está ejecutando en ad()')
       try {
         setIsLoading(true)
         const fetchAdvert = await dataAdvert.getAdvert(params.advertId)
-        console.log('fetchAdvert', fetchAdvert)
         setAdvert(fetchAdvert)
       } catch (error) {
-        console.log(error)
         setIsLoading(false)
         if (error) {
           navigate('/404')
@@ -34,13 +33,11 @@ const AdvertPage = () => {
       }
     }
     fetchData()
-    console.log('El useEffect se está ejecutando en raiz')
   }, [params.advertId, navigate])
 
   const handleDelete = () => {
-    console.log('mira que borro....')
     const id = advert.id
-    console.log(id)
+
     try {
       setIsLoading(true)
       dataAdvert.deleteAdvert(id)
@@ -48,7 +45,7 @@ const AdvertPage = () => {
       markAdvertAsDeleted(id)
       navigate('/adverts')
     } catch (error) {
-      console.log(error);
+      showNotificationError(error.message)
     }
   }
 

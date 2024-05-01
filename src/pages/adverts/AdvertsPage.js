@@ -8,17 +8,18 @@ import Advert from './Advert.js'
 import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
+import { useNotification } from '../../notification/NotificationProvider.js'
 
 const AdvertsPage = () => {
   const { adverts, deletedAdvertId, addAdverts } = useAdverts()
   const [isLoading, setIsLoading] = useState(false)
-  //let [filteredAdverts, setFilteredAdverts] = useState([])
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [minValue, set_minValue] = useState(0)
   const [maxValue, set_maxValue] = useState(1000)
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
+  const { showNotificationError } = useNotification()
 
   useEffect(() => {
     const fetchAdverts = async () => {
@@ -30,29 +31,26 @@ const AdvertsPage = () => {
           return advert.price > max ? advert.price : max
         }, 0)
         if (deletedAdvertId) {
-          const updatedAdvert = adverts.filter(advert => advert.id !== deletedAdvertId)
+          const updatedAdvert = adverts.filter(
+            advert => advert.id !== deletedAdvertId
+          )
           addAdverts(updatedAdvert)
         }
         setMax(maxPrice)
         set_maxValue(maxPrice)
-        //setFilteredAdverts(adverts)
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
-        throw new Error(error.message)
+        showNotificationError(error.message)
       }
     }
 
     fetchAdverts()
-    console.log('useEffect AdvertsPage')
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedAdvertId])
 
   const handleSearch = event => {
-    console.log(event)
-    console.log(event.target.value)
     const search = event.target.value
-
     setFilterName(search)
   }
 
@@ -63,7 +61,6 @@ const AdvertsPage = () => {
   }
 
   const handlePrice = event => {
-    console.log(event)
     const maxPrice = adverts.reduce((max, advert) => {
       return advert.price > max ? advert.price : max
     }, 0)
@@ -73,14 +70,10 @@ const AdvertsPage = () => {
   }
 
   const handleOptions = event => {
-    console.log(event)
-    let tagsArr = []
-    if (event.target.value.length !== 0) {
-      tagsArr = [...tagsArr, event.target.value]
-    } else {
-      tagsArr = []
-    }
-    setTags(tagsArr)
+    const options = Array.from(event.target.selectedOptions).map(
+      item => item.value
+    )
+    setTags(options)
   }
 
   const handleReset = () => {
@@ -92,14 +85,15 @@ const AdvertsPage = () => {
   }
 
   let filteredAdverts = adverts.filter(item => {
-    const nameMatch = item.name.toLowerCase().includes(filterName.toLowerCase())
-    console.log(filterSale)
+    const nameMatch = item.name
+      .toLowerCase()
+      .startsWith(filterName.toLowerCase())
     let saleMatch = true
     if (filterSale !== null) {
       saleMatch = item.sale === filterSale
     }
-    const priceMatch = item.price >= minValue && item.price <= maxValue
 
+    const priceMatch = item.price >= minValue && item.price <= maxValue
     const tagsMatch = tags.every(tag => item.tags.indexOf(tag) !== -1)
 
     return nameMatch && saleMatch && priceMatch && tagsMatch

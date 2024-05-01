@@ -3,10 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Switch from '../components/form/Switch'
 import MultiSelect from '../components/form/MuliSelect'
-import { useState } from 'react'
 import MultiRangeSlider from 'multi-range-slider-react'
 
 const Search = ({
@@ -35,20 +32,16 @@ const Search = ({
                 <option value='1'>Venta</option>
               </Form.Select>
             </Col>
-            {/* <Col>
-            <Form.Label>Range</Form.Label>
-            <FormRange id='price' value={sliderValue} onChange={onPrice} />
-          </Col> */}
             <Col xs={12} md={6}>
-                <Form.Label>Price</Form.Label>
-                <MultiRangeSlider
-                  min={0}
-                  max={max}
-                  step={50}
-                  minValue={minPrice}
-                  maxValue={maxPrice}
-                  onInput={onPrice}
-                />
+              <Form.Label>Price</Form.Label>
+              <MultiRangeSlider
+                min={0}
+                max={max}
+                step={50}
+                minValue={minPrice}
+                maxValue={maxPrice}
+                onInput={onPrice}
+              />
             </Col>
             <Col>
               <MultiSelect handleOptions={OnOptionsChange}></MultiSelect>
