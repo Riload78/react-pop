@@ -16,3 +16,9 @@
         margin-top: 2rem;
     }
 }
+
+.hstack{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}

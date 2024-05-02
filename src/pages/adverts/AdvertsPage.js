@@ -15,11 +15,18 @@ const AdvertsPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
-  const [minValue, set_minValue] = useState(0)
-  const [maxValue, set_maxValue] = useState(1000)
+  const [minValue, setMinValue] = useState(0)
+  const [maxValue, setMaxValue] = useState(1000)
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
   const { showNotificationError } = useNotification()
+
+  const getMaxPrice = adverts => {
+    return adverts.reduce(
+      (max, advert) => (advert.price > max ? advert.price : max),
+      0
+    )
+  }
 
   useEffect(() => {
     const fetchAdverts = async () => {
@@ -27,9 +34,7 @@ const AdvertsPage = () => {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
         addAdverts(adverts)
-        const maxPrice = adverts.reduce((max, advert) => {
-          return advert.price > max ? advert.price : max
-        }, 0)
+        const maxPrice = getMaxPrice(adverts)
         if (deletedAdvertId) {
           const updatedAdvert = adverts.filter(
             advert => advert.id !== deletedAdvertId
@@ -37,7 +42,7 @@ const AdvertsPage = () => {
           addAdverts(updatedAdvert)
         }
         setMax(maxPrice)
-        set_maxValue(maxPrice)
+        setMaxValue(maxPrice)
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
@@ -61,12 +66,10 @@ const AdvertsPage = () => {
   }
 
   const handlePrice = event => {
-    const maxPrice = adverts.reduce((max, advert) => {
-      return advert.price > max ? advert.price : max
-    }, 0)
+    const maxPrice = getMaxPrice(adverts)
     setMax(maxPrice)
-    set_minValue(event.minValue)
-    set_maxValue(event.maxValue)
+    setMinValue(event.minValue)
+    setMaxValue(event.maxValue)
   }
 
   const handleOptions = event => {
@@ -74,14 +77,6 @@ const AdvertsPage = () => {
       item => item.value
     )
     setTags(options)
-  }
-
-  const handleReset = () => {
-    setFilterName('')
-    setFilterSale(null)
-    set_minValue(0)
-    set_maxValue(1000)
-    setTags([])
   }
 
   let filteredAdverts = adverts.filter(item => {
@@ -129,7 +124,7 @@ const AdvertsPage = () => {
                     />
                   ))
                 ) : (
-                  <NotResult onReset={handleReset} />
+                  <NotResult />
                 )}
               </Row>
             </>

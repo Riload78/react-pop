@@ -56,7 +56,7 @@ const LoginPage = () => {
       <Row className='justify-content-center align-self-center g-4'>
         <Form className='login-form ' onSubmit={handleSubmit}>
           <h1>Login</h1>
-          <Form.Group className='mb-3' controlId='formBasicEmail'>
+          <Form.Group className='mb-3'>
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type='email'
@@ -70,7 +70,7 @@ const LoginPage = () => {
             </Form.Text>
           </Form.Group>
 
-          <Form.Group className='mb-3' controlId='formBasicPassword'>
+          <Form.Group className='mb-3'>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type='password'

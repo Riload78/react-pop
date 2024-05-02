@@ -21,11 +21,16 @@ const Search = ({
         <Form>
           <Row className='d-flex flex-wrap justify-content-between align-items-center'>
             <Col xs={12} md={6}>
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control type='text' onChange={onSearch} />
+              <Form.Label htmlFor='name'>Product Name</Form.Label>
+              <Form.Control
+                id='name'
+                type='text'
+                onChange={onSearch}
+                autoComplete='Product name'
+              />
             </Col>
             <Col xs={12} md={6}>
-              <Form.Label>Status</Form.Label>
+              <Form.Label htmlFor="sale">Status</Form.Label>
               <Form.Select id='sale' name='sale' onChange={onSale}>
                 <option>Default select</option>
                 <option value='0'>Compra</option>

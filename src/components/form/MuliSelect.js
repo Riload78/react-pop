@@ -18,8 +18,8 @@ const MultiSelect = ({handleOptions}) => {
 
 
   return (
-    <Form.Group className='mb-3' controlId='price'>
-      <Form.Label>Tags</Form.Label>
+    <Form.Group className='mb-3'>
+      <Form.Label htmlFor='multiple-select-tags'>Tags</Form.Label>
       <Form.Select
         aria-label='Default select example'
         id='multiple-select-tags'
