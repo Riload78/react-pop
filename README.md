@@ -1,5 +1,5 @@
 # Wallapop React App
-App developed with React on a Rest API (https://github.com/davidjj76/nodepop-api). It allows creating and listing products for sale/purchase, as well as filtering them. Additionally, it features a login system accessible only to registered users.
+App developed with React and a API Rest (https://github.com/davidjj76/nodepop-api). It allows creating and listing products for sale/purchase, as well as filtering them. Additionally, it features a login system accessible only to registered users.
 
 
 # Getting Started
