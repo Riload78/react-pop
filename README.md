@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# Wallapop React App
+App developed with React on a Rest API (https://github.com/davidjj76/nodepop-api). It allows creating and listing products for sale/purchase, as well as filtering them. Additionally, it features a login system accessible only to registered users.
+
+
+# Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Clone the frontend repository: https://github.com/Riload78/react-pop
+
+Clone API repository https://github.com/facebook/create-react-app
+
+In the FrontEnd repository, create a .env file whit the base URL
+````
+REACT_APP_API_BASE_URL
+````
+
+To install all dependencies
+````
+npm install
+````
 
 ## Available Scripts
 
