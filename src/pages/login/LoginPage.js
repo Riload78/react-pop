@@ -8,8 +8,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './context.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
-
+import { useDispatch } from 'react-redux'
+import { authLogin } from '../../store/actions.js'
+import { getIsSaved } from '../../store/selectors.js'
+import { useSelector } from 'react-redux'
+import { sessionSave } from '../../store/actions.js'
 const LoginPage = () => {
+  const dispatch = useDispatch()
   const { onLogin, changeSessionStatus } = useAuth()
   const { showNotificationSuccess, showNotificationError } = useNotification()
 
@@ -17,7 +22,8 @@ const LoginPage = () => {
     email: '',
     password: '',
   })
-  const [isSave, setIsSave] = useState(true)
+  //const [isSave, setIsSave] = useState(true)
+  const isSave = useSelector(getIsSaved)
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +36,8 @@ const LoginPage = () => {
 
   const handlerSwitch = event => {
     const isSaved = event.target.checked
-    setIsSave(isSaved)
+    // setIsSave(isSaved)
+    dispatch(sessionSave(isSaved))
     changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
   }
 
@@ -40,7 +47,8 @@ const LoginPage = () => {
     try {
       await auth.login(formValues, isSave)
       setIsLoading(false)
-      onLogin(isSave)
+      // onLogin(isSave)
+      dispatch(authLogin())
       showNotificationSuccess('LOGIN SUCCESSFUL')
       navigate('/')
     } catch (error) {

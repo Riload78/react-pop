@@ -1,3 +1,4 @@
+
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN,
@@ -12,8 +13,9 @@ export const authLogin = () => ({ type: AUTH_LOGIN })
 
 export const authLogout = () => ({ type: AUTH_LOGOUT })
 
-export const sessionSave = () => ({
-  type: SESSION_SAVE
+export const sessionSave = (isSaved) => ({
+  type: SESSION_SAVE,
+  payload: isSaved
 })
 
 export const getAdverts = adverts => ({
