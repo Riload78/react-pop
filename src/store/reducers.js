@@ -26,10 +26,10 @@ export const auth = (state = defaultState.auth, action) => {
   }
 }
 
-export const session = (state = {}, action) => {
+export const session = (state = defaultState.session, action) => {
   switch (action.type) {
     case SESSION_SAVE:
-      return true
+      return action.payload
     default:
       return state
   }

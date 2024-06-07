@@ -12,7 +12,6 @@ console.log(token)
 console.log(!!token)
 const store = configureStore({
   auth: !!token,
-  session: true,
   adverts: []
 })
 window.store = store

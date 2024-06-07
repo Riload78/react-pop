@@ -1,4 +1,5 @@
 export const getIsLogin = state => state.auth
+export const getIsLogout = state => !state.auth
 
 export const getIsSaved = state => state.session
 

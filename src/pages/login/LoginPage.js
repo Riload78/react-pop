@@ -23,10 +23,10 @@ const LoginPage = () => {
     password: '',
   })
   //const [isSave, setIsSave] = useState(true)
-  const isSave = useSelector(getIsSaved)
+  const isSessionSaved = useSelector(getIsSaved)
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-
+  console.log('isSaved del principio', isSessionSaved)
   const handlerChange = event => {
     setFormValues(currentFormValues => ({
       ...currentFormValues,
@@ -38,14 +38,14 @@ const LoginPage = () => {
     const isSaved = event.target.checked
     // setIsSave(isSaved)
     dispatch(sessionSave(isSaved))
-    changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
+    //changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
   }
 
   const handleSubmit = async event => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      await auth.login(formValues, isSave)
+      await auth.login(formValues, isSessionSaved)
       setIsLoading(false)
       // onLogin(isSave)
       dispatch(authLogin())
@@ -71,7 +71,6 @@ const LoginPage = () => {
               name='email'
               value={email}
               onChange={handlerChange}
-              
             />
             <Form.Text className='text-muted'>
               We'll never share your email with anyone else.
@@ -114,8 +113,10 @@ const LoginPage = () => {
           <Form.Check
             type='switch'
             id='custom-switch'
-            label={!isSave ? "I wan't save the session" : 'Save the session'}
-            checked={isSave}
+            label={
+              !isSessionSaved ? "I wan't save the session" : 'Save the session'
+            }
+            checked={isSessionSaved}
             onChange={handlerSwitch}
           />
         </Form>

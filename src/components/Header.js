@@ -8,16 +8,22 @@ import { ReactComponent as Icon } from '../assets/images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalConfirm from './ModalConfirm'
 import Customer from '../pages/login/Customer'
-import { getIsLogin } from '../store/selectors'
+import { getIsLogin, getIsLogout } from '../store/selectors'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { authLogout } from '../store/actions'
+import { getIsSaved } from '../store/selectors'
 
 const Header = () => {
-  const { onLogout, isSessionSaved } = useAuth()
+  const dispatch = useDispatch()
+ // const { onLogout, isSessionSaved } = useAuth()
   const isLogged = useSelector(getIsLogin)
+  const isSessionSaved = useSelector(getIsSaved)
   const navigate = useNavigate()
   const handlerLogout = event => {
     event.preventDefault()
-    onLogout()
+    // onLogout()
+    dispatch(authLogout())
     auth.logout()
     navigate('/login')
   }
