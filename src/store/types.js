@@ -1,5 +1,6 @@
 export const AUTH_LOGIN = 'auth/login'
 export const AUTH_LOGOUT = 'auth/logout'
+export const SESSION_SAVE = 'session/save'
 export const ADVERTS_GET = 'adverts/get'
 export const ADVERTS_POST = 'adverts/post'
 export const ADVERTS_DELETE = 'adverts/delete'

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN,
+  SESSION_SAVE,
   ADVERTS_GET,
   ADVERTS_POST,
   ADVERTS_DELETE,
@@ -10,6 +11,7 @@ import {
 
 export const defaultState = {
   auth: false,
+  session: true,
   adverts: [],
 }
 
@@ -19,6 +21,15 @@ export const auth = (state = defaultState.auth, action) => {
       return true
     case AUTH_LOGOUT:
       return false
+    default:
+      return state
+  }
+}
+
+export const session = (state = {}, action) => {
+  switch (action.type) {
+    case SESSION_SAVE:
+      return true
     default:
       return state
   }
@@ -41,6 +52,7 @@ export const adverts = (state = defaultState.adverts, action) => {
 
 const reducer = combineReducers({
   auth,
+  session,
   adverts,
 })
 

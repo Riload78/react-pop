@@ -1,8 +1,20 @@
-import {AUTH_LOGOUT, AUTH_LOGIN, ADVERTS_GET, ADVERTS_POST, ADVERTS_DELETE, ADVERTS_GET_TAGS} from './types'
+import {
+  AUTH_LOGOUT,
+  AUTH_LOGIN,
+  SESSION_SAVE,
+  ADVERTS_GET,
+  ADVERTS_POST,
+  ADVERTS_DELETE,
+  ADVERTS_GET_TAGS,
+} from './types'
 
 export const authLogin = () => ({ type: AUTH_LOGIN })
 
 export const authLogout = () => ({ type: AUTH_LOGOUT })
+
+export const sessionSave = () => ({
+  type: SESSION_SAVE
+})
 
 export const getAdverts = adverts => ({
   type: ADVERTS_GET,
