@@ -1,7 +1,9 @@
 
 import {
   AUTH_LOGOUT,
-  AUTH_LOGIN,
+  AUTH_LOGIN_PENDING,
+  AUTH_LOGIN_FULFILLED,
+  AUTH_LOGIN_REJECTED,
   SESSION_SAVE,
   ADVERTS_GET,
   ADVERTS_POST,
@@ -9,7 +11,17 @@ import {
   ADVERTS_GET_TAGS,
 } from './types'
 
-export const authLogin = () => ({ type: AUTH_LOGIN })
+export const authLogin = () => ({ })
+
+export const authLoginPending = () => ({ type: AUTH_LOGIN_PENDING })
+
+export const authLoginFulfilled = () => ({ type: AUTH_LOGIN_FULFILLED })
+
+export const authLoginRejected = (error) => ({ 
+  type: AUTH_LOGIN_REJECTED, 
+  payload: error,
+  error: true
+})
 
 export const authLogout = () => ({ type: AUTH_LOGOUT })
 

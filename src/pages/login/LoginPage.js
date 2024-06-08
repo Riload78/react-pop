@@ -8,8 +8,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { authLogin,  } from '../../store/actions.js'
-import { getIsSaved } from '../../store/selectors.js'
+import { authLogin, authLoginPending, authLoginFulfilled, authLoginRejected  } from '../../store/actions.js'
+import { getIsLoading, getIsSaved } from '../../store/selectors.js'
 import { sessionSave } from '../../store/actions.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
 const LoginPage = () => {
@@ -24,7 +24,8 @@ const LoginPage = () => {
   //const [isSave, setIsSave] = useState(true)
   const isSessionSaved = useSelector(getIsSaved)
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
+  const isLoading = useSelector(getIsLoading)
   console.log('isSaved del principio', isSessionSaved)
   const handlerChange = event => {
     setFormValues(currentFormValues => ({
@@ -42,16 +43,18 @@ const LoginPage = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    setIsLoading(true)
+    // setIsLoading(true)
     try {
+      dispatch(authLoginPending())
       await auth.login(formValues, isSessionSaved)
-      setIsLoading(false)
+      // setIsLoading(false)
       // onLogin(isSave)
-      dispatch(authLogin())
+      dispatch(authLoginFulfilled())
       showNotificationSuccess('LOGIN SUCCESSFUL')
       navigate('/')
     } catch (error) {
-      setIsLoading(false)
+      // setIsLoading(false)
+      dispatch(authLoginRejected(error))
       showNotificationError(error.message)
     }
   }
