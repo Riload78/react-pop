@@ -18,10 +18,11 @@ export const sessionSave = (isSaved) => ({
   payload: isSaved
 })
 
-export const getAdverts = adverts => ({
+export const advertsLoad = adverts => ({
   type: ADVERTS_GET,
   payload: adverts,
 })
+
 
 export const postAdvert = advert => ({
   type: ADVERTS_POST,

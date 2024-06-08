@@ -8,21 +8,26 @@ import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
 import { useAdverts } from './AdvertContext.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAdvert } from '../../store/selectors.js'
+import { advertLoad } from '../../store/actions.js'
 
 const AdvertPage = () => {
-  const [advert, setAdvert] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const params = useParams()
   const navigate = useNavigate()
   const { markAdvertAsDeleted } = useAdverts()
   const { showNotificationError } = useNotification()
+  // const [advert, setAdvert] = useState({})
+  const advert = useSelector(getAdvert(params.advertId))
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
         const fetchAdvert = await dataAdvert.getAdvert(params.advertId)
-        setAdvert(fetchAdvert)
+        // setAdvert(fetchAdvert)
+        dispach(advertLoad(fetchAdvert))
       } catch (error) {
         setIsLoading(false)
         if (error) {
@@ -33,8 +38,8 @@ const AdvertPage = () => {
       }
     }
     fetchData()
-  }, [params.advertId, navigate])
-
+  }, [params.advertId, navigate, dispach])
+ */
   const handleDelete = () => {
     const id = advert.id
 

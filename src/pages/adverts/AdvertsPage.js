@@ -9,9 +9,14 @@ import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
+import { getAdverts } from '../../store/selectors.js'
+import { advertsLoad } from '../../store/actions.js'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
-  const { adverts, deletedAdvertId, addAdverts } = useAdverts()
+  const dispatch = useDispatch()
+  const { deletedAdvertId, addAdverts } = useAdverts()
+  const adverts = useSelector(getAdverts)
   const [isLoading, setIsLoading] = useState(false)
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
@@ -33,6 +38,7 @@ const AdvertsPage = () => {
       try {
         setIsLoading(true)
         const adverts = await dataAdvert.getAdverts()
+        dispatch(advertsLoad(adverts))
         addAdverts(adverts)
         const maxPrice = getMaxPrice(adverts)
         if (deletedAdvertId) {
