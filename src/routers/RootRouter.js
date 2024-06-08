@@ -5,14 +5,13 @@ import AdvertPage from '../pages/adverts/AdvertPage'
 import NewAdvertPage from '../pages/adverts/NewAdvertPage'
 import NotFound from '../pages/NotFound'
 import RequiredLogin from '../components/RequireLogin'
-import { useAuth } from '../pages/login/context'
 import { AdvertProvider } from '../pages/adverts/AdvertContext'
 import { useSelector } from 'react-redux'
 import { getIsLogin } from '../store/selectors'
 const RootRouter = () => {
-  // const { isLogged } = useAuth()
+
   const isLogged = useSelector(getIsLogin)
-  console.log('isLogged desde RootRouter',isLogged);
+ 
   return (
     <>
       <Routes>
@@ -23,7 +22,6 @@ const RootRouter = () => {
         <Route
           path='/adverts'
           element={
-            
             <RequiredLogin>
               <AdvertProvider>
                 <Outlet />

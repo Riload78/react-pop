@@ -3,26 +3,21 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import auth from '../pages/login/service'
-import { useAuth } from '../pages/login/context'
 import { ReactComponent as Icon } from '../assets/images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalConfirm from './ModalConfirm'
+import { useSelector, useDispatch } from 'react-redux'
 import Customer from '../pages/login/Customer'
-import { getIsLogin, getIsLogout } from '../store/selectors'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
 import { authLogout } from '../store/actions'
-import { getIsSaved } from '../store/selectors'
+import { getIsSaved, getIsLogin } from '../store/selectors'
 
 const Header = () => {
   const dispatch = useDispatch()
- // const { onLogout, isSessionSaved } = useAuth()
   const isLogged = useSelector(getIsLogin)
   const isSessionSaved = useSelector(getIsSaved)
   const navigate = useNavigate()
   const handlerLogout = event => {
     event.preventDefault()
-    // onLogout()
     dispatch(authLogout())
     auth.logout()
     navigate('/login')

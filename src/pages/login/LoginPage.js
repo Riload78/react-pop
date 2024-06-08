@@ -6,16 +6,15 @@ import Spinner from 'react-bootstrap/Spinner'
 import auth from './service.js'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from './context.js'
-import { useNotification } from '../../notification/NotificationProvider.js'
 import { useDispatch } from 'react-redux'
-import { authLogin } from '../../store/actions.js'
-import { getIsSaved } from '../../store/selectors.js'
 import { useSelector } from 'react-redux'
+import { authLogin,  } from '../../store/actions.js'
+import { getIsSaved } from '../../store/selectors.js'
 import { sessionSave } from '../../store/actions.js'
+import { useNotification } from '../../notification/NotificationProvider.js'
 const LoginPage = () => {
   const dispatch = useDispatch()
-  const { onLogin, changeSessionStatus } = useAuth()
+
   const { showNotificationSuccess, showNotificationError } = useNotification()
 
   const [formValues, setFormValues] = useState({
