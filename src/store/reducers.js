@@ -37,11 +37,12 @@ export const session = (state = defaultState.session, action) => {
 }
 
 export const adverts = (state = defaultState.adverts, action) => {
+  console.log('adverts reducer state:', state)
   switch (action.type) {
     case ADVERTS_GET:
       return action.payload
     case ADVERTS_POST:
-      return [...state.adverts, action.payload]
+      return [...state, action.payload]
     case ADVERTS_DELETE:
       return [
         ...state.adverts.filter(advert => advert.id !== action.payload.id),

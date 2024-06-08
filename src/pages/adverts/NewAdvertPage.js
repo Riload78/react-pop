@@ -11,8 +11,12 @@ import validation from '../../helper/validation.js'
 import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
 import { useNavigate } from 'react-router-dom'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { postAdvert } from '../../store/actions.js'
+import { getAdverts } from '../../store/selectors.js'
 const NewAdvertPage = () => {
+  const dispatch = useDispatch()
+
   const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
@@ -37,6 +41,7 @@ const NewAdvertPage = () => {
     const validateResult = validation(newAdvert)
     if (validateResult.length === 0) {
       postData(newAdvert)
+      
     } else {
       const errorMessage = validateResult.join(' || ')
       showNotificationError(errorMessage)
@@ -67,6 +72,7 @@ const NewAdvertPage = () => {
   const postData = async data => {
     try {
       const response = await dataAdvert.postAdvert(data)
+      dispatch(postAdvert(response))
       navigate(`/adverts/${response.id}`)
       showNotificationSuccess('The ad has been created successfully')
     } catch (error) {
