@@ -2,6 +2,7 @@ export const getIsLogin = state => state.auth
 export const getIsLogout = state => !state.auth
 
 export const getIsLoading = state => state.ui.loading
+export const getIsNotification = state => state.ui.message
 
 export const getIsSaved = state => state.session
 

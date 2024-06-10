@@ -8,7 +8,7 @@ const NotificationContext = createContext({
   closeNotification: () => {}, // Proporcionar un método para cerrar la notificación
 })
 
-export const NotificationProvider = ({ children }) => {
+export const  NotificationProvider = ({ children }) => {
   const [notification, setNotification] = useState(null)
 
   const showNotificationSuccess = message => {

@@ -2,7 +2,6 @@ import './App.scss'
 import Header from './components/Header.js'
 import Footer from './components/Footer.js'
 import RootRouter from './routers/RootRouter.js'
-import { NotificationProvider } from './notification/NotificationProvider' // Importa tu NotificationProvider
 import NotificationArea from './notification/Notification.js'
 import { setAuthorizationHeader } from './api/client.js'
 import storage from './helper/storage.js'
@@ -19,13 +18,11 @@ function App() {
   return (
     <>
       <ErrorBoundary>
-        <NotificationProvider>
           <Header />
           <NotificationArea />
           <BreadCrumb />
           <RootRouter />
           <Footer />
-        </NotificationProvider>
       </ErrorBoundary>
     </>
   )

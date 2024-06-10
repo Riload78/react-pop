@@ -6,20 +6,26 @@ import {
   AUTH_LOGIN_REJECTED,
   SESSION_SAVE,
   ADVERTS_GET,
+  ADVERTS_GET_PENDING,
+  ADVERTS_GET_FULFILLED,
+  ADVERTS_GET_REJECTED,
   ADVERTS_POST,
   ADVERTS_DELETE,
   ADVERTS_GET_TAGS,
-
+  NOTIFICATION_CLOSE,
 } from './types'
 
 export const defaultState = {
   auth: false,
   session: true,
   adverts: [],
-  ui : {
+  ui: {
     loading: false,
-    error: null
-  }
+    message: {
+      type: null,
+      message: null,
+    },
+  },
 }
 
 export const auth = (state = defaultState.auth, action) => {
@@ -45,6 +51,8 @@ export const session = (state = defaultState.session, action) => {
 export const adverts = (state = defaultState.adverts, action) => {
   console.log('adverts reducer state:', state)
   switch (action.type) {
+    case ADVERTS_GET_FULFILLED:
+      return action.payload
     case ADVERTS_GET:
       return action.payload
     case ADVERTS_POST:
@@ -64,19 +72,63 @@ export const ui = (state = defaultState.ui, action) => {
       return {
         ...state,
         loading: true,
-        error: null
+        message: {
+          type: null,
+          message: null,
+        },
       }
     case AUTH_LOGIN_FULFILLED:
       return {
         ...state,
         loading: false,
-        error: null
+        message: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
       }
     case AUTH_LOGIN_REJECTED:
       return {
         ...state,
         loading: false,
-        error: action.payload
+        message: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
+      }
+    case ADVERTS_GET_PENDING:
+      return {
+        ...state,
+        loading: true,
+        message: {
+          type: null,
+          message: null,
+        },
+      }
+    case ADVERTS_GET_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        message: {
+          type: null,
+          message: null,
+        },
+      }
+    case ADVERTS_GET_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        message: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
+      }
+    case NOTIFICATION_CLOSE:
+      return {
+        ...state,
+        message: {
+          type: null,
+          message: null,
+        },
       }
     default:
       return state
@@ -87,7 +139,7 @@ const reducer = combineReducers({
   auth,
   session,
   adverts,
-  ui
+  ui,
 })
 
 export default reducer

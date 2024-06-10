@@ -49,13 +49,13 @@ const LoginPage = () => {
       await auth.login(formValues, isSessionSaved)
       // setIsLoading(false)
       // onLogin(isSave)
-      dispatch(authLoginFulfilled())
-      showNotificationSuccess('LOGIN SUCCESSFUL')
+      dispatch(authLoginFulfilled({type: 'success', message: 'LOGIN SUCCESSFUL'}))
+      // showNotificationSuccess('LOGIN SUCCESSFUL')
       navigate('/')
     } catch (error) {
       // setIsLoading(false)
-      dispatch(authLoginRejected(error))
-      showNotificationError(error.message)
+      dispatch(authLoginRejected({type: 'error', message: error.message}))
+      // showNotificationError(error.message)
     }
   }
 

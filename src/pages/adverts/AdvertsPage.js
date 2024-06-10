@@ -9,22 +9,22 @@ import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
-import { getAdverts } from '../../store/selectors.js'
-import { advertsLoad } from '../../store/actions.js'
+import { getAdverts, getIsLoading} from '../../store/selectors.js'
+import { advertsFulfilled, advertsLoad, advertsPending, advertsRejected } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
   const dispatch = useDispatch()
   const { deletedAdvertId, addAdverts } = useAdverts()
   const adverts = useSelector(getAdverts)
-  const [isLoading, setIsLoading] = useState(false)
+  const isLoading = useSelector(getIsLoading)
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(1000)
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
-  const { showNotificationError } = useNotification()
+
 
   const getMaxPrice = adverts => {
     return adverts.reduce(
@@ -36,10 +36,9 @@ const AdvertsPage = () => {
   useEffect(() => {
     const fetchAdverts = async () => {
       try {
-        setIsLoading(true)
+        dispatch(advertsPending())
         const adverts = await dataAdvert.getAdverts()
-        dispatch(advertsLoad(adverts))
-        addAdverts(adverts)
+        dispatch(advertsFulfilled(adverts))
         const maxPrice = getMaxPrice(adverts)
         if (deletedAdvertId) {
           const updatedAdvert = adverts.filter(
@@ -49,10 +48,8 @@ const AdvertsPage = () => {
         }
         setMax(maxPrice)
         setMaxValue(maxPrice)
-        setIsLoading(false)
       } catch (error) {
-        setIsLoading(false)
-        showNotificationError(error.message)
+        dispatch(advertsRejected({ type: 'error', message: error.message }))
       }
     }
 
