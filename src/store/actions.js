@@ -1,5 +1,5 @@
 
-import { adverts } from './reducers'
+import auth from '../pages/login/service.js'
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN_PENDING,
@@ -16,7 +16,18 @@ import {
   NOTIFICATION_CLOSE 
 } from './types'
 
-export const authLogin = () => ({ })
+export const authLogin = (credentials, isSessionSaved) => {
+  return async function(dispatch) {
+  
+    try {
+      dispatch(authLoginPending())
+      await auth.login(credentials)
+      dispatch(authLoginFulfilled({type: 'success', message: 'LOGIN SUCCESSFUL'}))
+    } catch (error) {
+      dispatch(authLoginRejected({type: 'error', message: error.message}))
+    }
+  }
+ }
 
 export const authLoginPending = () => ({ type: AUTH_LOGIN_PENDING })
 

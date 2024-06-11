@@ -3,12 +3,11 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
-import auth from './service.js'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { authLogin, authLoginPending, authLoginFulfilled, authLoginRejected  } from '../../store/actions.js'
+import { authLogin} from '../../store/actions.js'
 import { getIsLoading, getIsSaved } from '../../store/selectors.js'
 import { sessionSave } from '../../store/actions.js'
 import { useNotification } from '../../notification/NotificationProvider.js'
@@ -36,27 +35,14 @@ const LoginPage = () => {
 
   const handlerSwitch = event => {
     const isSaved = event.target.checked
-    // setIsSave(isSaved)
     dispatch(sessionSave(isSaved))
-    //changeSessionStatus(isSaved) // Cambiar el estado de la sesión guardada
   }
 
   const handleSubmit = async event => {
     event.preventDefault()
-    // setIsLoading(true)
-    try {
-      dispatch(authLoginPending())
-      await auth.login(formValues, isSessionSaved)
-      // setIsLoading(false)
-      // onLogin(isSave)
-      dispatch(authLoginFulfilled({type: 'success', message: 'LOGIN SUCCESSFUL'}))
-      // showNotificationSuccess('LOGIN SUCCESSFUL')
-      navigate('/')
-    } catch (error) {
-      // setIsLoading(false)
-      dispatch(authLoginRejected({type: 'error', message: error.message}))
-      // showNotificationError(error.message)
-    }
+
+    dispatch(authLogin(formValues, isSessionSaved))
+    navigate('/')
   }
 
   const { email, password } = formValues
