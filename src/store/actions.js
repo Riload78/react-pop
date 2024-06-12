@@ -21,7 +21,7 @@ export const authLogin = (credentials, isSessionSaved) => {
   
     try {
       dispatch(authLoginPending())
-      await auth.login(credentials)
+      await auth.login(credentials, isSessionSaved)
       dispatch(authLoginFulfilled({type: 'success', message: 'LOGIN SUCCESSFUL'}))
     } catch (error) {
       dispatch(authLoginRejected({type: 'error', message: error.message}))
@@ -31,22 +31,22 @@ export const authLogin = (credentials, isSessionSaved) => {
 
 export const authLoginPending = () => ({ type: AUTH_LOGIN_PENDING })
 
-export const authLoginFulfilled = (success) => ({ 
+export const authLoginFulfilled = success => ({
   type: AUTH_LOGIN_FULFILLED,
   payload: success,
-  message: {
+  notification: {
     type: success.type,
-    message: success.message
-  }
+    message: success.message,
+  },
 })
 
-export const authLoginRejected = (error) => ({ 
-  type: AUTH_LOGIN_REJECTED, 
+export const authLoginRejected = error => ({
+  type: AUTH_LOGIN_REJECTED,
   payload: error,
-  message: {
+  notification: {
     type: error.type,
-    message: error.message
-  }
+    message: error.message,
+  },
 })
 
 export const authLogout = () => ({ type: AUTH_LOGOUT })
@@ -61,12 +61,8 @@ export const advertsLoad = adverts => ({
   payload: adverts,
 })
 
-export const advertsPending = () => ({ 
+export const advertsPending = () => ({
   type: ADVERTS_GET_PENDING,
-  message: {
-    type: null,
-    message: null
-  },
   adverts: [],
 })
 
@@ -78,10 +74,10 @@ export const advertsFulfilled = (adverts) => ({
 export const advertsRejected = error => ({
   type: ADVERTS_GET_REJECTED,
   payload: error,
-  message: {
+  notification: {
     type: error.type,
-    message: error.message
-  }
+    message: error.message,
+  },
 })
 
 export const postAdvert = advert => ({
@@ -101,11 +97,11 @@ export const getTags = tags => ({
 
 
 
-export const hideNotification = () => ({ 
+export const hideNotification = () => ({
   type: NOTIFICATION_CLOSE,
   payload: null,
-  message:{
+  notification: {
     type: null,
-    message: null
-  }
+    message: null,
+  },
 })

@@ -21,7 +21,7 @@ export const defaultState = {
   adverts: [],
   ui: {
     loading: false,
-    message: {
+    notification: {
       type: null,
       message: null,
     },
@@ -67,12 +67,13 @@ export const adverts = (state = defaultState.adverts, action) => {
 }
 
 export const ui = (state = defaultState.ui, action) => {
+  console.log('ui reducer state:', state);
   switch (action.type) {
     case AUTH_LOGIN_PENDING:
       return {
         ...state,
         loading: true,
-        message: {
+        notification: {
           type: null,
           message: null,
         },
@@ -81,7 +82,7 @@ export const ui = (state = defaultState.ui, action) => {
       return {
         ...state,
         loading: false,
-        message: {
+        notification: {
           type: action.payload.type,
           message: action.payload.message,
         },
@@ -90,7 +91,7 @@ export const ui = (state = defaultState.ui, action) => {
       return {
         ...state,
         loading: false,
-        message: {
+        notification: {
           type: action.payload.type,
           message: action.payload.message,
         },
@@ -99,25 +100,25 @@ export const ui = (state = defaultState.ui, action) => {
       return {
         ...state,
         loading: true,
-        message: {
-          type: null,
-          message: null,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
         },
       }
     case ADVERTS_GET_FULFILLED:
       return {
         ...state,
         loading: false,
-        message: {
-          type: null,
-          message: null,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
         },
       }
     case ADVERTS_GET_REJECTED:
       return {
         ...state,
         loading: false,
-        message: {
+        notification: {
           type: action.payload.type,
           message: action.payload.message,
         },
@@ -125,7 +126,7 @@ export const ui = (state = defaultState.ui, action) => {
     case NOTIFICATION_CLOSE:
       return {
         ...state,
-        message: {
+        notification: {
           type: null,
           message: null,
         },

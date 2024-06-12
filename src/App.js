@@ -18,11 +18,11 @@ function App() {
   return (
     <>
       <ErrorBoundary>
-          <Header />
-          <NotificationArea />
-          <BreadCrumb />
-          <RootRouter />
-          <Footer />
+        <Header />
+        <BreadCrumb />
+        <NotificationArea />
+        <RootRouter />
+        <Footer />
       </ErrorBoundary>
     </>
   )

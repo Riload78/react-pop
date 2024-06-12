@@ -8,16 +8,16 @@ import Advert from './Advert.js'
 import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
-import { useNotification } from '../../notification/NotificationProvider.js'
+// import { useNotification } from '../../notification/NotificationProvider.js'
 import { getAdverts, getIsLoading} from '../../store/selectors.js'
 import { advertsFulfilled, advertsLoad, advertsPending, advertsRejected } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
   const dispatch = useDispatch()
-  const { deletedAdvertId, addAdverts } = useAdverts()
   const adverts = useSelector(getAdverts)
   const isLoading = useSelector(getIsLoading)
+  const { deletedAdvertId, addAdverts } = useAdverts()
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [minValue, setMinValue] = useState(0)
