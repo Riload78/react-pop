@@ -3,7 +3,7 @@ import { composeWithDevTools } from '@redux-devtools/extension'
 import * as reducers from './reducers'
 import * as actionCreators from './actions'
 import { logger } from './middleware'
-import { withExtraArgument } from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 
 const reducer = combineReducers(reducers)
 
@@ -14,10 +14,10 @@ export default function configureStore(preloadedState) {
     reducer,
     preloadedState,
     composeEnhancers(
-      applyMiddleware(
-        withExtraArgument(),
-        logger
-      )),
+      applyMiddleware(logger, thunk),
+     ) 
+
   )
+
   return store
 }

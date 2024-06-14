@@ -8,7 +8,9 @@ import {
   ADVERTS_GET_PENDING,
   ADVERTS_GET_FULFILLED,
   ADVERTS_GET_REJECTED,
-  ADVERTS_POST,
+  ADVERTS_POST_PENDING,
+  ADVERTS_POST_FULFILLED,
+  ADVERTS_POST_REJECTED,
   ADVERTS_DELETE,
   ADVERTS_GET_TAGS,
   NOTIFICATION_CLOSE,
@@ -62,8 +64,12 @@ export const adverts = (state = defaultState.adverts, action) => {
       return { ...state, loaded: false }
     case ADVERTS_GET_PENDING:
       return { ...state, loaded: false }
-    case ADVERTS_POST:
-      return { ...state, data: [...state.data, action.payload] }
+    case ADVERTS_POST_FULFILLED:
+      return { ...state, data: [action.payload, ...state.data] }
+    case ADVERTS_POST_REJECTED:
+      return state
+    case ADVERTS_POST_PENDING:
+      return state
     case ADVERTS_DELETE:
       return {
         ...state,
@@ -83,7 +89,8 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_DETAIL_PENDING:
       return {
         ...state,
-        loaded: false,
+        loaded: true,
+        data: [state.data]
       }
     default:
       return state
@@ -165,6 +172,33 @@ export const ui = (state = defaultState.ui, action) => {
         },
       }
     case ADVERTS_DETAIL_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
+      }
+    case ADVERTS_POST_PENDING:
+      return {
+        ...state,
+        loading: true,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case ADVERTS_POST_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case ADVERTS_POST_REJECTED:
       return {
         ...state,
         loading: false,

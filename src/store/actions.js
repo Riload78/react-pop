@@ -1,6 +1,10 @@
 import auth from '../pages/login/service.js'
 import dataAdvert from '../pages/adverts/service.js'
-import { isAdvertsLoaded, getAdvert } from './selectors.js'
+import {
+  isAdvertsLoaded,
+  getAdvert,
+  isAdvertDetailLoaded,
+} from './selectors.js'
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN_PENDING,
@@ -10,7 +14,9 @@ import {
   ADVERTS_GET_PENDING,
   ADVERTS_GET_FULFILLED,
   ADVERTS_GET_REJECTED,
-  ADVERTS_POST,
+  ADVERTS_POST_PENDING,
+  ADVERTS_POST_FULFILLED,
+  ADVERTS_POST_REJECTED,
   ADVERTS_DELETE,
   ADVERTS_GET_TAGS,
   NOTIFICATION_CLOSE,
@@ -84,10 +90,43 @@ export const advertsRejected = error => ({
   },
 })
 
-export const postAdvert = advert => ({
-  type: ADVERTS_POST,
+
+
+// ADVERT POST
+export const advertPostPending = () => ({
+  type: ADVERTS_POST_PENDING,
+})
+
+export const advertPostFulfilled = advert => ({
+  type: ADVERTS_POST_FULFILLED,
   payload: advert,
 })
+
+export const advertPostRejected = error => ({
+  type: ADVERTS_POST_REJECTED,
+  payload: error,
+  notification: {
+    type: error.type,
+    message: error.message,
+  },
+})
+
+
+
+export const createAdvert = advert => {
+  return async function (dispatch) {
+    try {
+      dispatch(advertPostPending())
+      const {id}= await dataAdvert.postAdvert(advert)
+      const newAdvert = await dataAdvert.getAdvert(id)
+      console.log('newAdvert:', newAdvert)
+      dispatch(advertPostFulfilled(newAdvert))
+      return newAdvert
+    } catch (error) {
+      dispatch(advertPostRejected({ type: 'error', message: error.message }))
+    }
+  }
+}
 
 export const deleteAdvert = advert => ({
   type: ADVERTS_DELETE,
@@ -103,7 +142,7 @@ export const advertsLoad = () => {
   return async function (dispatch, getState) {
     const state = getState()
     console.log('state:', state)
-    console.log(isAdvertsLoaded(state))
+    console.log(isAdvertsLoaded(getState()))
     if (isAdvertsLoaded(state)) {
       console.log('adverts already loaded')
       return
@@ -140,8 +179,7 @@ export const advertDetailRejected = error => ({
 export const advertLoad = advertId => {
   return async function (dispatch, getState) {
     const state = getState()
-    console.log('advertLoad state:', state);
-    if (getAdvert(advertId)(state)) {
+    if (isAdvertDetailLoaded(state)) {
       return
     }
     try {

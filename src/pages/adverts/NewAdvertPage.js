@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { postAdvert } from '../../store/actions.js'
+import { createAdvert } from '../../store/actions.js'
 import { getAdverts } from '../../store/selectors.js'
 const NewAdvertPage = () => {
   const dispatch = useDispatch()
@@ -70,14 +70,8 @@ const NewAdvertPage = () => {
   }
 
   const postData = async data => {
-    try {
-      const response = await dataAdvert.postAdvert(data)
-      dispatch(postAdvert(response))
-      navigate(`/adverts/${response.id}`)
-      showNotificationSuccess('The ad has been created successfully')
-    } catch (error) {
-      showNotificationError(error.message)
-    }
+    const response = await dispatch(createAdvert(data))
+    navigate(`/adverts/${response.id}`)
   }
 
   const allValid = Object.values(isValid).every(Boolean) // Verifica que todos los campos sean válidos

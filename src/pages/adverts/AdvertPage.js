@@ -9,7 +9,10 @@ import ModalConfirm from '../../components/ModalConfirm.js'
 //import { useAdverts } from './AdvertContext.js'
 //import { useNotification } from '../../notification/NotificationProvider.js'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAdvert, getIsLoading } from '../../store/selectors.js'
+import {
+  getAdvert,
+  getIsLoading,
+} from '../../store/selectors.js'
 import { advertLoad } from '../../store/actions.js'
 
 const AdvertPage = () => {
@@ -24,6 +27,7 @@ const AdvertPage = () => {
   console.log('advert', advert);
 
   useEffect(() => {
+    console.log('useEffect advertId:', advertId);
     dispach(advertLoad(advertId))
    
   }, [dispach, advertId])

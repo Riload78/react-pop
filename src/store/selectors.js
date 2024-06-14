@@ -10,8 +10,10 @@ export const getIsSaved = state => state.session
 
 export const getAdverts = state => state.adverts
 export const isAdvertsLoaded = state => state.adverts.loaded
+export const isAdvertDetailLoaded = state => state.adverts.loaded
 export const getAdvert = advertId => state =>{
   const adverts = state => state.adverts.data
+  console.log('getAdvert state:', state);
   return adverts(state).find(advert => advert.id === advertId)
 }
 

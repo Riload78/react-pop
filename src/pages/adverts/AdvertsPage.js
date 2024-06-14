@@ -10,7 +10,7 @@ import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
 // import { useNotification } from '../../notification/NotificationProvider.js'
 import { getAdverts, getIsLoading} from '../../store/selectors.js'
-import { advertsFulfilled, advertsLoad, advertsPending, advertsRejected } from '../../store/actions.js'
+import { advertsLoad } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
