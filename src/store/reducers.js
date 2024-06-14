@@ -5,7 +5,6 @@ import {
   AUTH_LOGIN_FULFILLED,
   AUTH_LOGIN_REJECTED,
   SESSION_SAVE,
-  ADVERTS_GET,
   ADVERTS_GET_PENDING,
   ADVERTS_GET_FULFILLED,
   ADVERTS_GET_REJECTED,
@@ -13,12 +12,18 @@ import {
   ADVERTS_DELETE,
   ADVERTS_GET_TAGS,
   NOTIFICATION_CLOSE,
+  ADVERTS_DETAIL_PENDING,
+  ADVERTS_DETAIL_FULFILLED,
+  ADVERTS_DETAIL_REJECTED,
 } from './types'
 
 export const defaultState = {
   auth: false,
   session: true,
-  adverts: [],
+  adverts: {
+    loaded: false,
+    data: [],
+  },
   ui: {
     loading: false,
     notification: {
@@ -52,22 +57,40 @@ export const adverts = (state = defaultState.adverts, action) => {
   console.log('adverts reducer state:', state)
   switch (action.type) {
     case ADVERTS_GET_FULFILLED:
-      return action.payload
-    case ADVERTS_GET:
-      return action.payload
+      return { ...state, loaded: true, data: action.payload }
+    case ADVERTS_GET_REJECTED:
+      return { ...state, loaded: false }
+    case ADVERTS_GET_PENDING:
+      return { ...state, loaded: false }
     case ADVERTS_POST:
-      return [...state, action.payload]
+      return { ...state, data: [...state.data, action.payload] }
     case ADVERTS_DELETE:
-      return [
-        ...state.adverts.filter(advert => advert.id !== action.payload.id),
-      ]
+      return {
+        ...state,
+        data: state.data.filter(advert => advert.id !== action.payload),
+      }
+    case ADVERTS_DETAIL_FULFILLED:
+      return {
+        ...state,
+        loaded: true,
+        data: [action.payload],
+      }
+    case ADVERTS_DETAIL_REJECTED:
+      return {
+        ...state,
+        loaded: false,
+      }
+    case ADVERTS_DETAIL_PENDING:
+      return {
+        ...state,
+        loaded: false,
+      }
     default:
       return state
   }
 }
 
 export const ui = (state = defaultState.ui, action) => {
-  console.log('ui reducer state:', state);
   switch (action.type) {
     case AUTH_LOGIN_PENDING:
       return {
@@ -115,6 +138,33 @@ export const ui = (state = defaultState.ui, action) => {
         },
       }
     case ADVERTS_GET_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
+      }
+    case ADVERTS_DETAIL_PENDING:
+      return {
+        ...state,
+        loading: true,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case ADVERTS_DETAIL_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case ADVERTS_DETAIL_REJECTED:
       return {
         ...state,
         loading: false,

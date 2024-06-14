@@ -1,56 +1,44 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import dataAdvert from './service.js'
 import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
-import { useAdverts } from './AdvertContext.js'
-import { useNotification } from '../../notification/NotificationProvider.js'
+//import { useAdverts } from './AdvertContext.js'
+//import { useNotification } from '../../notification/NotificationProvider.js'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAdvert } from '../../store/selectors.js'
+import { getAdvert, getIsLoading } from '../../store/selectors.js'
 import { advertLoad } from '../../store/actions.js'
 
 const AdvertPage = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const params = useParams()
+  const dispach = useDispatch()
+  const isLoading = useSelector(getIsLoading)
+  const { advertId } = useParams()
   const navigate = useNavigate()
-  const { markAdvertAsDeleted } = useAdverts()
-  const { showNotificationError } = useNotification()
+  //const { markAdvertAsDeleted } = useAdverts()
+  //const { showNotificationError } = useNotification()
   // const [advert, setAdvert] = useState({})
-  const advert = useSelector(getAdvert(params.advertId))
+  const advert = useSelector(getAdvert(advertId))
+  console.log('advert', advert);
 
-  /* useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-        const fetchAdvert = await dataAdvert.getAdvert(params.advertId)
-        // setAdvert(fetchAdvert)
-        dispach(advertLoad(fetchAdvert))
-      } catch (error) {
-        setIsLoading(false)
-        if (error) {
-          navigate('/404')
-        }
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchData()
-  }, [params.advertId, navigate, dispach])
- */
+  useEffect(() => {
+    dispach(advertLoad(advertId))
+   
+  }, [dispach, advertId])
+ 
   const handleDelete = () => {
     const id = advert.id
 
     try {
-      setIsLoading(true)
+      
       dataAdvert.deleteAdvert(id)
-      setIsLoading(false)
-      markAdvertAsDeleted(id)
+      
+      // markAdvertAsDeleted(id)
       navigate('/adverts')
     } catch (error) {
-      showNotificationError(error.message)
+      // showNotificationError(error.message)
     }
   }
 
@@ -62,7 +50,7 @@ const AdvertPage = () => {
         </Row>
       ) : (
         <Row xs={12} className='g-4'>
-          {Object.keys(advert).length !== 0 && (
+          {advert && (
             <>
               <Container className='advert-wrapper p-2'>
                 <Advert

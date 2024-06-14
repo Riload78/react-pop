@@ -15,7 +15,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
   const dispatch = useDispatch()
-  const adverts = useSelector(getAdverts)
+  const advertsLoaded = useSelector(getAdverts)
+  const adverts = advertsLoaded.data || []
+  console.log('adverts:',adverts);
   const isLoading = useSelector(getIsLoading)
   const { deletedAdvertId, addAdverts } = useAdverts()
   const [filterName, setFilterName] = useState('')
@@ -27,6 +29,9 @@ const AdvertsPage = () => {
 
 
   const getMaxPrice = adverts => {
+    if (!Array.isArray(adverts)) {
+      return 0 // O manejarlo de otra forma según tu lógica
+    }
     return adverts.reduce(
       (max, advert) => (advert.price > max ? advert.price : max),
       0
@@ -34,28 +39,18 @@ const AdvertsPage = () => {
   }
 
   useEffect(() => {
-    const fetchAdverts = async () => {
-      try {
-        dispatch(advertsPending())
-        const adverts = await dataAdvert.getAdverts()
-        dispatch(advertsFulfilled(adverts))
-        const maxPrice = getMaxPrice(adverts)
-        if (deletedAdvertId) {
-          const updatedAdvert = adverts.filter(
-            advert => advert.id !== deletedAdvertId
-          )
-          addAdverts(updatedAdvert)
-        }
-        setMax(maxPrice)
-        setMaxValue(maxPrice)
-      } catch (error) {
-        dispatch(advertsRejected({ type: 'error', message: error.message }))
-      }
+    dispatch(advertsLoad())
+    const maxPrice = getMaxPrice(adverts)
+    if (deletedAdvertId) {
+      const updatedAdvert = adverts.filter(
+        advert => advert.id !== deletedAdvertId
+      )
+      addAdverts(updatedAdvert)
     }
-
-    fetchAdverts()
+    setMax(maxPrice)
+    setMaxValue(maxPrice)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deletedAdvertId])
+  }, [deletedAdvertId, dispatch])
 
   const handleSearch = event => {
     const search = event.target.value
@@ -82,20 +77,22 @@ const AdvertsPage = () => {
     setTags(options)
   }
 
-  let filteredAdverts = adverts.filter(item => {
-    const nameMatch = item.name
-      .toLowerCase()
-      .startsWith(filterName.toLowerCase())
-    let saleMatch = true
-    if (filterSale !== null) {
-      saleMatch = item.sale === filterSale
-    }
+  let filteredAdverts = Array.isArray(adverts)
+    ? adverts.filter(item => {
+        const maxPrice = getMaxPrice(adverts)
+        const nameMatch = item.name
+          .toLowerCase()
+          .startsWith(filterName.toLowerCase())
+        let saleMatch = true
+        if (filterSale !== null) {
+          saleMatch = item.sale === filterSale
+        }
+        const priceMatch = item.price >= minValue && item.price <= maxValue
+        const tagsMatch = tags.every(tag => item.tags.indexOf(tag) !== -1)
 
-    const priceMatch = item.price >= minValue && item.price <= maxValue
-    const tagsMatch = tags.every(tag => item.tags.indexOf(tag) !== -1)
-
-    return nameMatch && saleMatch && priceMatch && tagsMatch
-  })
+        return nameMatch && saleMatch && priceMatch && tagsMatch
+      })
+    : []
 
   return (
     <Container>

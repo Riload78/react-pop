@@ -12,7 +12,7 @@ const getAdverts = async () => {
   }
 }
 
-const getAdvert = async id => {
+const getAdvert = async (id) => {
   try {
     const response = await client.get(`${advertsUrl}/${id}`)
     return response
