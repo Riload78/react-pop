@@ -65,7 +65,7 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_GET_PENDING:
       return { ...state, loaded: false }
     case ADVERTS_POST_FULFILLED:
-      return { ...state, data: [action.payload, ...state.data] }
+      return { ...state, loaded: true, data: [action.payload, ...state.data] }
     case ADVERTS_POST_REJECTED:
       return state
     case ADVERTS_POST_PENDING:
