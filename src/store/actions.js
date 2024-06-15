@@ -127,11 +127,37 @@ export const createAdvert = advert => {
     }
   }
 }
-
-export const deleteAdvert = advert => ({
+export const advertDeleteFulfilled = id => ({
   type: ADVERTS_DELETE,
-  payload: advert,
+  payload: id,
 })
+
+export const advertDeleteRejected = error => ({
+  type: ADVERTS_POST_REJECTED,
+  payload: error,
+  notification: {
+    type: error.type,
+    message: error.message,
+  },
+})
+
+export const advertDelete = id => {
+  return async function (dispatch) {
+    try {
+      const advert = await dataAdvert.getAdvert(id)
+      const response = await dataAdvert.deleteAdvert(id)
+      if(response.status === 204) {
+        dispatch(
+          advertDeleteRejected({ type: 'error', message: 'Advert not found' })
+        )
+      }
+      dispatch(advertDeleteFulfilled(advert))
+    } catch (error) {
+      dispatch(advertDeleteRejected({ type: 'error', message: error.message }))
+    }
+  }
+}
+
 
 export const getTags = tags => ({
   type: ADVERTS_GET_TAGS,

@@ -73,13 +73,14 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_DELETE:
       return {
         ...state,
-        data: state.data.filter(advert => advert.id !== action.payload),
+        loaded: true,
+        data: state.data.filter(advert => advert.id !== action.payload.id),
       }
     case ADVERTS_DETAIL_FULFILLED:
       return {
         ...state,
         loaded: true,
-        data: [action.payload],
+        data: [action.payload, ...state.data],
       }
     case ADVERTS_DETAIL_REJECTED:
       return {
@@ -90,7 +91,7 @@ export const adverts = (state = defaultState.adverts, action) => {
       return {
         ...state,
         loaded: true,
-        data: [state.data]
+        data: [state.data],
       }
     default:
       return state

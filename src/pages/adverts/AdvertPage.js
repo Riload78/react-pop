@@ -13,7 +13,7 @@ import {
   getAdvert,
   getIsLoading,
 } from '../../store/selectors.js'
-import { advertLoad } from '../../store/actions.js'
+import { advertLoad, advertDelete } from '../../store/actions.js'
 
 const AdvertPage = () => {
   const dispach = useDispatch()
@@ -34,16 +34,16 @@ const AdvertPage = () => {
  
   const handleDelete = () => {
     const id = advert.id
-
-    try {
+    dispach(advertDelete(id))
+    navigate('/adverts')
+  /*   try {
       
       dataAdvert.deleteAdvert(id)
       
       // markAdvertAsDeleted(id)
-      navigate('/adverts')
     } catch (error) {
       // showNotificationError(error.message)
-    }
+    } */
   }
 
   return (
