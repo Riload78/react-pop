@@ -12,7 +12,9 @@ import {
   ADVERTS_POST_FULFILLED,
   ADVERTS_POST_REJECTED,
   ADVERTS_DELETE,
-  ADVERTS_GET_TAGS,
+  TAGS_GET_PENDING,
+  TAGS_GET_FULFILLED,
+  TAGS_GET_REJECTED,
   NOTIFICATION_CLOSE,
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
@@ -25,6 +27,7 @@ export const defaultState = {
   adverts: {
     loaded: false,
     data: [],
+    tags: []
   },
   ui: {
     loading: false,
@@ -90,12 +93,36 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_DETAIL_PENDING:
       return {
         ...state,
-        loaded: false
+        loaded: false,
+      }
+   case TAGS_GET_FULFILLED:
+      return {
+        ...state,
+        loaded: true,
+        tags: action.payload
+      }
+    case TAGS_GET_REJECTED:
+      return {
+        ...state,
+        loaded: false,
+      }
+    case TAGS_GET_PENDING:
+      return {
+        ...state,
+        loaded: false,
       }
     default:
       return state
   }
 }
+
+/* export const tags = (state = [], action) => {
+  switch (action.type) {
+    
+    default:
+      return state
+  }
+} */
 
 export const ui = (state = defaultState.ui, action) => {
   switch (action.type) {
@@ -199,6 +226,33 @@ export const ui = (state = defaultState.ui, action) => {
         },
       }
     case ADVERTS_POST_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: action.payload.type,
+          message: action.payload.message,
+        },
+      }
+    case TAGS_GET_PENDING:
+      return {
+        ...state,
+        loading: true,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case TAGS_GET_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        notification: {
+          type: state.notification.type,
+          message: state.notification.message,
+        },
+      }
+    case TAGS_GET_REJECTED:
       return {
         ...state,
         loading: false,

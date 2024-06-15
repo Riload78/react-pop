@@ -2,10 +2,16 @@ import Form from 'react-bootstrap/Form'
 import { useEffect, useState } from 'react'
 import dataAdvert from '../../pages/adverts/service'
 import p from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
+import { getTags } from '../../store/selectors'
+import { tagsLoad } from '../../store/actions'
 const MultiSelect = ({handleOptions}) => {
-  const [tags, setTags] = useState([])
+  const dispatch = useDispatch()
+  // const [tags, setTags] = useState([])
+  const tags = useSelector(getTags)
   useEffect(() => {
-    const fetchTags = async () => {
+    dispatch(tagsLoad())
+    /* const fetchTags = async () => {
       try {
         const dataFetch = await dataAdvert.getTags()
         setTags(dataFetch)
@@ -13,8 +19,8 @@ const MultiSelect = ({handleOptions}) => {
         console.log(error)
       }
     }
-    fetchTags()
-  }, [])
+    fetchTags() */
+  }, [dispatch])
 
 
   return (

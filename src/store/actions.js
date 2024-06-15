@@ -4,6 +4,7 @@ import {
   isAdvertsLoaded,
   getAdvertDetail,
   isAdvertDetailLoaded,
+  isTagsLoaded,
 } from './selectors.js'
 import {
   AUTH_LOGOUT,
@@ -18,7 +19,9 @@ import {
   ADVERTS_POST_FULFILLED,
   ADVERTS_POST_REJECTED,
   ADVERTS_DELETE,
-  ADVERTS_GET_TAGS,
+  TAGS_GET_PENDING,
+  TAGS_GET_FULFILLED,
+  TAGS_GET_REJECTED,
   NOTIFICATION_CLOSE,
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
@@ -155,10 +158,6 @@ export const advertDelete = id => {
 }
 
 
-export const getTags = tags => ({
-  type: ADVERTS_GET_TAGS,
-  payload: tags,
-})
 
 export const advertsLoad = () => {
   return async function (dispatch, getState) {
@@ -211,6 +210,41 @@ export const advertLoad = advertId => {
       dispatch(advertDetailFulfilled(advertDetail))
     } catch (error) {
       dispatch(advertDetailRejected({ type: 'error', message: error.message }))
+    }
+  }
+}
+
+// TAGS
+export const tagsPending = () => ({
+  type: TAGS_GET_PENDING,
+})
+
+export const tagsFulfilled = tags => ({
+  type: TAGS_GET_FULFILLED,
+  payload: tags,
+})
+
+export const tagsRejected = error => ({
+  type: TAGS_GET_REJECTED,
+  payload: error,
+  notification: {
+    type: error.type,
+    message: error.message,
+  },
+})
+
+export const tagsLoad = () => {
+  return async function (dispatch, getState) {
+    const state = getState()
+    if (isTagsLoaded(state)) {
+      return
+    }
+    try {
+      dispatch(tagsPending())
+      const tags = await dataAdvert.getTags()
+      dispatch(tagsFulfilled(tags))
+    } catch (error) {
+      dispatch(tagsRejected({ type: 'error', message: error.message }))
     }
   }
 }

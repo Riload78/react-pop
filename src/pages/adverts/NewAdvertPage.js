@@ -13,11 +13,11 @@ import { useNotification } from '../../notification/NotificationProvider.js'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { createAdvert } from '../../store/actions.js'
-import { getAdverts } from '../../store/selectors.js'
+import { getAdvert, getTags } from '../../store/selectors.js'
 const NewAdvertPage = () => {
   const dispatch = useDispatch()
-
-  const [multiOptions, setMultiOptions] = useState([])
+  const multiOptions = useSelector(getTags)
+  //const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
   const { showNotificationSuccess, showNotificationError } = useNotification()
@@ -56,7 +56,7 @@ const NewAdvertPage = () => {
     const options = Array.from(event.target.selectedOptions).map(
       item => item.value
     )
-    setMultiOptions(options)
+    //setMultiOptions(options)
   }
 
   const handleFileConvert = event => {

@@ -19,4 +19,5 @@ export const getAdvertDetail = advertId => state => {
 }
 
 
-export const getTags = state => state.adverts.tags 
+export const getTags = state => state.adverts.tags
+export const isTagsLoaded = state => state.adverts.tags
