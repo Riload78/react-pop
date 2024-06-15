@@ -1,14 +1,11 @@
-import dataAdvert from './service.js'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { useEffect, useState } from 'react'
-import { useAdverts } from './AdvertContext'
 import Advert from './Advert.js'
 import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
-// import { useNotification } from '../../notification/NotificationProvider.js'
 import { getAdverts, getIsLoading} from '../../store/selectors.js'
 import { advertsLoad } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,9 +14,7 @@ const AdvertsPage = () => {
   const dispatch = useDispatch()
   const advertsLoaded = useSelector(getAdverts)
   const adverts = advertsLoaded.data || []
-  console.log('adverts:',adverts);
   const isLoading = useSelector(getIsLoading)
-  const { deletedAdvertId, addAdverts } = useAdverts()
   const [filterName, setFilterName] = useState('')
   const [filterSale, setFilterSale] = useState(null)
   const [minValue, setMinValue] = useState(0)
@@ -30,7 +25,7 @@ const AdvertsPage = () => {
 
   const getMaxPrice = adverts => {
     if (!Array.isArray(adverts)) {
-      return 0 // O manejarlo de otra forma según tu lógica
+      return 0 
     }
     return adverts.reduce(
       (max, advert) => (advert.price > max ? advert.price : max),
@@ -41,16 +36,11 @@ const AdvertsPage = () => {
   useEffect(() => {
     dispatch(advertsLoad())
     const maxPrice = getMaxPrice(adverts)
-    if (deletedAdvertId) {
-      const updatedAdvert = adverts.filter(
-        advert => advert.id !== deletedAdvertId
-      )
-      addAdverts(updatedAdvert)
-    }
+   
     setMax(maxPrice)
     setMaxValue(maxPrice)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deletedAdvertId, dispatch])
+  }, [dispatch])
 
   const handleSearch = event => {
     const search = event.target.value

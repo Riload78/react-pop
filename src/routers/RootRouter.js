@@ -5,7 +5,7 @@ import AdvertPage from '../pages/adverts/AdvertPage'
 import NewAdvertPage from '../pages/adverts/NewAdvertPage'
 import NotFound from '../pages/NotFound'
 import RequiredLogin from '../components/RequireLogin'
-import { AdvertProvider } from '../pages/adverts/AdvertContext'
+//import { AdvertProvider } from '../pages/adverts/AdvertContext'
 import { useSelector } from 'react-redux'
 import { getIsLogin } from '../store/selectors'
 const RootRouter = () => {
@@ -23,9 +23,7 @@ const RootRouter = () => {
           path='/adverts'
           element={
             <RequiredLogin>
-              <AdvertProvider>
                 <Outlet />
-              </AdvertProvider>
             </RequiredLogin>
           }
         >
