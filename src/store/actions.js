@@ -2,7 +2,7 @@ import auth from '../pages/login/service.js'
 import dataAdvert from '../pages/adverts/service.js'
 import {
   isAdvertsLoaded,
-  getAdvert,
+  getAdvertDetail,
   isAdvertDetailLoaded,
 } from './selectors.js'
 import {
@@ -66,10 +66,6 @@ export const sessionSave = isSaved => ({
   payload: isSaved,
 })
 
-/* export const advertsLoad = adverts => ({
-  type: ADVERTS_GET,
-  payload: adverts,
-}) */
 
 // ADVERTS
 export const advertsPending = () => ({
@@ -111,8 +107,6 @@ export const advertPostRejected = error => ({
   },
 })
 
-
-
 export const createAdvert = advert => {
   return async function (dispatch) {
     try {
@@ -127,6 +121,8 @@ export const createAdvert = advert => {
     }
   }
 }
+
+// DELETE
 export const advertDeleteFulfilled = id => ({
   type: ADVERTS_DELETE,
   payload: id,
@@ -205,7 +201,8 @@ export const advertDetailRejected = error => ({
 export const advertLoad = advertId => {
   return async function (dispatch, getState) {
     const state = getState()
-    if (isAdvertDetailLoaded(state)) {
+  
+    if (getAdvertDetail(advertId)(state)) {
       return
     }
     try {

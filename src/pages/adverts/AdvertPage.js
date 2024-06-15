@@ -10,7 +10,7 @@ import ModalConfirm from '../../components/ModalConfirm.js'
 //import { useNotification } from '../../notification/NotificationProvider.js'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  getAdvert,
+  getAdvertDetail,
   getIsLoading,
 } from '../../store/selectors.js'
 import { advertLoad, advertDelete } from '../../store/actions.js'
@@ -23,7 +23,7 @@ const AdvertPage = () => {
   //const { markAdvertAsDeleted } = useAdverts()
   //const { showNotificationError } = useNotification()
   // const [advert, setAdvert] = useState({})
-  const advert = useSelector(getAdvert(advertId))
+  const advert = useSelector(getAdvertDetail(advertId))
   console.log('advert', advert);
 
   useEffect(() => {

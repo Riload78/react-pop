@@ -80,7 +80,7 @@ export const adverts = (state = defaultState.adverts, action) => {
       return {
         ...state,
         loaded: true,
-        data: [action.payload, ...state.data],
+        data: [action.payload],
       }
     case ADVERTS_DETAIL_REJECTED:
       return {
@@ -90,8 +90,7 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_DETAIL_PENDING:
       return {
         ...state,
-        loaded: true,
-        data: [state.data],
+        loaded: false
       }
     default:
       return state
