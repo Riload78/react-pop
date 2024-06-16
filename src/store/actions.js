@@ -28,13 +28,15 @@ import {
 } from './types'
 
 export const authLogin = (credentials, isSessionSaved) => {
-  return async function (dispatch, _getState, {services:{auth}}) {
+  return async function (dispatch, _getState, {services:{auth} , router}) {
     try {
       dispatch(authLoginPending())
       await auth.login(credentials, isSessionSaved)
       dispatch(
         authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
       )
+      const to = router.state.location.state?.from || '/'
+      router.navigate(to, { replace: true })
     } catch (error) {
       dispatch(authLoginRejected({ type: 'error', message: error.message }))
     }
@@ -110,13 +112,14 @@ export const advertPostRejected = error => ({
 })
 
 export const createAdvert = advert => {
-  return async function (dispatch, _getState, { services: { dataAdvert } }) {
+  return async function (dispatch, _getState, { services, router }) {
     try {
       dispatch(advertPostPending())
-      const {id}= await dataAdvert.postAdvert(advert)
-      const newAdvert = await dataAdvert.getAdvert(id)
+      const {id}= await services.dataAdvert.postAdvert(advert)
+      const newAdvert = await services.dataAdvert.getAdvert(id)
       console.log('newAdvert:', newAdvert)
       dispatch(advertPostFulfilled(newAdvert))
+      router.navigate(`/adverts/${newAdvert.id}`)
       return newAdvert
     } catch (error) {
       dispatch(advertPostRejected({ type: 'error', message: error.message }))
@@ -140,16 +143,17 @@ export const advertDeleteRejected = error => ({
 })
 
 export const advertDelete = id => {
-  return async function (dispatch, _getState, { services: { dataAdvert } }) {
+  return async function (dispatch, _getState, { services, router }) {
     try {
-      const advert = await dataAdvert.getAdvert(id)
-      const response = await dataAdvert.deleteAdvert(id)
+      const advert = await services.dataAdvert.getAdvert(id)
+      const response = await services.dataAdvert.deleteAdvert(id)
       if(response.status === 204) {
         dispatch(
           advertDeleteRejected({ type: 'error', message: 'Advert not found' })
         )
       }
       dispatch(advertDeleteFulfilled(advert))
+      router.navigate('/adverts')
     } catch (error) {
       dispatch(advertDeleteRejected({ type: 'error', message: error.message }))
     }

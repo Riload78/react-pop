@@ -4,23 +4,19 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLogin} from '../../store/actions.js'
 import { getIsLoading, getIsSaved } from '../../store/selectors.js'
 import { sessionSave } from '../../store/actions.js'
-// import { useNotification } from '../../notification/NotificationProvider.js'
 const LoginPage = () => {
   const dispatch = useDispatch()
 
-  // const { showNotificationSuccess, showNotificationError } = useNotification()
 
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   })
 
-  const navigate = useNavigate()
   const isSessionSaved = useSelector(getIsSaved)
   const isLoading = useSelector(getIsLoading)
 
@@ -38,9 +34,7 @@ const LoginPage = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-
     dispatch(authLogin(formValues, isSessionSaved))
-    navigate('/')
   }
 
   const { email, password } = formValues

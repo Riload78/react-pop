@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
@@ -16,9 +16,8 @@ const AdvertPage = () => {
   const dispach = useDispatch()
   const isLoading = useSelector(getIsLoading)
   const { advertId } = useParams()
-  const navigate = useNavigate()
   const advert = useSelector(getAdvertDetail(advertId))
-  console.log('advert', advert);
+
 
   useEffect(() => {
     console.log('useEffect advertId:', advertId);
@@ -29,7 +28,6 @@ const AdvertPage = () => {
   const handleDelete = () => {
     const id = advert.id
     dispach(advertDelete(id))
-    navigate('/adverts')
   }
 
   return (

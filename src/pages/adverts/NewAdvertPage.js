@@ -9,7 +9,6 @@ import Switch from '../../components/form/Switch.js'
 import validation from '../../helper/validation.js'
 import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
-import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { createAdvert } from '../../store/actions.js'
 import { getTags } from '../../store/selectors.js'
@@ -25,7 +24,6 @@ const NewAdvertPage = () => {
     price: true,
   })
 
-  const navigate = useNavigate()
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -69,8 +67,7 @@ const NewAdvertPage = () => {
   }
 
   const postData = async data => {
-    const response = await dispatch(createAdvert(data))
-    navigate(`/adverts/${response.id}`)
+    dispatch(createAdvert(data))
   }
 
   const allValid = Object.values(isValid).every(Boolean) // Verifica que todos los campos sean válidos
