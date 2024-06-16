@@ -1,5 +1,4 @@
-import auth from '../pages/login/service.js'
-import dataAdvert from '../pages/adverts/service.js'
+
 import {
   isAdvertsLoaded,
   getAdvertDetail,
@@ -29,7 +28,7 @@ import {
 } from './types'
 
 export const authLogin = (credentials, isSessionSaved) => {
-  return async function (dispatch) {
+  return async function (dispatch, _getState, {services:{auth}}) {
     try {
       dispatch(authLoginPending())
       await auth.login(credentials, isSessionSaved)
@@ -111,7 +110,7 @@ export const advertPostRejected = error => ({
 })
 
 export const createAdvert = advert => {
-  return async function (dispatch) {
+  return async function (dispatch, _getState, { services: { dataAdvert } }) {
     try {
       dispatch(advertPostPending())
       const {id}= await dataAdvert.postAdvert(advert)
@@ -141,7 +140,7 @@ export const advertDeleteRejected = error => ({
 })
 
 export const advertDelete = id => {
-  return async function (dispatch) {
+  return async function (dispatch, _getState, { services: { dataAdvert } }) {
     try {
       const advert = await dataAdvert.getAdvert(id)
       const response = await dataAdvert.deleteAdvert(id)
@@ -160,12 +159,10 @@ export const advertDelete = id => {
 
 
 export const advertsLoad = () => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { dataAdvert } }) {
     const state = getState()
-    console.log('state:', state)
-    console.log(isAdvertsLoaded(getState()))
+   
     if (isAdvertsLoaded(state)) {
-      console.log('adverts already loaded')
       return
     }
     try {
@@ -198,7 +195,7 @@ export const advertDetailRejected = error => ({
 })
 
 export const advertLoad = advertId => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { dataAdvert } }) {
     const state = getState()
   
     if (getAdvertDetail(advertId)(state)) {
@@ -234,7 +231,7 @@ export const tagsRejected = error => ({
 })
 
 export const tagsLoad = () => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { dataAdvert } }) {
     const state = getState()
     if (isTagsLoaded(state)) {
       return

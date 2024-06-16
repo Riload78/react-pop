@@ -3,7 +3,9 @@ import { composeWithDevTools } from '@redux-devtools/extension'
 import * as reducers from './reducers'
 import * as actionCreators from './actions'
 import { logger } from './middleware'
-import { thunk } from 'redux-thunk'
+import { withExtraArgument } from 'redux-thunk'
+import auth from '../pages/login/service'
+import dataAdvert from '../pages/adverts/service'
 
 const reducer = combineReducers(reducers)
 
@@ -14,7 +16,7 @@ export default function configureStore(preloadedState) {
     reducer,
     preloadedState,
     composeEnhancers(
-      applyMiddleware( thunk, logger),
+      applyMiddleware( withExtraArgument({ services: {auth, dataAdvert}}), logger),
      ) 
 
   )
