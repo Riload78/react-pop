@@ -59,7 +59,6 @@ export const session = (state = defaultState.session, action) => {
 }
 
 export const adverts = (state = defaultState.adverts, action) => {
-  console.log('adverts reducer state:', state)
   switch (action.type) {
     case ADVERTS_GET_FULFILLED:
       return { ...state, loaded: true, data: action.payload }
