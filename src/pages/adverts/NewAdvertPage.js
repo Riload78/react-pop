@@ -6,14 +6,13 @@ import Input from '../../components/form/Input.js'
 import MultiSelect from '../../components/form/MuliSelect.js'
 import FileInput from '../../components/form/FileInput.js'
 import Switch from '../../components/form/Switch.js'
-import dataAdvert from './service'
 import validation from '../../helper/validation.js'
 import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { createAdvert } from '../../store/actions.js'
-import { getAdvert, getTags } from '../../store/selectors.js'
+import { getTags } from '../../store/selectors.js'
 const NewAdvertPage = () => {
   const dispatch = useDispatch()
   const multiOptions = useSelector(getTags)

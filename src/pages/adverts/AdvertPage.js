@@ -3,26 +3,20 @@ import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import dataAdvert from './service.js'
+import { useSelector, useDispatch } from 'react-redux'
 import Advert from './Advert.js'
 import ModalConfirm from '../../components/ModalConfirm.js'
-//import { useAdverts } from './AdvertContext.js'
-//import { useNotification } from '../../notification/NotificationProvider.js'
-import { useSelector, useDispatch } from 'react-redux'
+import { advertLoad, advertDelete } from '../../store/actions.js'
 import {
   getAdvertDetail,
   getIsLoading,
 } from '../../store/selectors.js'
-import { advertLoad, advertDelete } from '../../store/actions.js'
 
 const AdvertPage = () => {
   const dispach = useDispatch()
   const isLoading = useSelector(getIsLoading)
   const { advertId } = useParams()
   const navigate = useNavigate()
-  //const { markAdvertAsDeleted } = useAdverts()
-  //const { showNotificationError } = useNotification()
-  // const [advert, setAdvert] = useState({})
   const advert = useSelector(getAdvertDetail(advertId))
   console.log('advert', advert);
 
@@ -36,14 +30,6 @@ const AdvertPage = () => {
     const id = advert.id
     dispach(advertDelete(id))
     navigate('/adverts')
-  /*   try {
-      
-      dataAdvert.deleteAdvert(id)
-      
-      // markAdvertAsDeleted(id)
-    } catch (error) {
-      // showNotificationError(error.message)
-    } */
   }
 
   return (
