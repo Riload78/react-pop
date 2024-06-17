@@ -1,6 +1,7 @@
 import {
   authLoginPending,
   authLoginFulfilled,
+  authLoginRejected,
   authLogin,
   advertsPending,
   advertsFulfilled,
@@ -8,6 +9,7 @@ import {
 import {
   AUTH_LOGIN_PENDING,
   AUTH_LOGIN_FULFILLED,
+  AUTH_LOGIN_REJECTED,
   ADVERTS_GET_PENDING,
   ADVERTS_GET_FULFILLED,
 } from '../types.js'
@@ -41,6 +43,25 @@ describe('authLogin', () => {
     })
   })
 
+  describe('authLoginRejected', () => {
+    test('should return an action with type AUTH_LOGIN_REJECTED', () => {
+      const expectedAction = {
+        type: AUTH_LOGIN_REJECTED,
+        payload: {
+          type: 'error',
+          message: 'error',
+        },
+        notification: {
+          type: 'error',
+          message: 'error',
+        },
+      }
+      expect(
+        authLoginRejected({ type: 'error', message: 'error' })
+      ).toEqual(expectedAction)
+    })
+  })
+
   describe('authLogin', () => {
     const credentials = ['email', 'credentials']
     const isSessionSaved = true
@@ -49,29 +70,43 @@ describe('authLogin', () => {
     const dispatch = jest.fn()
     const getState = jest.fn()
     const services = {
-      auth: {}
-    };
+      auth: {},
+    }
     const router = {
-        state:{
-          location: {state: {from: redirect}}
-        },
-        navigate: jest.fn()
+      state: {
+        location: { state: { from: redirect } },
+      },
+      navigate: jest.fn(),
     }
 
-    test('should login resove with error', async () => {
-        services.auth.login = jest.fn().mockRejectedValue({message: 'error'})
+    test('should login resolve with error', async () => {
+      const error = { type: 'error', message: 'error' }
+      services.auth.login = jest.fn().mockRejectedValueOnce(error)
+      await action(dispatch, getState, { services, router })
+      expect(dispatch).toHaveBeenCalledTimes(2)
+      expect(dispatch).toHaveBeenCalledWith(authLoginPending())
+      expect(services.auth.login).toHaveBeenCalledWith(
+        credentials,
+        isSessionSaved
+      )
+      expect(dispatch).toHaveBeenCalledWith(
+        authLoginRejected(error)
+      )
     })
 
     test('should login resolve successfully', async () => {
-        services.auth.login = jest.fn().mockResolvedValue()
-        await action(dispatch, getState, { services, router })
-        expect(dispatch).toHaveBeenCalledTimes(2)
-        expect(dispatch).toHaveBeenCalledWith(authLoginPending())
-        expect(services.auth.login).toHaveBeenCalledWith(credentials, isSessionSaved)
-        expect(dispatch).toHaveBeenCalledWith(
-          authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
-        )
-        expect(router.navigate).toHaveBeenCalledWith(redirect, { replace: true })
+      services.auth.login = jest.fn().mockResolvedValue()
+      await action(dispatch, getState, { services, router })
+      expect(dispatch).toHaveBeenCalledTimes(2)
+      expect(dispatch).toHaveBeenCalledWith(authLoginPending())
+      expect(services.auth.login).toHaveBeenCalledWith(
+        credentials,
+        isSessionSaved
+      )
+      expect(dispatch).toHaveBeenCalledWith(
+        authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
+      )
+      expect(router.navigate).toHaveBeenCalledWith(redirect, { replace: true })
     })
   })
 })
