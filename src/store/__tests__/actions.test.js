@@ -1,6 +1,7 @@
 import {
   authLoginPending,
   authLoginFulfilled,
+  authLogin,
   advertsPending,
   advertsFulfilled,
 } from '../actions.js'
@@ -25,21 +26,54 @@ describe('authLogin', () => {
     test('should return an action with type AUTH_LOGIN_FULFILLED', () => {
       const expectedAction = {
         type: AUTH_LOGIN_FULFILLED,
-        payload: { 
-            type: 'success', 
-            message: 'LOGIN SUCCESSFUL',
+        payload: {
+          type: 'success',
+          message: 'LOGIN SUCCESSFUL',
         },
         notification: {
           type: 'success',
           message: 'LOGIN SUCCESSFUL',
-        }
+        },
       }
       expect(
         authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
       ).toEqual(expectedAction)
     })
   })
-  
+
+  describe('authLogin', () => {
+    const credentials = ['email', 'credentials']
+    const isSessionSaved = true
+    const action = authLogin(credentials, isSessionSaved)
+    const redirect = '/'
+    const dispatch = jest.fn()
+    const getState = jest.fn()
+    const services = {
+      auth: {}
+    };
+    const router = {
+        state:{
+          location: {state: {from: redirect}}
+        },
+        navigate: jest.fn()
+    }
+
+    test('should login resove with error', async () => {
+        services.auth.login = jest.fn().mockRejectedValue({message: 'error'})
+    })
+
+    test('should login resolve successfully', async () => {
+        services.auth.login = jest.fn().mockResolvedValue()
+        await action(dispatch, getState, { services, router })
+        expect(dispatch).toHaveBeenCalledTimes(2)
+        expect(dispatch).toHaveBeenCalledWith(authLoginPending())
+        expect(services.auth.login).toHaveBeenCalledWith(credentials, isSessionSaved)
+        expect(dispatch).toHaveBeenCalledWith(
+          authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
+        )
+        expect(router.navigate).toHaveBeenCalledWith(redirect, { replace: true })
+    })
+  })
 })
 
 describe('adverts', () => {

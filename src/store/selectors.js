@@ -14,7 +14,6 @@ export const isAdvertsLoaded = state => state.adverts.loaded
 export const getAdvertDetail = advertId => state => {
   if (!state.adverts.data) return
   const adverts = state => state.adverts.data
-  console.log('getAdvert state:', state);
   return adverts(state).find(advert => advert.id === advertId)
 }
 
