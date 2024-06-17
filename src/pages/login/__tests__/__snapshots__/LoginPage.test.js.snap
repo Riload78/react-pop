@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage snapshot 1`] = `
+<div>
+  <div
+    class="login-wrapper d-flex justify-content-center container"
+  >
+    <div
+      class="justify-content-center align-self-center g-4 row"
+    >
+      <form
+        class="login-form "
+      >
+        <h1>
+          Login
+        </h1>
+        <div
+          class="mb-3"
+        >
+          <label
+            class="form-label"
+          >
+            Email address
+          </label>
+          <input
+            class="form-control"
+            name="email"
+            type="email"
+            value=""
+          />
+          <small
+            class="text-muted form-text"
+          >
+            We'll never share your email with anyone else.
+          </small>
+        </div>
+        <div
+          class="mb-3"
+        >
+          <label
+            class="form-label"
+          >
+            Password
+          </label>
+          <input
+            autocomplete="password"
+            class="form-control"
+            name="password"
+            type="password"
+            value=""
+          />
+        </div>
+        <button
+          class="btn btn-primary btn-sm"
+          disabled=""
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+      <form
+        class="login-form"
+      >
+        <div
+          class="form-check form-switch"
+        >
+          <input
+            class="form-check-input"
+            id="custom-switch"
+            type="checkbox"
+          />
+          <label
+            class="form-check-label"
+            for="custom-switch"
+            title=""
+          >
+            I wan't save the session
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

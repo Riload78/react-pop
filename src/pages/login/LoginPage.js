@@ -45,10 +45,11 @@ const LoginPage = () => {
         <Form className='login-form ' onSubmit={handleSubmit}>
           <h1>Login</h1>
           <Form.Group className='mb-3'>
-            <Form.Label>Email address</Form.Label>
+            <Form.Label htmlFor='email'>Email address</Form.Label>
             <Form.Control
               type='email'
               name='email'
+              id='email'
               value={email}
               onChange={handlerChange}
             />

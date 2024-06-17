@@ -92,6 +92,7 @@ describe('authLogin', () => {
       expect(dispatch).toHaveBeenCalledWith(
         authLoginRejected(error)
       )
+      expect(router.navigate).not.toHaveBeenCalled()
     })
 
     test('should login resolve successfully', async () => {
