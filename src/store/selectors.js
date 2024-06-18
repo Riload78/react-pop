@@ -8,7 +8,7 @@ export const getIsNotification = state => state.ui.notification
 
 export const getIsSaved = state => state.session
 
-
+export const getMaxPrice = state => state.adverts.maxPrice
 export const getAdverts = state => state.adverts
 export const isAdvertsLoaded = state => state.adverts.loaded
 export const getAdvertDetail = advertId => state => {

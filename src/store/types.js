@@ -7,7 +7,7 @@ export const SESSION_SAVE = 'session/save'
 
 export const NOTIFICATION_CLOSE = 'notification/close'
 
-
+export const MAX_PRICE = 'maxPrice'
 //export const ADVERTS_GET = 'adverts/get'
 export const ADVERTS_GET_PENDING = 'adverts/get/pending'
 export const ADVERTS_GET_FULFILLED = 'adverts/get/fulfilled'

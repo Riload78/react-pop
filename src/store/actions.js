@@ -25,6 +25,7 @@ import {
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
   ADVERTS_DETAIL_REJECTED,
+  MAX_PRICE
 } from './types'
 
 export const authLogin = (credentials, isSessionSaved) => {
@@ -79,6 +80,18 @@ export const advertsPending = () => ({
 export const advertsFulfilled = adverts => ({
   type: ADVERTS_GET_FULFILLED,
   payload: adverts,
+  adverts:{
+    maxPrice: adverts.reduce(
+      (max, advert) => (advert.price > max ? advert.price : max),
+      0
+    )
+  }
+})
+
+// creo que se puede quitar. No uso el middelware
+export const advertMaxPriceFulfilled = maxPrice => ({
+  type: MAX_PRICE,
+  payload: maxPrice,
 })
 
 export const advertsRejected = error => ({
@@ -89,6 +102,23 @@ export const advertsRejected = error => ({
     message: error.message,
   },
 })
+export const advertsLoad = () => {
+  return async function (dispatch, getState, { services: { dataAdvert } }) {
+    const state = getState()
+
+    if (isAdvertsLoaded(state)) {
+      return
+    }
+    try {
+      dispatch(advertsPending())
+      const adverts = await dataAdvert.getAdverts()
+      dispatch(advertsFulfilled(adverts))
+    } catch (error) {
+      dispatch(advertsRejected({ type: 'error', message: error.message }))
+    }
+  }
+}
+
 
 
 
@@ -100,7 +130,14 @@ export const advertPostPending = () => ({
 export const advertPostFulfilled = advert => ({
   type: ADVERTS_POST_FULFILLED,
   payload: advert,
+  notification: {
+    type: 'success',
+    message: 'Advert created successfully',
+  }
+  
 })
+
+
 
 export const advertPostRejected = error => ({
   type: ADVERTS_POST_REJECTED,
@@ -111,11 +148,13 @@ export const advertPostRejected = error => ({
   },
 })
 
+
+
 export const createAdvert = advert => {
   return async function (dispatch, _getState, { services, router }) {
     try {
       dispatch(advertPostPending())
-      const {id}= await services.dataAdvert.postAdvert(advert)
+      const {id} = await services.dataAdvert.postAdvert(advert)
       const newAdvert = await services.dataAdvert.getAdvert(id)
       console.log('newAdvert:', newAdvert)
       dispatch(advertPostFulfilled(newAdvert))
@@ -162,22 +201,6 @@ export const advertDelete = id => {
 
 
 
-export const advertsLoad = () => {
-  return async function (dispatch, getState, { services: { dataAdvert } }) {
-    const state = getState()
-   
-    if (isAdvertsLoaded(state)) {
-      return
-    }
-    try {
-      dispatch(advertsPending())
-      const adverts = await dataAdvert.getAdverts()
-      dispatch(advertsFulfilled(adverts))
-    } catch (error) {
-      dispatch(advertsRejected({ type: 'error', message: error.message }))
-    }
-  }
-}
 
 // ADVERT
 export const advertDetailPending = () => ({

@@ -27,7 +27,8 @@ export const defaultState = {
   adverts: {
     loaded: false,
     data: [],
-    tags: []
+    tags: [],
+    maxPrice: 0,
   },
   ui: {
     loading: false,
@@ -61,7 +62,12 @@ export const session = (state = defaultState.session, action) => {
 export const adverts = (state = defaultState.adverts, action) => {
   switch (action.type) {
     case ADVERTS_GET_FULFILLED:
-      return { ...state, loaded: true, data: action.payload }
+      return {
+        ...state,
+        loaded: true,
+        data: action.payload,
+        maxPrice: action.adverts.maxPrice,
+      }
     case ADVERTS_GET_REJECTED:
       return { ...state, loaded: false }
     case ADVERTS_GET_PENDING:
@@ -94,11 +100,11 @@ export const adverts = (state = defaultState.adverts, action) => {
         ...state,
         loaded: false,
       }
-   case TAGS_GET_FULFILLED:
+    case TAGS_GET_FULFILLED:
       return {
         ...state,
         loaded: true,
-        tags: action.payload
+        tags: action.payload,
       }
     case TAGS_GET_REJECTED:
       return {

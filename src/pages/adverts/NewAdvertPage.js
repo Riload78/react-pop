@@ -14,8 +14,8 @@ import { createAdvert } from '../../store/actions.js'
 import { getTags } from '../../store/selectors.js'
 const NewAdvertPage = () => {
   const dispatch = useDispatch()
-  const multiOptions = useSelector(getTags)
-  //const [multiOptions, setMultiOptions] = useState([])
+  //const multiOptions = useSelector(getTags)
+  const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
   const { showNotificationSuccess, showNotificationError } = useNotification()
@@ -25,7 +25,7 @@ const NewAdvertPage = () => {
   })
 
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault()
     const newAdvert = {
       name: event.target.name.value,
@@ -37,7 +37,7 @@ const NewAdvertPage = () => {
 
     const validateResult = validation(newAdvert)
     if (validateResult.length === 0) {
-      postData(newAdvert)
+       await dispatch(createAdvert(newAdvert))
       
     } else {
       const errorMessage = validateResult.join(' || ')
@@ -53,7 +53,7 @@ const NewAdvertPage = () => {
     const options = Array.from(event.target.selectedOptions).map(
       item => item.value
     )
-    //setMultiOptions(options)
+    setMultiOptions(options)
   }
 
   const handleFileConvert = event => {
@@ -66,9 +66,6 @@ const NewAdvertPage = () => {
     setIsSwhichChecked(isChecked)
   }
 
-  const postData = async data => {
-    dispatch(createAdvert(data))
-  }
 
   const allValid = Object.values(isValid).every(Boolean) // Verifica que todos los campos sean válidos
 
