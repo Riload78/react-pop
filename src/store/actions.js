@@ -127,12 +127,12 @@ export const advertPostPending = () => ({
   type: ADVERTS_POST_PENDING,
 })
 
-export const advertPostFulfilled = advert => ({
+export const advertPostFulfilled = (advert, notification) => ({
   type: ADVERTS_POST_FULFILLED,
   payload: advert,
   notification: {
-    type: 'success',
-    message: 'Advert created successfully',
+    type: notification.type,
+    message: notification.message,
   }
   
 })
@@ -157,7 +157,7 @@ export const createAdvert = advert => {
       const {id} = await services.dataAdvert.postAdvert(advert)
       const newAdvert = await services.dataAdvert.getAdvert(id)
       console.log('newAdvert:', newAdvert)
-      dispatch(advertPostFulfilled(newAdvert))
+      dispatch(advertPostFulfilled(newAdvert,{ type: 'success', message: 'Advert created successfully' }))
       router.navigate(`/adverts/${newAdvert.id}`)
       return newAdvert
     } catch (error) {

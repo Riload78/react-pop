@@ -226,8 +226,8 @@ export const ui = (state = defaultState.ui, action) => {
         ...state,
         loading: false,
         notification: {
-          type: state.notification.type,
-          message: state.notification.message,
+          type: action.notification.type,
+          message: action.notification.message,
         },
       }
     case ADVERTS_POST_REJECTED:
