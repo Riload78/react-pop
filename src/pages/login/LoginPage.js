@@ -5,9 +5,8 @@ import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { authLogin} from '../../store/actions.js'
+import { authLogin, sessionSave } from '../../store/actions.js'
 import { getIsLoading, getIsSaved } from '../../store/selectors.js'
-import { sessionSave } from '../../store/actions.js'
 const LoginPage = () => {
   const dispatch = useDispatch()
 
@@ -59,10 +58,11 @@ const LoginPage = () => {
           </Form.Group>
 
           <Form.Group className='mb-3'>
-            <Form.Label>Password</Form.Label>
+            <Form.Label htmlFor='password'>Password</Form.Label>
             <Form.Control
               type='password'
               name='password'
+              id='password'
               value={password}
               onChange={handlerChange}
               autoComplete='password'

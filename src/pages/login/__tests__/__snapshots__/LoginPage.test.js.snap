@@ -19,11 +19,13 @@ exports[`LoginPage snapshot 1`] = `
         >
           <label
             class="form-label"
+            for="email"
           >
             Email address
           </label>
           <input
             class="form-control"
+            id="email"
             name="email"
             type="email"
             value=""
@@ -39,12 +41,14 @@ exports[`LoginPage snapshot 1`] = `
         >
           <label
             class="form-label"
+            for="password"
           >
             Password
           </label>
           <input
             autocomplete="password"
             class="form-control"
+            id="password"
             name="password"
             type="password"
             value=""
