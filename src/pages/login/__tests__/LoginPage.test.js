@@ -68,6 +68,6 @@ describe('LoginPage', () => {
 		renderComponent()
 		const switchElement = screen.getByLabelText(/i wan't save the session/i)
 		userEvent.click(switchElement)
-		expect(sessionSave).toHaveBeenCalledWith(true)
+		expect(sessionSave).toHaveBeenCalledWith(true) 
 	})
 })

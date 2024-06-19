@@ -1,10 +1,10 @@
 
-import {
-  isAdvertsLoaded,
-  getAdvertDetail,
-  isAdvertDetailLoaded,
-  isTagsLoaded,
-} from './selectors.js'
+import UseAdverts from './hooks/UseAdverts.js'
+import UseCreateAdvert from './hooks/UseCreateAdvert.js'
+import UseAdvertDelete from './hooks/UseAdvertDelete.js'
+import UseAdvert from './hooks/UseAdvert.js'
+import UseTags from './hooks/UseTags.js'
+
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN_PENDING,
@@ -26,6 +26,8 @@ import {
   ADVERTS_DETAIL_FULFILLED,
   ADVERTS_DETAIL_REJECTED,
 } from './types'
+
+
 
 export const authLogin = (credentials, isSessionSaved) => {
   return async function (dispatch, _getState, {services:{auth} , router}) {
@@ -108,21 +110,7 @@ export const advertsRejected = error => ({
   },
 })
 export const advertsLoad = () => {
-  return async function (dispatch, getState, { services: { dataAdvert } }) {
-    const state = getState()
-
-    if (isAdvertsLoaded(state)) {
-      return
-    }
-    try {
-      dispatch(advertsPending())
-      const adverts = await dataAdvert.getAdverts()
-      dispatch(advertsFulfilled(adverts))
-     // dispatch(advertMaxPriceFulfilled(adverts))
-    } catch (error) {
-      dispatch(advertsRejected({ type: 'error', message: error.message }))
-    }
-  }
+  return UseAdverts()
 }
 
 
@@ -143,8 +131,6 @@ export const advertPostFulfilled = (advert, notification) => ({
   
 })
 
-
-
 export const advertPostRejected = error => ({
   type: ADVERTS_POST_REJECTED,
   payload: error,
@@ -157,19 +143,7 @@ export const advertPostRejected = error => ({
 
 
 export const createAdvert = advert => {
-  return async function (dispatch, _getState, { services, router }) {
-    try {
-      dispatch(advertPostPending())
-      const {id} = await services.dataAdvert.postAdvert(advert)
-      const newAdvert = await services.dataAdvert.getAdvert(id)
-      console.log('newAdvert:', newAdvert)
-      dispatch(advertPostFulfilled(newAdvert,{ type: 'success', message: 'Advert created successfully' }))
-      router.navigate(`/adverts/${newAdvert.id}`)
-      return newAdvert
-    } catch (error) {
-      dispatch(advertPostRejected({ type: 'error', message: error.message }))
-    }
-  }
+ return UseCreateAdvert(advert)
 }
 
 // DELETE
@@ -188,25 +162,8 @@ export const advertDeleteRejected = error => ({
 })
 
 export const advertDelete = id => {
-  return async function (dispatch, _getState, { services, router }) {
-    try {
-      const advert = await services.dataAdvert.getAdvert(id)
-      const response = await services.dataAdvert.deleteAdvert(id)
-      if(response.status === 204) {
-        dispatch(
-          advertDeleteRejected({ type: 'error', message: 'Advert not found' })
-        )
-      }
-      dispatch(advertDeleteFulfilled(advert))
-      router.navigate('/adverts')
-    } catch (error) {
-      dispatch(advertDeleteRejected({ type: 'error', message: error.message }))
-    }
-  }
+ return UseAdvertDelete(id)
 }
-
-
-
 
 // ADVERT
 export const advertDetailPending = () => ({
@@ -228,20 +185,7 @@ export const advertDetailRejected = error => ({
 })
 
 export const advertLoad = advertId => {
-  return async function (dispatch, getState, { services: { dataAdvert } }) {
-    const state = getState()
-  
-    if (getAdvertDetail(advertId)(state)) {
-      return
-    }
-    try {
-      dispatch(advertDetailPending())
-      const advertDetail = await dataAdvert.getAdvert(advertId)
-      dispatch(advertDetailFulfilled(advertDetail))
-    } catch (error) {
-      dispatch(advertDetailRejected({ type: 'error', message: error.message }))
-    }
-  }
+ return UseAdvert(advertId)
 }
 
 // TAGS
@@ -264,19 +208,7 @@ export const tagsRejected = error => ({
 })
 
 export const tagsLoad = () => {
-  return async function (dispatch, getState, { services: { dataAdvert } }) {
-    const state = getState()
-    if (isTagsLoaded(state)) {
-      return
-    }
-    try {
-      dispatch(tagsPending())
-      const tags = await dataAdvert.getTags()
-      dispatch(tagsFulfilled(tags))
-    } catch (error) {
-      dispatch(tagsRejected({ type: 'error', message: error.message }))
-    }
-  }
+ return UseTags()
 }
 
 export const hideNotification = () => ({

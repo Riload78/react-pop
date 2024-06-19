@@ -127,6 +127,9 @@ describe('adverts', () => {
       const expectedAction = {
         type: ADVERTS_GET_FULFILLED,
         payload: adverts,
+        adverts:{
+          maxPrice: 0
+        }
       }
       const action = advertsFulfilled(adverts)
       expect(action).toEqual(expectedAction)
