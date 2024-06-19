@@ -1,10 +1,3 @@
-/* 
-import UseAdverts from './hooks/UseAdverts.js'
-import UseCreateAdvert from './hooks/UseCreateAdvert.js'
-import UseAdvertDelete from './hooks/UseAdvertDelete.js'
-import UseAdvert from './hooks/UseAdvert.js'
-import UseTags from './hooks/UseTags.js' */
-
 import hooks from './hooks'
 import {
   AUTH_LOGOUT,
@@ -28,9 +21,6 @@ import {
   ADVERTS_DETAIL_REJECTED,
   MAX_PRICE
 } from './types'
-
-import {getAdverts} from './selectors'
-
 
 const {UseAdverts, UseCreateAdvert, UseAdvertDelete, UseAdvert, UseTags, UseAuth} = hooks
 

@@ -1,5 +1,4 @@
-import React from 'react'
-import { useNotification } from './NotificationProvider' // Asegúrate de que la ruta de importación es correcta
+import React from 'react'// Asegúrate de que la ruta de importación es correcta
 import Alert from 'react-bootstrap/Alert'
 import { Container } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,7 +7,6 @@ import { hideNotification } from '../store/actions'
 
 const NotificationArea = () => {
   const dispatch = useDispatch()
-  // const { closeNotification } = useNotification()
   const notification = useSelector(getIsNotification)
   const closeNotification = () => {
     dispatch(hideNotification())

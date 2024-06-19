@@ -9,16 +9,14 @@ import Switch from '../../components/form/Switch.js'
 import validation from '../../helper/validation.js'
 import { useState } from 'react'
 import { useNotification } from '../../notification/NotificationProvider.js'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createAdvert } from '../../store/actions.js'
-import { getTags } from '../../store/selectors.js'
 const NewAdvertPage = () => {
   const dispatch = useDispatch()
-  //const multiOptions = useSelector(getTags)
   const [multiOptions, setMultiOptions] = useState([])
   const [fileConvert, setFileConvert] = useState('')
   const [isSwitchChecked, setIsSwhichChecked] = useState(false)
-  const { showNotificationSuccess, showNotificationError } = useNotification()
+  const { showNotificationError } = useNotification()
   const [isValid, setIsValid] = useState({
     name: true,
     price: true,
@@ -37,7 +35,7 @@ const NewAdvertPage = () => {
 
     const validateResult = validation(newAdvert)
     if (validateResult.length === 0) {
-       await dispatch(createAdvert(newAdvert))
+       dispatch(createAdvert(newAdvert))
       
     } else {
       const errorMessage = validateResult.join(' || ')

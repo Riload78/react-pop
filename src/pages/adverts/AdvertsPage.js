@@ -7,7 +7,7 @@ import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
 import { getAdverts, getIsLoading, getMaxPrice} from '../../store/selectors.js'
-import { advertsLoad, advertMaxPriceFulfilled } from '../../store/actions.js'
+import { advertsLoad } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
@@ -43,7 +43,7 @@ const AdvertsPage = () => {
   }
 
   const handlePrice = event => {
-    //setMax(maxPrice)
+   
     setMinValue(event.minValue)
     setMaxValue(event.maxValue)
   }
