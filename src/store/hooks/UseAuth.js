@@ -2,7 +2,7 @@ import { authLoginPending, authLoginFulfilled, authLoginRejected } from '../acti
 const UseAuth = (credentials, isSessionSaved) => {
      return async function (
        dispatch,
-       _getState,
+       getState,
        { services: { auth }, router }
      ) {
        try {
