@@ -26,25 +26,15 @@ import {
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
   ADVERTS_DETAIL_REJECTED,
+  MAX_PRICE
 } from './types'
+
+import {getAdverts} from './selectors'
 
 
 const {UseAdverts, UseCreateAdvert, UseAdvertDelete, UseAdvert, UseTags, UseAuth} = hooks
 
 export const authLogin = (credentials, isSessionSaved) => {
- /*  return async function (dispatch, _getState, {services:{auth} , router}) {
-    try {
-      dispatch(authLoginPending())
-      await auth.login(credentials, isSessionSaved)
-      dispatch(
-        authLoginFulfilled({ type: 'success', message: 'LOGIN SUCCESSFUL' })
-      )
-      const to = router.state.location.state?.from || '/'
-      router.navigate(to, { replace: true })
-    } catch (error) {
-      dispatch(authLoginRejected({ type: 'error', message: error.message }))
-    }
-  } */
  return UseAuth(credentials, isSessionSaved)
 }
 
@@ -92,17 +82,14 @@ export const advertsFulfilled = adverts => ({
   }
 })
 
-// creo que se puede quitar. No uso el middelware
-// export const advertMaxPriceFulfilled = adverts => ({
-//   type: MAX_PRICE,
-//   payload: adverts,
-//   adverts:{
-//     maxPrice: adverts.reduce(
-//       (max, advert) => (advert.price > max ? advert.price : max),
-//       0
-//     )
-//   }
-// })
+
+export const advertMaxPriceFulfilled = maxPrice => ({
+  type: MAX_PRICE,
+  payload: maxPrice,
+  adverts:{
+    maxPrice: maxPrice
+  }
+})
 
 export const advertsRejected = error => ({
   type: ADVERTS_GET_REJECTED,
@@ -115,9 +102,6 @@ export const advertsRejected = error => ({
 export const advertsLoad = () => {
   return UseAdverts()
 }
-
-
-
 
 // ADVERT POST
 export const advertPostPending = () => ({

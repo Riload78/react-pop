@@ -7,7 +7,7 @@ import AdvertsEmptyPage from './AdvertsEmptyPage.js'
 import Search from '../../search/Search.js'
 import NotResult from '../../search/NotResult.js'
 import { getAdverts, getIsLoading, getMaxPrice} from '../../store/selectors.js'
-import { advertsLoad } from '../../store/actions.js'
+import { advertsLoad, advertMaxPriceFulfilled } from '../../store/actions.js'
 import { useDispatch, useSelector } from 'react-redux'
 
 const AdvertsPage = () => {
@@ -21,10 +21,11 @@ const AdvertsPage = () => {
   const [maxValue, setMaxValue] = useState(1000)
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
-  const maxPrice = useSelector(getMaxPrice)
+  let maxPrice = useSelector(getMaxPrice)
   
   useEffect(() => {
     dispatch(advertsLoad())
+    
     setMax(maxPrice)
     setMaxValue(maxPrice)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +43,7 @@ const AdvertsPage = () => {
   }
 
   const handlePrice = event => {
-    setMax(maxPrice)
+    //setMax(maxPrice)
     setMinValue(event.minValue)
     setMaxValue(event.maxValue)
   }
