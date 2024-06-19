@@ -29,10 +29,10 @@ import {
 } from './types'
 
 
-const {UseAdverts, UseCreateAdvert, UseAdvertDelete, UseAdvert, UseTags} = hooks
+const {UseAdverts, UseCreateAdvert, UseAdvertDelete, UseAdvert, UseTags, UseAuth} = hooks
 
 export const authLogin = (credentials, isSessionSaved) => {
-  return async function (dispatch, _getState, {services:{auth} , router}) {
+ /*  return async function (dispatch, _getState, {services:{auth} , router}) {
     try {
       dispatch(authLoginPending())
       await auth.login(credentials, isSessionSaved)
@@ -44,7 +44,8 @@ export const authLogin = (credentials, isSessionSaved) => {
     } catch (error) {
       dispatch(authLoginRejected({ type: 'error', message: error.message }))
     }
-  }
+  } */
+ return UseAuth(credentials, isSessionSaved)
 }
 
 export const authLoginPending = () => ({ type: AUTH_LOGIN_PENDING })
