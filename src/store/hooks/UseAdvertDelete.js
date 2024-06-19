@@ -13,11 +13,9 @@ const UseAdvertDelete = (id) => {
           )
         }
         dispatch(advertDeleteFulfilled(advert))
-        console.log(state);
         const updateAdverts = state.adverts.data.filter(
           advert => advert.id !== id
         )
-        console.log(updateAdverts);
         const maxPrice =  calculateMaxPrice(updateAdverts)
         dispatch(advertMaxPriceFulfilled(maxPrice))
         router.navigate('/adverts')
