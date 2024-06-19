@@ -1,10 +1,11 @@
-
+/* 
 import UseAdverts from './hooks/UseAdverts.js'
 import UseCreateAdvert from './hooks/UseCreateAdvert.js'
 import UseAdvertDelete from './hooks/UseAdvertDelete.js'
 import UseAdvert from './hooks/UseAdvert.js'
-import UseTags from './hooks/UseTags.js'
+import UseTags from './hooks/UseTags.js' */
 
+import hooks from './hooks'
 import {
   AUTH_LOGOUT,
   AUTH_LOGIN_PENDING,
@@ -28,6 +29,7 @@ import {
 } from './types'
 
 
+const {UseAdverts, UseCreateAdvert, UseAdvertDelete, UseAdvert, UseTags} = hooks
 
 export const authLogin = (credentials, isSessionSaved) => {
   return async function (dispatch, _getState, {services:{auth} , router}) {
