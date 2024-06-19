@@ -22,7 +22,7 @@ const AdvertsPage = () => {
   const [max, setMax] = useState()
   const [tags, setTags] = useState([])
   const maxPrice = useSelector(getMaxPrice)
-
+  
   useEffect(() => {
     dispatch(advertsLoad())
     setMax(maxPrice)

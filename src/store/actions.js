@@ -25,7 +25,6 @@ import {
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
   ADVERTS_DETAIL_REJECTED,
-  MAX_PRICE
 } from './types'
 
 export const authLogin = (credentials, isSessionSaved) => {
@@ -89,10 +88,16 @@ export const advertsFulfilled = adverts => ({
 })
 
 // creo que se puede quitar. No uso el middelware
-export const advertMaxPriceFulfilled = maxPrice => ({
-  type: MAX_PRICE,
-  payload: maxPrice,
-})
+// export const advertMaxPriceFulfilled = adverts => ({
+//   type: MAX_PRICE,
+//   payload: adverts,
+//   adverts:{
+//     maxPrice: adverts.reduce(
+//       (max, advert) => (advert.price > max ? advert.price : max),
+//       0
+//     )
+//   }
+// })
 
 export const advertsRejected = error => ({
   type: ADVERTS_GET_REJECTED,
@@ -113,6 +118,7 @@ export const advertsLoad = () => {
       dispatch(advertsPending())
       const adverts = await dataAdvert.getAdverts()
       dispatch(advertsFulfilled(adverts))
+     // dispatch(advertMaxPriceFulfilled(adverts))
     } catch (error) {
       dispatch(advertsRejected({ type: 'error', message: error.message }))
     }

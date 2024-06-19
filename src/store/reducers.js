@@ -19,6 +19,7 @@ import {
   ADVERTS_DETAIL_PENDING,
   ADVERTS_DETAIL_FULFILLED,
   ADVERTS_DETAIL_REJECTED,
+  MAX_PRICE,
 } from './types'
 
 export const defaultState = {
@@ -75,9 +76,9 @@ export const adverts = (state = defaultState.adverts, action) => {
     case ADVERTS_POST_FULFILLED:
       return { ...state, loaded: true, data: [action.payload, ...state.data] }
     case ADVERTS_POST_REJECTED:
-      return state
+      return { ...state, loaded: false }
     case ADVERTS_POST_PENDING:
-      return state
+      return { ...state, loaded: false }
     case ADVERTS_DELETE:
       return {
         ...state,
@@ -116,6 +117,12 @@ export const adverts = (state = defaultState.adverts, action) => {
         ...state,
         loaded: false,
       }
+     case MAX_PRICE:
+        return {
+          ...state,
+          loaded: true,
+          maxPrice: action.payload
+        }
     default:
       return state
   }
