@@ -31,7 +31,7 @@ const AdvertPage = () => {
   }
 
   return (
-    <Container>
+    <Container className='min-vh-100'>
       {isLoading ? (
         <Row className=' min-vh-100 d-flex justify-content-center align-items-center'>
           <Spinner animation='border' variant='primary' size='3rem' />

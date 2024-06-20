@@ -5,6 +5,10 @@ import {
   authLogin,
   advertsPending,
   advertsFulfilled,
+  advertPostPending,
+  advertPostFulfilled,
+  advertPostRejected,
+  advertsRejected,
 } from '../actions.js'
 import {
   AUTH_LOGIN_PENDING,
@@ -12,6 +16,10 @@ import {
   AUTH_LOGIN_REJECTED,
   ADVERTS_GET_PENDING,
   ADVERTS_GET_FULFILLED,
+  ADVERTS_POST_PENDING,
+  ADVERTS_POST_FULFILLED,
+  ADVERTS_POST_REJECTED,
+  ADVERTS_GET_REJECTED,
 } from '../types.js'
 
 describe('authLogin', () => {
@@ -56,9 +64,9 @@ describe('authLogin', () => {
           message: 'error',
         },
       }
-      expect(
-        authLoginRejected({ type: 'error', message: 'error' })
-      ).toEqual(expectedAction)
+      expect(authLoginRejected({ type: 'error', message: 'error' })).toEqual(
+        expectedAction
+      )
     })
   })
 
@@ -89,9 +97,7 @@ describe('authLogin', () => {
         credentials,
         isSessionSaved
       )
-      expect(dispatch).toHaveBeenCalledWith(
-        authLoginRejected(error)
-      )
+      expect(dispatch).toHaveBeenCalledWith(authLoginRejected(error))
       expect(router.navigate).not.toHaveBeenCalled()
     })
 
@@ -113,26 +119,84 @@ describe('authLogin', () => {
 })
 
 describe('adverts', () => {
-  describe('adverts_get_Pending', () => {
-    test('should return an action with type ADVERTS_GET_PENDING', () => {
-      const expectedAction = {
-        type: ADVERTS_GET_PENDING,
-      }
-      expect(advertsPending()).toEqual(expectedAction)
-    })
+  test('should return an action with type ADVERTS_GET_PENDING', () => {
+    const expectedAction = {
+      type: ADVERTS_GET_PENDING,
+    }
+    expect(advertsPending()).toEqual(expectedAction)
   })
-  describe('advertsGetFulfilled', () => {
-    test('should return an action with type ADVERTS_GET_FULFILLED', () => {
-      const adverts = [1, 2, 3]
-      const expectedAction = {
-        type: ADVERTS_GET_FULFILLED,
-        payload: adverts,
-        adverts:{
-          maxPrice: 0
-        }
+
+  test('should return an action with type ADVERTS_GET_FULFILLED', () => {
+    const adverts = [1, 2, 3]
+    const expectedAction = {
+      type: ADVERTS_GET_FULFILLED,
+      payload: adverts,
+      adverts: {
+        maxPrice: 0,
+      },
+    }
+    const action = advertsFulfilled(adverts)
+    expect(action).toEqual(expectedAction)
+  })
+
+  test('should return an action with type ADVERTS_GET_REJECTED', () => {
+    const error = {
+      type: 'error',
+      message: 'error',
+    }
+    const expectedAction = {
+      type: ADVERTS_GET_REJECTED,
+      payload: error,
+      notification: {
+        type: 'error',
+        message: 'error',
       }
-      const action = advertsFulfilled(adverts)
-      expect(action).toEqual(expectedAction)
-    })
+    }
+    const action = advertsRejected(error)
+    expect(action).toEqual(expectedAction)  
+  })
+})
+
+describe('createAdvert', () => {
+  test('should return an action with type ADVERTS_POST_PENDING', () => {
+    const expectedAction = {
+      type: ADVERTS_POST_PENDING,
+    }
+    expect(advertPostPending()).toEqual(expectedAction)
+  })
+
+  test('should return an action with type ADVERTS_POST_FULFILLED', () => {
+    const advert = {}
+    const notification = {
+      type: 'success',
+      message: 'Advert created successfully',
+    }
+    const expectedAction = {
+      type: ADVERTS_POST_FULFILLED,
+      payload: advert,
+      notification: {
+        type: 'success',
+        message: 'Advert created successfully',
+      },
+    }
+    const action = advertPostFulfilled(advert, notification)
+    expect(action).toEqual(expectedAction)
+  })
+
+  test('should return an action with type ADVERTS_POST_REJECTED', () => {
+    const error = {
+      type: 'error',
+      message: 'error',
+    }
+    const expectedAction = {
+      type: ADVERTS_POST_REJECTED,
+      payload: error,
+      notification: {
+        type: 'error',
+        message: 'error',
+      },
+    }
+    const action = advertPostRejected(error)
+    expect(action).toEqual(expectedAction)
   })
 })
