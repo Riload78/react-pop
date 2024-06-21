@@ -1,5 +1,15 @@
 # Wallapop React App
-App developed with React and a API Rest (https://github.com/davidjj76/nodepop-api). It allows creating and listing products for sale/purchase, as well as filtering them. Additionally, it features a login system accessible only to registered users.
+App developed with React and a API Rest (https://github.com/davidjj76/nodepop-api). 
+
+It allows creating and listing products for sale/purchase, as well as filtering them. Additionally, it features a login system accessible only to registered users.
+
+REDUX has been implemented to optimize the website
+
+![Static Badge](https://img.shields.io/badge/REACT-8A2BE2)
+![Static Badge](https://img.shields.io/badge/REDUX-94E33B)
+![Static Badge](https://img.shields.io/badge/JEST-EDCE72)
+![Static Badge](https://img.shields.io/badge/JWT-3F7C85)
+![Static Badge](https://img.shields.io/badge/REACT-BOOTSTRAP-72F2EB)
 
 
 # Getting Started
@@ -8,7 +18,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Clone the frontend repository: https://github.com/Riload78/react-pop
 
-Clone API repository https://github.com/facebook/create-react-app
+Clone API repository https://github.com/davidjj76/nodepop-api
 
 In the FrontEnd repository, create a .env file whit the base URL
 ````
@@ -32,9 +42,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+### `npm run test`
 
-Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
