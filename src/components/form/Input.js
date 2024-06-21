@@ -51,7 +51,7 @@ const Input = ({ id, type, label, name, lenght, onValidityChange }) => {
 
   return (
     <Form.Group className='mb-3'>
-      <Form.Label for={id}>{label}</Form.Label>
+      <Form.Label htmlFor={id}>{label}</Form.Label>
       <Form.Control
         id={id}
         type={type}

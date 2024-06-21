@@ -90,7 +90,7 @@ const AdvertsPage = () => {
                 max={max}
                 OnOptionsChange={handleOptions}
               />
-              <Row xs={1} sm={2} md={3} lg={3} className='list-wrapper g-4'>
+              <Row xs={1} sm={2} md={3} lg={3} role='list' className='list-wrapper g-4'>
                 {filteredAdverts.length !== 0 ? (
                   filteredAdverts.map(filterAdvert => (
                     <Advert

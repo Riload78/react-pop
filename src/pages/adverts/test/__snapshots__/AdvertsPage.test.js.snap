@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdvertsPage should render without crashing 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="login-wrapper d-flex justify-content-center align-items-center w-100 container"
+    >
+      <div
+        class=" d-flex justify-content-center align-self-center g-4 text-center row"
+      >
+        <h4>
+          There are no publications yet
+        </h4>
+        <h3>
+          Do you want to create a new post?
+        </h3>
+        <button
+          class="w-auto btn btn-primary btn-xl"
+          type="button"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

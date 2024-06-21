@@ -32,7 +32,7 @@ const NotResult = () => {
 }
 
 NotResult.propTypes = {
-  onReset: P.func.isRequired,
+  onReset: P.func,
 }
 
 export default NotResult

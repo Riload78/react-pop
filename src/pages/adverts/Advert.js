@@ -13,7 +13,7 @@ const Advert = ({idKey, link, ad }) => {
 
   return (
     <>
-      <Col key={`${idKey}-${id}`} className='advert-wrapper'>
+      <Col key={`${idKey}-${id}`} role='list-item' className='advert-wrapper'>
         <Card>
           {link ? (
             <Link to={`${id}`}>

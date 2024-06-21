@@ -20,7 +20,6 @@ const AdvertPage = () => {
 
 
   useEffect(() => {
-    console.log('useEffect advertId:', advertId);
     dispach(advertLoad(advertId))
    
   }, [dispach, advertId])

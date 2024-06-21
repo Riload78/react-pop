@@ -39,6 +39,9 @@ describe('reducer', () => {
   })
 
   describe('adverts', () => {
+    afterEach(() => {
+      jest.resetAllMocks()
+    })
     test('should return the initial state when undefined state', () => {
       const initialState = defaultState.adverts
       expect(adverts(undefined, {})).toEqual(initialState)

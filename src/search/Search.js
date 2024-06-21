@@ -62,7 +62,7 @@ Search.propTypes = {
   onSearch: P.func.isRequired,
   onSale: P.func.isRequired,
   onPrice: P.func.isRequired,
-  maxPrice: P.number.isRequired,
+  maxPrice: P.number,
   minPrice: P.number.isRequired,
   max: P.number,
   valueName: P.string,

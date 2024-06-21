@@ -5,10 +5,8 @@ import { useSelector } from 'react-redux'
 import  { getIsLogin } from '../store/selectors'
 
 const RequiredLogin = ({ children }) => {
-  //const { isLogged } = useAuth()
+
   const isLogged = useSelector(getIsLogin)
-  console.log(isLogged);
- 
   return isLogged ? children : <Navigate to='/login' />
 }
 
